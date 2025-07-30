@@ -1,1014 +1,1038 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>دفاعی چہرہ - Ramal Naqvi</title>
-    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Roboto:wght@300;400&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&display=swap" rel="stylesheet">
 </head>
+
 <body>
-  <style>
-    :root {
-        --primary-bg: #1a1a1a;
-        --accent-blue: #1a5fb4;
-        --accent-blue-light: #3584e4;
-        --accent-blue-dark: #0b3a68;
-        --text-color: #f4f4f4;
-        --paper-bg: #d8e3f0;
-        --secondary-bg: rgba(0,0,0,0.7);
-        --border-color: rgba(255,255,255,0.2);
-    }
-    
-    body {
-        background-color: var(--primary-bg);
-        color: var(--text-color);
-        font-family: 'Roboto', sans-serif;
-        margin: 0;
-        padding: 0;
-        overflow-x: hidden;
-        cursor: default;
-    }
-    
-    /* --- Atmospheric Effects --- */
-    #noise-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXWBgYGHh4d5eXlzc3OLi4ubm5uVlZWPj4+NjY19fX2JiYl/f39sbGxvb29paWl1dXba2trZ2dnW1tbY2Njh4eHf39/T09MAAAAYd/qrAAAAEXRSTlMAw8iS/Pgf/v543g3ycnJ29uxsYkYyAAAA1klEQVRIx+3MyQEAIAwDMC1s7W8xCFd3/Qc5VgyAskk7cmI5aRAEw+AYVLLqGzwO1cVAf4sWM5YgeERZ91/fLEakeN9xGg2uF7V2a2sWYoA5Y4MFCM/Ggdpf7RAlY/h6y3187A1xYxwhj3ZBSy8VCkSiIUiKq/grM6HIOXo4h5CRx3P10eQ8n1weQ8T9w/3yB5g6S2z921BRLQEiSg72tT/Bmtj2sIeTj1w5SChvL23sO0x5yVRv2a/Qx5yMaeYOeB3sA4h1AptL4AAAAASUVORK5CYII=');
-        opacity: 0.05;
-        z-index: -1;
-        pointer-events: none;
-    }
-    
-    .spotlight {
-        position: fixed;
-        width: 200px;
-        height: 200px;
-        background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 60%);
-        border-radius: 50%;
-        pointer-events: none;
-        z-index: 999;
-        transform: translate(-50%, -50%);
-        transition: transform 0.1s ease-out;
-    }
-    
-    /* --- Layout and Structure --- */
-    .top-secret-header {
-        background-color: #000;
-        color: var(--accent-blue);
-        font-family: 'Special Elite', monospace;
-        text-align: center;
-        padding: 5px;
-        letter-spacing: 2px;
-        border-bottom: 2px solid var(--accent-blue);
-    }
-    
-    .case-file-container {
-        max-width: 1200px;
-        margin: 40px auto;
-        padding: 20px;
-        background: rgba(0,0,0,0.2);
-        border: 1px solid rgba(255,255,255,0.1);
-    }
-    
-    .main-nav {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        border-bottom: 1px solid var(--border-color);
-        margin-bottom: 40px;
-    }
-    
-    .nav-item {
-        font-family: 'Special Elite', monospace;
-        color: var(--text-color);
-        text-decoration: none;
-        padding: 15px 20px;
-        margin: 5px;
-        position: relative;
-        transition: color 0.3s ease;
-    }
-    
-    .nav-item:hover {
-        color: var(--accent-blue);
-    }
-    
-    .nav-item::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 0;
-        height: 2px;
-        background-color: var(--accent-blue);
-        transition: width 0.3s ease;
-    }
-    
-    .nav-item:hover::after {
-        width: 100%;
-    }
-    
-    /* --- Hero Section --- */
-    #hero {
-        display: flex;
-        align-items: center;
-        gap: 40px;
-        padding: 40px 20px;
-    }
-    
-    .book-cover-container {
-        position: relative;
-        perspective: 1000px;
-        flex-shrink: 0;
-    }
-    
-    .book-cover {
-        width: 400px;
-        border: 5px solid #000;
-        box-shadow: 10px 10px 30px rgba(0,0,0,0.7);
-        transition: transform 0.5s ease;
-        max-width: 100%;
-        height: auto;
-    }
-    
-    .book-cover-container:hover .book-cover {
-        transform: rotateY(-15deg);
-    }
-    
-    .redacted-stripe {
-        position: absolute;
-        top: 50%;
-        left: -10%;
-        width: 120%;
-        background-color: #000;
-        color: var(--accent-blue);
-        font-family: 'Special Elite', monospace;
-        font-size: 2rem;
-        text-align: center;
-        padding: 10px;
-        transform: rotate(-10deg) translateY(-50%);
-        border: 2px solid var(--accent-blue);
-        user-select: none;
-    }
-    
-    .intro-text {
-        flex: 1;
-    }
-    
-    .evidence-tag {
-        color: var(--paper-bg);
-        font-family: 'Special Elite', monospace;
-        margin-bottom: 20px;
-        border-bottom: 1px dashed var(--accent-blue);
-        display: inline-block;
-        padding-bottom: 5px;
-    }
-    
-    .book-title {
-        font-family: 'Noto Nastaliq Urdu', serif;
-        font-size: 3rem;
-        color: #fff;
-        margin: 0;
-        line-height: 1.4
-    }
-    
-    .author-name {
-        font-size: 1.5rem;
-        font-weight: 300;
-        margin-top: 5px;
-        margin-bottom: 30px;
-        font-family: 'Noto Nastaliq Urdu', serif;
-    }
-    
-    .cta-button {
-        display: inline-block;
-        background-color: var(--accent-blue);
-        color: #fff;
-        font-family: 'Special Elite', monospace;
-        padding: 15px 30px;
-        text-decoration: none;
-        font-size: 1.2rem;
-        border: 2px solid var(--accent-blue);
-        transition: all 0.3s ease;
-        box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
-    }
-    
-    .cta-button:hover {
-        background-color: transparent;
-        color: var(--accent-blue);
-    }
-    
-    /* --- Typewriter Animation --- */
-    .line-1 {
-        /* Structural styles for the typewriter element */
-        margin: 0 auto;
-        border-right: 2px solid rgba(255,255,255,.75);
-        font-size: 1.5rem;
-        white-space: nowrap;
-        overflow: hidden;
-        max-width: 100%;
-        font-family: 'Noto Nastaliq Urdu', serif;
-        line-height: 2.5;
-    }
-    
-    .anim-typewriter {
-        /* The animation will be applied via JavaScript to ensure correct step calculation */
-        width: fit-content; /* Ensures container fits the text width */
-    }
-    
-    @keyframes typewriter {
-        from { width: 0; }
-        to { width: 100%; }
-    }
-    
-    @keyframes blinkTextCursor {
-        from { border-right-color: rgba(255,255,255,.75); }
-        to { border-right-color: transparent; }
-    }
-    
-    /* --- Reading Section --- */
-    .reading-section {
-        padding: 40px 0;
-        border-top: 1px solid var(--border-color);
-        margin-top: 40px;
-    }
-    
-    .section-title {
-        font-family: 'Special Elite', monospace;
-        color: var(--accent-blue);
-        text-align: center;
-        margin-bottom: 30px;
-        position: relative;
-        font-size: 2rem;
-    }
-    
-    .section-title::after {
-        content: '';
-        position: absolute;
-        bottom: -10px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 80px;
-        height: 2px;
-        background: var(--accent-blue);
-    }
-    
-    .chapter-navigation {
-        margin-bottom: 30px;
-    }
-    
-    .chapter-tabs {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-    
-    .tab-btn {
-        padding: 10px 20px;
-        background: var(--secondary-bg);
-        border: 1px solid var(--accent-blue);
-        border-radius: 0;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-family: 'Special Elite', monospace;
-        color: var(--text-color);
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .tab-btn::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: rgba(26, 95, 180, 0.2);
-        transition: left 0.3s ease;
-        z-index: -1;
-    }
-    
-    .tab-btn:hover::before {
-        left: 0;
-    }
-    
-    .tab-btn.active {
-        background: var(--accent-blue);
-        color: #fff;
-    }
-    
-    .tab-btn.locked {
-        background: rgba(0, 0, 0, 0.5);
-        color: #666;
-        cursor: not-allowed;
-        border-color: #444;
-    }
-    
-    .chapter-content {
-        background: var(--secondary-bg);
-        border: 1px solid var(--border-color);
-        padding: 30px;
-        margin-bottom: 30px;
-        position: relative;
-        overflow: hidden;
-    }
-    
-    .chapter-content::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 5px;
-        background: linear-gradient(90deg, var(--accent-blue), transparent);
-    }
-    
-    .chapter {
-        display: none;
-        animation: fadeIn 0.5s ease;
-    }
-    
-    .chapter.active {
-        display: block;
-    }
-    
-    .chapter h3 {
-        font-family: 'Special Elite', monospace;
-        color: var(--paper-bg);
-        margin-bottom: 20px;
-        font-size: 1.8rem;
-        border-bottom: 1px dashed var(--accent-blue);
-        padding-bottom: 10px;
-    }
-    
-    .chapter p {
-        margin-bottom: 20px;
-        font-size: 1.1rem;
-        line-height: 1.8;
-        text-align: justify;
-    }
-    
-    .paywall {
-        text-align: center;
-        padding: 60px 20px;
-        background: rgba(0, 0, 0, 0.5);
-        border: 1px dashed var(--accent-blue);
-        position: relative;
-    }
-    
-    .paywall::before {
-        content: 'CLASSIFIED';
-        position: absolute;
-        top: -15px;
-        left: 50%;
-        transform: translateX(-50%);
-        background: var(--primary-bg);
-        color: var(--accent-blue);
-        font-family: 'Special Elite', monospace;
-        padding: 0 15px;
-        font-size: 1.2rem;
-    }
-    
-    .paywall i {
-        font-size: 4rem;
-        color: var(--accent-blue);
-        margin-bottom: 20px;
-    }
-    
-    .reading-progress {
-        margin-top: 20px;
-        position: relative;
-    }
-    
-    .progress-bar {
-        height: 10px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 0;
-        overflow: hidden;
-        margin-bottom: 10px;
-        border: 1px solid var(--border-color);
-    }
-    
-    .progress {
-        height: 100%;
-        background: var(--accent-blue);
-        width: 0%;
-        transition: width 0.3s ease;
-    }
-    
-    .progress-text {
-        text-align: right;
-        font-size: 0.9rem;
-        color: #999;
-        font-family: 'Special Elite', monospace;
-    }
-    
-    /* --- About Section --- */
-    .about-section, .author-section {
-        padding: 40px 0;
-        border-top: 1px solid var(--border-color);
-        margin-top: 40px;
-    }
-    
-    .book-info {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 40px;
-    }
-    
-    .book-details h3, .book-reviews h3 {
-        font-family: 'Special Elite', monospace;
-        color: var(--accent-blue);
-        margin-bottom: 20px;
-    }
-    
-    .book-details ul {
-        list-style: none;
-        margin-top: 20px;
-    }
-    
-    .book-details li {
-        margin-bottom: 10px;
-        padding-left: 20px;
-        position: relative;
-    }
-    
-    .book-details li::before {
-        content: '•';
-        color: var(--accent-blue);
-        position: absolute;
-        left: 0;
-    }
-    
-    .review {
-        background: var(--secondary-bg);
-        padding: 20px;
-        border: 1px solid var(--border-color);
-        margin-bottom: 20px;
-        position: relative;
-    }
-    
-    .review::before {
-        content: '"';
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        font-size: 3rem;
-        color: rgba(26, 95, 180, 0.3);
-        font-family: 'Special Elite', monospace;
-    }
-    
-    .stars {
-        color: #f39c12;
-        margin-bottom: 10px;
-    }
-    
-    .reviewer {
-        font-style: italic;
-        color: #999;
-        text-align: right;
-        font-family: 'Special Elite', monospace;
-    }
-    
-    .author-content {
-        display: flex;
-        align-items: center;
-        gap: 40px;
-    }
-    
-    .author-image {
-        position: relative;
-        flex-shrink: 0;
-    }
-    
-    .author-image img {
-        max-width: 300px;
-        border: 3px solid #000;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        filter: grayscale(50%);
-        width: 100%;
-        height: auto;
-    }
-    
-    .author-image::after {
-        content: 'SUBJECT';
-        position: absolute;
-        bottom: -10px;
-        right: -10px;
-        background: var(--accent-blue);
-        color: #fff;
-        font-family: 'Special Elite', monospace;
-        padding: 5px 10px;
-        font-size: 0.9rem;
-    }
-    
-    .author-bio h3 {
-        font-family: 'Special Elite', monospace;
-        color: var(--paper-bg);
-        margin-bottom: 15px;
-    }
-    
-    .author-social {
-        margin-top: 20px;
-    }
-    
-    .author-social a {
-        display: inline-block;
-        width: 40px;
-        height: 40px;
-        line-height: 40px;
-        text-align: center;
-        background: rgba(26, 95, 180, 0.2);
-        color: var(--text-color);
-        border: 1px solid var(--accent-blue);
-        margin-right: 10px;
-        transition: all 0.3s ease;
-    }
-    
-    .author-social a:hover {
-        background: var(--accent-blue);
-        transform: translateY(-3px);
-    }
-    
-    /* --- Purchase Modal --- */
-    .modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.8);
-        z-index: 2000;
-        justify-content: center;
-        align-items: center;
-        padding: 20px;
-    }
-    
-    .modal-content {
-        background: var(--primary-bg);
-        padding: 40px;
-        border: 2px solid var(--accent-blue);
-        max-width: 500px;
-        width: 100%;
-        position: relative;
-        animation: modalSlideIn 0.5s ease;
-        box-shadow: 0 0 30px rgba(26, 95, 180, 0.3);
-        overflow-y: auto;
-        max-height: 90vh;
-    }
-    
-    .close-modal {
-        position: absolute;
-        top: 15px;
-        right: 20px;
-        font-size: 2rem;
-        cursor: pointer;
-        color: #999;
-        transition: color 0.3s ease;
-    }
-    
-    .close-modal:hover {
-        color: var(--accent-blue);
-    }
-    
-    .book-purchase {
-        display: flex;
-        align-items: center;
-        margin-bottom: 30px;
-        gap: 20px;
-        padding-bottom: 20px;
-        border-bottom: 1px dashed var(--border-color);
-    }
-    
-    .book-purchase img {
-        max-width: 80px;
-        border: 2px solid #000;
-        width: 100%;
-        height: auto;
-    }
-    
-    .price {
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: var(--accent-blue);
-        font-family: 'Special Elite', monospace;
-    }
-    
-    .form-group {
-        margin-bottom: 20px;
-    }
-    
-    .form-group label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-        font-family: 'Special Elite', monospace;
-        color: var(--paper-bg);
-    }
-    
-    .form-group input {
-        width: 100%;
-        padding: 12px;
-        background: rgba(0, 0, 0, 0.5);
-        border: 1px solid var(--border-color);
-        color: var(--text-color);
-        font-family: 'Roboto', sans-serif;
-        border-radius: 0;
-        box-sizing: border-box;
-    }
-    
-    .form-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-    }
-    
-    /* --- Footer --- */
-    footer {
-        background: #000;
-        color: var(--text-color);
-        padding: 40px 0 20px;
-        border-top: 2px solid var(--accent-blue);
-        margin-top: 60px;
-    }
-    
-    .footer-content {
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        margin-bottom: 30px;
-        max-width: 1200px;
-        margin-left: auto;
-        margin-right: auto;
-        padding: 0 20px;
-    }
-    
-    .footer-logo {
-        font-family: 'Special Elite', monospace;
-        font-size: 1.8rem;
-        margin-bottom: 20px;
-        color: var(--accent-blue);
-    }
-    
-    .footer-links a {
-        color: var(--text-color);
-        text-decoration: none;
-        margin-right: 20px;
-        transition: color 0.3s ease;
-        font-family: 'Special Elite', monospace;
-    }
-    
-    .footer-links a:hover {
-        color: var(--accent-blue);
-    }
-    
-    .social-share {
-        display: flex;
-        align-items: center;
-    }
-    
-    .social-share span {
-        margin-right: 15px;
-        font-family: 'Special Elite', monospace;
-    }
-    
-    .social-share a {
-        display: inline-block;
-        width: 40px;
-        height: 40px;
-        line-height: 40px;
-        text-align: center;
-        background: rgba(26, 95, 180, 0.2);
-        color: var(--text-color);
-        border: 1px solid var(--accent-blue);
-        margin-left: 10px;
-        transition: all 0.3s ease;
-    }
-    
-    .social-share a:hover {
-        background: var(--accent-blue);
-        transform: translateY(-3px);
-    }
-    
-    .copyright {
-        text-align: center;
-        padding-top: 20px;
-        border-top: 1px solid var(--border-color);
-        color: #999;
-        max-width: 1200px;
-        margin-left: auto;
-        margin-right: auto;
-        padding: 20px;
-        font-family: 'Special Elite', monospace;
-        font-size: 0.9rem;
-    }
-    
-    /* --- Animations --- */
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
-    
-    @keyframes modalSlideIn {
-        from {
-            transform: translateY(-50px);
-            opacity: 0;
+    <style>
+        :root {
+            --primary-bg: #1a1a1a;
+            --accent-blue: #1a5fb4;
+            --accent-blue-light: #3584e4;
+            --accent-blue-dark: #0b3a68;
+            --text-color: #f4f4f4;
+            --paper-bg: #d8e3f0;
+            --secondary-bg: rgba(0, 0, 0, 0.7);
+            --border-color: rgba(255, 255, 255, 0.2);
         }
-        to {
-            transform: translateY(0);
-            opacity: 1;
+
+        body {
+            background-color: var(--primary-bg);
+            color: var(--text-color);
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            cursor: default;
         }
-    }
-    
-    /* --- Responsive Design --- */
-    @media (max-width: 1024px) {
-        .case-file-container {
-            padding: 15px;
+
+        /* --- Atmospheric Effects --- */
+        #noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXWBgYGHh4d5eXlzc3OLi4ubm5uVlZWPj4+NjY19fX2JiYl/f39sbGxvb29paWl1dXba2trZ2dnW1tbY2Njh4eHf39/T09MAAAAYd/qrAAAAEXRSTlMAw8iS/Pgf/v543g3ycnJ29uxsYkYyAAAA1klEQVRIx+3MyQEAIAwDMC1s7W8xCFd3/Qc5VgyAskk7cmI5aRAEw+AYVLLqGzwO1cVAf4sWM5YgeERZ91/fLEakeN9xGg2uF7V2a2sWYoA5Y4MFCM/Ggdpf7RAlY/h6y3187A1xYxwhj3ZBSy8VCkSiIUiKq/grM6HIOXo4h5CRx3P10eQ8n1weQ8T9w/3yB5g6S2z921BRLQEiSg72tT/Bmtj2sIeTj1w5SChvL23sO0x5yVRv2a/Qx5yMaeYOeB3sA4h1AptL4AAAAASUVORK5CYII=');
+            opacity: 0.05;
+            z-index: -1;
+            pointer-events: none;
         }
-        
-        #hero {
-            gap: 30px;
-            padding: 30px 15px;
+
+        .spotlight {
+            position: fixed;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 60%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 999;
+            transform: translate(-50%, -50%);
+            transition: transform 0.1s ease-out;
         }
-        
-        .book-cover {
-            width: 350px;
-        }
-        
-        .book-title {
-            font-size: 2.5rem;
-        }
-        
-        .line-1 {
-            font-size: 1.3rem;
-        }
-    }
-    
-    @media (max-width: 768px) {
-        .case-file-container {
-            margin: 20px auto;
-            padding: 15px;
-        }
-        
-        .main-nav {
-            margin-bottom: 30px;
-        }
-        
-        .nav-item {
-            padding: 12px 15px;
-            font-size: 0.9rem;
-            margin: 3px;
-        }
-        
-        #hero {
-            flex-direction: column;
+
+        /* --- Layout and Structure --- */
+        .top-secret-header {
+            background-color: #000;
+            color: var(--accent-blue);
+            font-family: 'Special Elite', monospace;
             text-align: center;
-            gap: 30px;
-            padding: 30px 15px;
+            padding: 5px;
+            letter-spacing: 2px;
+            border-bottom: 2px solid var(--accent-blue);
         }
-        
-        .book-cover-container {
-            margin: 0 auto;
-        }
-        
-        .book-cover {
-            width: 280px;
-        }
-        
-        .redacted-stripe {
-            font-size: 1.5rem;
-        }
-        
-        .intro-text {
-            width: 100%;
-        }
-        
-        .book-title {
-            font-size: 2.2rem;
-            margin-bottom: 15px;
-        }
-        
-        .author-name {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-        }
-        
-        .cta-button {
-            padding: 12px 25px;
-            font-size: 1.1rem;
-        }
-        
-        .line-1 {
-            font-size: 1.1rem;
-            margin: 0 auto 15px; /* Centered with margin */
-        }
-        
-        .section-title {
-            font-size: 1.8rem;
-            margin-bottom: 25px;
-        }
-        
-        .reading-section {
-            padding: 30px 0;
-        }
-        
-        .chapter-navigation {
-            margin-bottom: 25px;
-        }
-        
-        .chapter-tabs {
-            gap: 8px;
-        }
-        
-        .tab-btn {
-            padding: 8px 15px;
-            font-size: 0.9rem;
-        }
-        
-        .chapter-content {
+
+        .case-file-container {
+            max-width: 1200px;
+            margin: 40px auto;
             padding: 20px;
-            margin-bottom: 25px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
-        .chapter h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-        }
-        
-        .chapter p {
-            font-size: 1rem;
-            margin-bottom: 15px;
-        }
-        
-        .paywall {
-            padding: 40px 15px;
-        }
-        
-        .paywall i {
-            font-size: 3rem;
-            margin-bottom: 15px;
-        }
-        
-        .book-info, .author-content {
-            grid-template-columns: 1fr;
-            gap: 30px;
-        }
-        
-        .author-content {
-            flex-direction: column;
-            text-align: center;
-        }
-        
-        .author-image {
-            margin: 0 auto;
-        }
-        
-        .author-image img {
-            max-width: 250px;
-        }
-        
-        .modal-content {
-            padding: 30px 20px;
-            max-height: 95vh;
-        }
-        
-        .book-purchase {
-            flex-direction: column;
-            text-align: center;
-            gap: 15px;
-        }
-        
-        .form-row {
-            grid-template-columns: 1fr;
-        }
-        
-        footer {
-            padding: 30px 0 15px;
-            margin-top: 40px;
-        }
-        
-        .footer-content {
-            flex-direction: column;
-            text-align: center;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .footer-links {
+
+        .main-nav {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            margin: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 40px;
         }
-        
-        .footer-links a {
-            margin: 0 10px;
-        }
-        
-        .social-share {
-            justify-content: center;
-        }
-        
-        .copyright {
-            padding: 15px;
-            font-size: 0.8rem;
-        }
-    }
-    
-    @media (max-width: 480px) {
-        .case-file-container {
-            padding: 10px;
-            margin: 10px auto;
-        }
-        
-        .top-secret-header {
-            font-size: 0.9rem;
-            padding: 3px;
-        }
-        
-        .main-nav {
-            margin-bottom: 20px;
-        }
-        
+
         .nav-item {
-            padding: 10px 12px;
-            font-size: 0.8rem;
-            margin: 2px;
+            font-family: 'Special Elite', monospace;
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 15px 20px;
+            margin: 5px;
+            position: relative;
+            transition: color 0.3s ease;
         }
-        
+
+        .nav-item:hover {
+            color: var(--accent-blue);
+        }
+
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-blue);
+            transition: width 0.3s ease;
+        }
+
+        .nav-item:hover::after {
+            width: 100%;
+        }
+
+        /* --- Hero Section --- */
         #hero {
-            gap: 20px;
-            padding: 20px 10px;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            padding: 40px 20px;
         }
-        
+
+        .book-cover-container {
+            position: relative;
+            perspective: 1000px;
+            flex-shrink: 0;
+        }
+
         .book-cover {
-            width: 220px;
+            width: 400px;
+            border: 5px solid #000;
+            box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.7);
+            transition: transform 0.5s ease;
+            max-width: 100%;
+            height: auto;
         }
-        
+
+        .book-cover-container:hover .book-cover {
+            transform: rotateY(-15deg);
+        }
+
         .redacted-stripe {
+            position: absolute;
+            top: 50%;
+            left: -10%;
+            width: 120%;
+            background-color: #000;
+            color: var(--accent-blue);
+            font-family: 'Special Elite', monospace;
+            font-size: 2rem;
+            text-align: center;
+            padding: 10px;
+            transform: rotate(-10deg) translateY(-50%);
+            border: 2px solid var(--accent-blue);
+            user-select: none;
+        }
+
+        .intro-text {
+            flex: 1;
+        }
+
+        .evidence-tag {
+            color: var(--paper-bg);
+            font-family: 'Special Elite', monospace;
+            margin-bottom: 20px;
+            border-bottom: 1px dashed var(--accent-blue);
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        .book-title {
+            font-family: 'Noto Nastaliq Urdu', serif;
+            font-size: 3rem;
+            color: #fff;
+            margin: 0;
+            line-height: 1.4
+        }
+
+        .author-name {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-top: 5px;
+            margin-bottom: 30px;
+            font-family: 'Noto Nastaliq Urdu', serif;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--accent-blue);
+            color: #fff;
+            font-family: 'Special Elite', monospace;
+            padding: 15px 30px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            border: 2px solid var(--accent-blue);
+            transition: all 0.3s ease;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .cta-button:hover {
+            background-color: transparent;
+            color: var(--accent-blue);
+        }
+
+        /* --- Typewriter Animation --- */
+        .line-1 {
+            /* Structural styles for the typewriter element */
+            margin: 0 auto;
+            border-right: 2px solid rgba(255, 255, 255, .75);
+            font-size: 1.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            max-width: 100%;
+            font-family: 'Noto Nastaliq Urdu', serif;
+            line-height: 2.5;
+        }
+
+        .anim-typewriter {
+            /* The animation will be applied via JavaScript to ensure correct step calculation */
+            width: fit-content;
+            /* Ensures container fits the text width */
+        }
+
+        @keyframes typewriter {
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes blinkTextCursor {
+            from {
+                border-right-color: rgba(255, 255, 255, .75);
+            }
+
+            to {
+                border-right-color: transparent;
+            }
+        }
+
+        /* --- Reading Section --- */
+        .reading-section {
+            padding: 40px 0;
+            border-top: 1px solid var(--border-color);
+            margin-top: 40px;
+        }
+
+        .section-title {
+            font-family: 'Special Elite', monospace;
+            color: var(--accent-blue);
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            font-size: 2rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 2px;
+            background: var(--accent-blue);
+        }
+
+        .chapter-navigation {
+            margin-bottom: 30px;
+        }
+
+        .chapter-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            background: var(--secondary-bg);
+            border: 1px solid var(--accent-blue);
+            border-radius: 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Special Elite', monospace;
+            color: var(--text-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(26, 95, 180, 0.2);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .tab-btn:hover::before {
+            left: 0;
+        }
+
+        .tab-btn.active {
+            background: var(--accent-blue);
+            color: #fff;
+        }
+
+        .tab-btn.locked {
+            background: rgba(0, 0, 0, 0.5);
+            color: #666;
+            cursor: not-allowed;
+            border-color: #444;
+        }
+
+        .chapter-content {
+            background: var(--secondary-bg);
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chapter-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--accent-blue), transparent);
+        }
+
+        .chapter {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .chapter.active {
+            display: block;
+        }
+
+        .chapter h3 {
+            font-family: 'Special Elite', monospace;
+            color: var(--paper-bg);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            border-bottom: 1px dashed var(--accent-blue);
+            padding-bottom: 10px;
+        }
+
+        .chapter p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            text-align: justify;
+        }
+
+        .paywall {
+            text-align: center;
+            padding: 60px 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px dashed var(--accent-blue);
+            position: relative;
+        }
+
+        .paywall::before {
+            content: 'CLASSIFIED';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary-bg);
+            color: var(--accent-blue);
+            font-family: 'Special Elite', monospace;
+            padding: 0 15px;
             font-size: 1.2rem;
         }
-        
-        .book-title {
-            font-size: 1.8rem;
+
+        .paywall i {
+            font-size: 4rem;
+            color: var(--accent-blue);
+            margin-bottom: 20px;
         }
-        
-        .author-name {
-            font-size: 1.1rem;
+
+        .reading-progress {
+            margin-top: 20px;
+            position: relative;
         }
-        
-        .cta-button {
-            padding: 10px 20px;
-            font-size: 1rem;
+
+        .progress-bar {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 0;
+            overflow: hidden;
+            margin-bottom: 10px;
+            border: 1px solid var(--border-color);
         }
-        
-        .line-1 {
-            font-size: 1rem;
+
+        .progress {
+            height: 100%;
+            background: var(--accent-blue);
+            width: 0%;
+            transition: width 0.3s ease;
         }
-        
-        .section-title {
-            font-size: 1.5rem;
+
+        .progress-text {
+            text-align: right;
+            font-size: 0.9rem;
+            color: #999;
+            font-family: 'Special Elite', monospace;
         }
-        
-        .chapter-content {
-            padding: 15px;
+
+        /* --- About Section --- */
+        .about-section,
+        .author-section {
+            padding: 40px 0;
+            border-top: 1px solid var(--border-color);
+            margin-top: 40px;
         }
-        
-        .chapter h3 {
-            font-size: 1.3rem;
+
+        .book-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
         }
-        
-        .chapter p {
-            font-size: 0.95rem;
+
+        .book-details h3,
+        .book-reviews h3 {
+            font-family: 'Special Elite', monospace;
+            color: var(--accent-blue);
+            margin-bottom: 20px;
         }
-        
-        .modal-content {
-            padding: 20px 15px;
+
+        .book-details ul {
+            list-style: none;
+            margin-top: 20px;
         }
-        
+
+        .book-details li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .book-details li::before {
+            content: '•';
+            color: var(--accent-blue);
+            position: absolute;
+            left: 0;
+        }
+
+        .review {
+            background: var(--secondary-bg);
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .review::before {
+            content: '"';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 3rem;
+            color: rgba(26, 95, 180, 0.3);
+            font-family: 'Special Elite', monospace;
+        }
+
+        .stars {
+            color: #f39c12;
+            margin-bottom: 10px;
+        }
+
+        .reviewer {
+            font-style: italic;
+            color: #999;
+            text-align: right;
+            font-family: 'Special Elite', monospace;
+        }
+
+        .author-content {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .author-image {
+            position: relative;
+            flex-shrink: 0;
+        }
+
         .author-image img {
-            max-width: 200px;
+            max-width: 300px;
+            border: 3px solid #000;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            filter: grayscale(50%);
+            width: 100%;
+            height: auto;
         }
-        
-        .footer-logo {
+
+        .author-image::after {
+            content: 'SUBJECT';
+            position: absolute;
+            bottom: -10px;
+            right: -10px;
+            background: var(--accent-blue);
+            color: #fff;
+            font-family: 'Special Elite', monospace;
+            padding: 5px 10px;
+            font-size: 0.9rem;
+        }
+
+        .author-bio h3 {
+            font-family: 'Special Elite', monospace;
+            color: var(--paper-bg);
+            margin-bottom: 15px;
+        }
+
+        .author-social {
+            margin-top: 20px;
+        }
+
+        .author-social a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            background: rgba(26, 95, 180, 0.2);
+            color: var(--text-color);
+            border: 1px solid var(--accent-blue);
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .author-social a:hover {
+            background: var(--accent-blue);
+            transform: translateY(-3px);
+        }
+
+        /* --- Purchase Modal --- */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: var(--primary-bg);
+            padding: 40px;
+            border: 2px solid var(--accent-blue);
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            animation: modalSlideIn 0.5s ease;
+            box-shadow: 0 0 30px rgba(26, 95, 180, 0.3);
+            overflow-y: auto;
+            max-height: 90vh;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: var(--accent-blue);
+        }
+
+        .book-purchase {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .book-purchase img {
+            max-width: 80px;
+            border: 2px solid #000;
+            width: 100%;
+            height: auto;
+        }
+
+        .price {
             font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-blue);
+            font-family: 'Special Elite', monospace;
         }
-        
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-family: 'Special Elite', monospace;
+            color: var(--paper-bg);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            font-family: 'Roboto', sans-serif;
+            border-radius: 0;
+            box-sizing: border-box;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background: #000;
+            color: var(--text-color);
+            padding: 40px 0 20px;
+            border-top: 2px solid var(--accent-blue);
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 20px;
+        }
+
+        .footer-logo {
+            font-family: 'Special Elite', monospace;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--accent-blue);
+        }
+
+        .footer-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin-right: 20px;
+            transition: color 0.3s ease;
+            font-family: 'Special Elite', monospace;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        .social-share {
+            display: flex;
+            align-items: center;
+        }
+
+        .social-share span {
+            margin-right: 15px;
+            font-family: 'Special Elite', monospace;
+        }
+
         .social-share a {
-            width: 35px;
-            height: 35px;
-            line-height: 35px;
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            background: rgba(26, 95, 180, 0.2);
+            color: var(--text-color);
+            border: 1px solid var(--accent-blue);
+            margin-left: 10px;
+            transition: all 0.3s ease;
         }
-    }
-  </style>
-    
+
+        .social-share a:hover {
+            background: var(--accent-blue);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            color: #999;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 20px;
+            font-family: 'Special Elite', monospace;
+            font-size: 0.9rem;
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 1024px) {
+            .case-file-container {
+                padding: 15px;
+            }
+
+            #hero {
+                gap: 30px;
+                padding: 30px 15px;
+            }
+
+            .book-cover {
+                width: 350px;
+            }
+
+            .book-title {
+                font-size: 2.5rem;
+            }
+
+            .line-1 {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .case-file-container {
+                margin: 20px auto;
+                padding: 15px;
+            }
+
+            .main-nav {
+                margin-bottom: 30px;
+            }
+
+            .nav-item {
+                padding: 12px 15px;
+                font-size: 0.9rem;
+                margin: 3px;
+            }
+
+            #hero {
+                flex-direction: column;
+                text-align: center;
+                gap: 30px;
+                padding: 30px 15px;
+            }
+
+            .book-cover-container {
+                margin: 0 auto;
+            }
+
+            .book-cover {
+                width: 280px;
+            }
+
+            .redacted-stripe {
+                font-size: 1.5rem;
+            }
+
+            .intro-text {
+                width: 100%;
+            }
+
+            .book-title {
+                font-size: 2.2rem;
+                margin-bottom: 15px;
+            }
+
+            .author-name {
+                font-size: 1.3rem;
+                margin-bottom: 20px;
+            }
+
+            .cta-button {
+                padding: 12px 25px;
+                font-size: 1.1rem;
+            }
+
+            .line-1 {
+                font-size: 1.1rem;
+                margin: 0 auto 15px;
+                /* Centered with margin */
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+                margin-bottom: 25px;
+            }
+
+            .reading-section {
+                padding: 30px 0;
+            }
+
+            .chapter-navigation {
+                margin-bottom: 25px;
+            }
+
+            .chapter-tabs {
+                gap: 8px;
+            }
+
+            .tab-btn {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+
+            .chapter-content {
+                padding: 20px;
+                margin-bottom: 25px;
+            }
+
+            .chapter h3 {
+                font-size: 1.5rem;
+                margin-bottom: 15px;
+            }
+
+            .chapter p {
+                font-size: 1rem;
+                margin-bottom: 15px;
+            }
+
+            .paywall {
+                padding: 40px 15px;
+            }
+
+            .paywall i {
+                font-size: 3rem;
+                margin-bottom: 15px;
+            }
+
+            .book-info,
+            .author-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .author-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .author-image {
+                margin: 0 auto;
+            }
+
+            .author-image img {
+                max-width: 250px;
+            }
+
+            .modal-content {
+                padding: 30px 20px;
+                max-height: 95vh;
+            }
+
+            .book-purchase {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            footer {
+                padding: 30px 0 15px;
+                margin-top: 40px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+                margin-bottom: 20px;
+            }
+
+            .footer-links {
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+                margin: 10px 0;
+            }
+
+            .footer-links a {
+                margin: 0 10px;
+            }
+
+            .social-share {
+                justify-content: center;
+            }
+
+            .copyright {
+                padding: 15px;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .case-file-container {
+                padding: 10px;
+                margin: 10px auto;
+            }
+
+            .top-secret-header {
+                font-size: 0.9rem;
+                padding: 3px;
+            }
+
+            .main-nav {
+                margin-bottom: 20px;
+            }
+
+            .nav-item {
+                padding: 10px 12px;
+                font-size: 0.8rem;
+                margin: 2px;
+            }
+
+            #hero {
+                gap: 20px;
+                padding: 20px 10px;
+            }
+
+            .book-cover {
+                width: 220px;
+            }
+
+            .redacted-stripe {
+                font-size: 1.2rem;
+            }
+
+            .book-title {
+                font-size: 1.8rem;
+            }
+
+            .author-name {
+                font-size: 1.1rem;
+            }
+
+            .cta-button {
+                padding: 10px 20px;
+                font-size: 1rem;
+            }
+
+            .line-1 {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .chapter-content {
+                padding: 15px;
+            }
+
+            .chapter h3 {
+                font-size: 1.3rem;
+            }
+
+            .chapter p {
+                font-size: 0.95rem;
+            }
+
+            .modal-content {
+                padding: 20px 15px;
+            }
+
+            .author-image img {
+                max-width: 200px;
+            }
+
+            .footer-logo {
+                font-size: 1.5rem;
+            }
+
+            .social-share a {
+                width: 35px;
+                height: 35px;
+                line-height: 35px;
+            }
+        }
+    </style>
+
     <div class="spotlight"></div>
     <div id="noise-overlay"></div>
     <header class="top-secret-header">
@@ -1021,77 +1045,953 @@
             <a href="#author" class="nav-item">The Author</a>
             <a href="#contact" class="nav-item">Contact</a>
         </nav>
-        
+
         <section id="hero">
             <div class="book-cover-container">
                 <!-- Novel cover image -->
                 <img src="https://i.ibb.co/pBwWhkgN/cover.jpg" alt="Novel Cover" class="book-cover">
-                 <div class="redacted-stripe">CLASSIFIED</div>
+                <div class="redacted-stripe">CLASSIFIED</div>
             </div>
             <div class="intro-text">
                 <h1 class="line-1 anim-typewriter">اندھیروں سے ایک نئی آواز اُبھر رہی ہے۔</h1>
-                <p class="evidence-tag" style="font-family: 'Noto Nastaliq Urdu', serif;">EVIDENCE #001: لیپ ائیر فائلز کا آغاز</p>
+                <p class="evidence-tag" style="font-family: 'Noto Nastaliq Urdu', serif;">EVIDENCE #001: لیپ ائیر فائلز
+                    کا آغاز</p>
                 <h2 class="book-title">دفاعی چہرہ</h2>
                 <p class="author-name">by سرثشب</p>
-                <a href="#read" class="cta-button"style="font-family: 'Noto Nastaliq Urdu', serif;">سچ کو بے نقاب کرو۔</a>
+                <a href="#read" class="cta-button" style="font-family: 'Noto Nastaliq Urdu', serif;">سچ کو بے نقاب
+                    کرو۔</a>
             </div>
         </section>
-        
+
         <!-- Reading Section -->
         <section id="read" class="reading-section">
             <h2 class="section-title">CASE FILE EVIDENCE</h2>
-            <p style="text-align: center; margin-bottom: 50px; font-family: 'Noto Nastaliq Urdu', serif; direction: rtl;">تحقیقات کے پہلے تین ابواب تک رسائی حاصل کریں۔ مزید شواہد کے لیے اجازت درکار ہے۔</p>
-            
+            <p
+                style="text-align: center; margin-bottom: 50px; font-family: 'Noto Nastaliq Urdu', serif; direction: rtl;">
+                تحقیقات کے پہلے تین ابواب تک رسائی حاصل کریں۔ مزید شواہد کے لیے اجازت درکار ہے۔</p>
+
             <div class="chapter-navigation">
                 <div class="chapter-tabs">
                     <button class="tab-btn active" data-chapter="1">Chapter 1</button>
                     <button class="tab-btn" data-chapter="2">Chapter 2</button>
                     <button class="tab-btn" data-chapter="3">Chapter 3</button>
-                    <button class="tab-btn locked" data-chapter="4">
-                        <i class="fas fa-lock"></i> Chapter 4
+                    <button class="tab-btn" data-chapter="4">Chapter 4</button>
+                    <button class="tab-btn" data-chapter="5">Chapter 5</button>
+                    <button class="tab-btn" data-chapter="6">Chapter 6</button>
+                    <button class="tab-btn" data-chapter="7">Chapter 7</button>
+                    <button class="tab-btn" data-chapter="8">Chapter 8</button>
+                    <button class="tab-btn" data-chapter="9">Chapter 9</button>
+                    <button class="tab-btn" data-chapter="10">Chapter 10</button>
+                    <button class="tab-btn locked" data-chapter="11">
+                        <i class="fas fa-lock"></i> Chapter 11
+                    </button>
+                    <button class="tab-btn locked" data-chapter="12">
+                        <i class="fas fa-lock"></i> Chapter 12
+                    </button>
+                    <button class="tab-btn locked" data-chapter="13">
+                        <i class="fas fa-lock"></i> Chapter 13
+                    </button>
+                    <button class="tab-btn locked" data-chapter="14">
+                        <i class="fas fa-lock"></i> Chapter 14
                     </button>
                 </div>
             </div>
-            
-            <div class="chapter-content">
+
+            <div class="chapter-content"
+                style="margin-bottom: 50px; font-family: 'Noto Nastaliq Urdu', serif; direction: rtl; background-color: #fff; color: #000">
                 <div id="chapter-1" class="chapter active">
-                    <h3>Chapter 1: The Initial Crime Scene</h3>
-                    <p>The rain fell in sheets, distorting the city lights into watery smears on the pavement. Detective Miller stood under the awning of a closed bookstore, watching the forensic team work under the harsh glare of portable floodlights. The victim lay in the alley, a stark white sheet covering what remained of a life cut short.</p>
-                    <p>"What have we got?" Miller asked, approaching the lead investigator.</p>
-                    <p>"Male, approximately 40 years old. No ID, but he had this on him." The investigator held up an evidence bag containing a small, leather-bound notebook. "Looks like some kind of code or cipher. Our tech team is working on it."</p>
-                    <p>Miller took the bag, turning it over in his hands. The notebook was worn, its pages yellowed with age. Something about it felt familiar, though he couldn't place why. Little did he know, this notebook would lead him down a rabbit hole of conspiracy that reached the highest levels of power.</p>
+                    <h3 style="font-family: 'Noto Nastaliq Urdu', serif; color: #000">Chapter 1: پہلا منظر، پہلا شکار
+                    </h3>
+                    <p>كرائم انویسٹیگیشن ِونگ (سی آئی ڈبلیو .C.I.W) كی چار منزلہ عمارت پر سورج كی روشنی نے ایک دهندلا سا
+                        عكس بكهیر ركها تها۔ جدید طرز كی یہ عمارت، جہاں شفاف شیشوں كی دیواریں، كارڈ لاک دروازے، اور
+                        اندرونی سیكیورٹی كیمرے نصب تهے، اب ایک گہرے، سنسنی خیز سوال كا مركز بننے والی تهی۔</p>
+                    <p>گراؤنڈ فلور پر ریسپشن، تفتیشی دفتر، اور ریكارڈ روم تها۔ دوسری منزل پر فرانزک لیب، ڈی این اے
+                        سیل،اور ایک لیبارٹری۔ تیسری منزل پر میٹنگ روم، انسپكٹرز كے دفاتر، اور كرمنل پروفائلنگ سیكشن۔
+                        چوتهی منزل، جو صرف مخصوص عملے کے لیے مخصوص تهی، وہاں خفیہ انٹروگیشن رومز، كنٹرول روم اور ڈی ایس
+                        پی سلیم اختر كا دفتر تها۔</p>
+                    <p>ڈی ایس پی سلیم اختر اپنے دفتر میں تنہا بیٹهے تهے۔ عمر تقریباً پچپن سال، سفید رنگت، درمیانہ جسامت،
+                        کالی گھنی داڑھی جس میں کچھ بال سفید تھے اور سر پر تھوڑے سے بال۔ وہ براؤن رنگ کے سوٹ میں ملبوس
+                        تھے۔</p>
+                    <p>ان كے سامنے میز پر كهلی ہوئی نوٹ بک، كافی كا مگ، اور ایک چمكتا ہوا ٹیلیفون۔ ماحول میں ایک عجیب سا
+                        سكوت چهایا ہوا تها كہ اچانک فون بجا۔ وه فورًا چونكے اور كال ریسیو كی۔</p>
+                    <p>"سر، ہماری جیل میں آج ایک قیدی نے خودكشی كر لی ہے... بالكل ویسے ہی جیسے تقریبًا دو مہینے پہلے
+                        سنٹرل جیل میں خود كشی كی خبر چهپی تهی۔"</p>
+                    <p>كال پر موجود انسپكٹر كی آواز تهوڑی جهجكی ہوئی تهی۔ اس نے مزید كہا "مجهے لگا كہ یہ شاید اتفاق ہو،
+                        لیكن پهر ایسی ہی ایک اور خبر بهی ملی كہ خواتین والی جیل میں ایک عورت نے بهی خود كو لٹكا لیا۔ اس
+                        لیے آپ كو رپورٹ دینا ضروری سمجها كہ شاید آپ كا اداره اس كیس میں دلچسپی لے، کیونکہ یہ لیپ ائیر
+                        والے کیسز سے جڑا ہے"</p>
+                    <p>ڈی ایس پی سلیم اختر نے گهور كر اسپیكر فون كو دیكها۔ "پوری تفصیل دو، ہر ایک نكتہ۔ "</p>
+                    <p>آدمی كا نام اقبال تها۔ كچه ہفتے قبل محلے كے ایک دكاندار كو قتل كر دیا تها۔ موقع پر گواه بهی موجود
+                        تهے، اور پستول بهی برآمد ہوا تها، فنگر پرنٹس میچ كیے گئے۔ اس نے جرم قبول بهی كر لیا۔ اور عورت نے
+                        بهی اپنی دیورانی كو زہر دے دیا تها، اور پھر خود کو پولیس کے حوالے کر دیا۔ بعد میں اسے بھی سیل
+                        میں رسی سے لٹكا ہوا پایا گیا دونوں كیس اوپن اینڈ شٹ تهے، سر۔ ِ</p>
+                    <p>"اور خودكشی كس وقت ہوئی؟ "</p>
+                    <p>سر، عورت كی خبر كل شام 3 بجے تک ملی، اور اُسے اتفاق سمجھ كر جانے دیا، مگر جب آج صبح تقریبًا ساڑهے
+                        5 بجے اقبال کو بھی اپنے سیل میں لٹکا ہوا پایا گیا تو آپ كو خبر دینا ضروری سمجها۔ ابتدائی فرانزک
+                        رپورٹ كے مطابق گردن پر رسی كے نشانات واضح ہیں، دیگر جسمانی چوٹ یا زہر كا كوئی نشان نہیں۔ خودكشی
+                        كی تمام کلاسک علامات موجود ہیں۔"</p>
+                    <p>:سلیم خاموش ہو گئے۔ چند لمحوں كے غور كے بعد بولے " تمام ابتدائی فرانزک رپورٹس، سیل فوٹیجز، اور
+                        قیدیوں كے پروفائلز مجهے فوراً بهیجو۔ "</p>
+                    <p>"جی سر، ابهی بهیجتا ہوں۔ "</p>
+                    <p>كال بند ہونے كے بعد سلیم نے فورًا انٹركام پر آصف بٹ كو بلایا۔ "آصف، جونہی رپورٹیں پہنچیں، ان كے
+                        پرنٹس نكالو اور تمام ٹیم كو میٹنگ روم میں بلاؤ۔ "</p>
+                    <p>"جی سر!" آصف فورًا رپورٹ لینے بهاگا۔</p>
+                    <p style="font-weight: bold;">جاری ہے۔۔۔۔</p>
                 </div>
-                
                 <div id="chapter-2" class="chapter">
-                    <h3>Chapter 2: The First Clue</h3>
-                    <p>Back at the precinct, Miller spread the notebook's contents across his desk. Page after page filled with symbols, numbers, and what appeared to be random words. It made no sense, but his gut told him it was important.</p>
-                    <p>"Need some help with that?" asked Detective Chen, leaning against the doorframe with two cups of coffee.</p>
-                    <p>Miller nodded gratefully, accepting one of the cups. "It's a cipher of some kind. I've seen something like this before, years ago during the Blackwood case."</p>
-                    <p>"The Blackwood case? I thought that was closed. Suicides, all of them."</p>
-                    <p>"That's what they wanted us to think," Miller said, tapping a sequence of symbols. "But look at this. It's the same pattern."</p>
-                    <p>As they worked through the night, the pieces began to fall into place. The cipher wasn't just a code—it was a map. And it led somewhere they never expected.</p>
+                    <h3 style="font-family: 'Noto Nastaliq Urdu', serif; color: #000">Chapter 2: تحقیقاتی اجلاس</h3>
+                    <p>كمرے میں سیاه شیشے كی میز كے گرد تمام اہم اراكین بیٹھ چكے تهے۔ ہر ایک كے سامنے ایک مكمل فائل
+                        موجود تهی۔ ماحول سنجیده تها، ہر طرف خاموشی چهائی ہوئی تهی۔</p>
+                    <p>ڈی ایس پی سلیم اختر نے سب كی طرف دیكها اور كہا</p>
+                    <p>"لیپ ائیر کیس کے بارے میں تو ہر کوئی جانتا ہے جس کی بنیادی وجہ کسی کو پتہ نہیں چلی، اور اب پھر سے
+                        ایک اور سلسلہ شروع ہو گیا ہے۔ دو جیلوں میں دو مختلف کیس، قیدیوں نے خودکشی کر لیے۔۔۔۔..پچهلے
+                        واقعے كو ابهی تین مہینے بهی نہیں گزرے، اور اب دو مزید"</p>
+                    <p>كمره ٹهنڈا تها لیكن ماحول میں عجیب سی حدت تهی۔</p>
+                    <p>انسپكٹر مہروز (ایک ذہین سینئر فیلڈ آفیسر) نے فائل بند كرتے ہوئے كہا۔ "سر، لیپ ائیر والا کیس ہم نے
+                        حل نہیں کیا تھا، بس اس کے بارے میں سنا تھا۔۔۔۔اور ویسے بھی ابھی تو انتیس فروری نہیں گزری، اور وہ
+                        ہے بھی دو سال بعد"</p>
+                    <p>:ماہین رضوی (كرمنل سائیكالوجسٹ) نے سنجیدگی سے كہا، "سر، ضمیر كی خلش، سماجی تنہائی، جرم كا بوجھ یہ
+                        سب كسی كو بھی خودكشی تک لے جا سكتے ہیں، اور ہو سکتا ہے اس کا اس کیس سے کوئی تعلق نہ ہو"</p>
+                    <p>سب انسپكٹر بلال قریشی (كرائم سین ریكارڈنگ ایکسپرٹ) نے ٹیبل پر جهكتے ہوئے طنز سے مسكراتے ہوئے كہا
+                        "ایسی عوام ہمارے ملک میں نہیں پائی جاتی جو نفسیاتی بوجھ كا شكار ہو۔ "</p>
+                    <p>اور پهر انسپكٹر مہروز اور ڈی ایس پی سلیم كی طرف دیكھ كر بولا، "سر ہو سکتا ہے وہ خودکشی نہ ہو۔"
+                    </p>
+                    <p>ڈاكٹر راحیل (فرانزک ڈاكٹر) نے نرمی سے كہا،</p>
+                    <p>"میں نے تینوں كے پوسٹ مارٹم رپورٹس میں خودكشی كی علامات مكمل دیكهی ہیں، گردن كی ہڈی كا مخصوص
+                        زاویہ، آنكهوں اور چہرے كے رنگ — سب كچھ كلینیكل طور پر واضح ہے... خودكشی ہی ہے۔</p>
+                    <p>ڈی این اے رپورٹس اور ٹاكسیكالوجی كے مطابق بهی نہ دوا، نہ زہر، نہ نشہ۔ نہ سیل میں كوئی مشكوک شے
+                        ملی جس سے قتل كی بات كی جا سكے۔ پوسٹ مارٹم مكمل صاف ہے۔"</p>
+                    <p>سب انسپكٹر شایان نے كہا</p>
+                    <p>"اور یہ بهی ممكن ہے كہ جیل كا ماحول، یا عملے كا رویہ، انہیں اس نہج پر لے گیا ہو۔ ہر حقیقت ریكارڈ
+                        میں نہیں آتی۔ "</p>
+                    <p>اس بات پر انسپكٹر بلال پهر سے ہنسا</p>
+                    <p>لیكن سب كی سنجیده نظروں نے اسے چپ كرا دیا۔</p>
+                    <p>ماہین نے سنجیدگی سے كہا</p>
+                    <p>" یہ وقت طنز اور مذاق كا نہیں۔ ہمیں یہ بهی دیكهنا ہوگا كہ جیلوں كے عملے میں كوئی مشتركہ شخصیت،
+                        كوئی وزیٹر، یا كوئی ایسا فرد تو نہیں جو تینوں جگہوں پر گیا ہو؟"</p>
+                    <p>:شبیر خان (فرانزک اسسٹنٹ) نے كہا:</p>
+                    <p>"ہو سكتا ہے كوئی ایسی ویسی بات نہ ہو، اور یہ سچ میں خودكشی ہو... مطلب اصل والی۔</p>
+                    <p>:انسپكٹر مہروز نے خلا میں گهورتے ہوئے كہا،</p>
+                    <p>مجھے یہ مشابہت مشکوک لگتی ہے، شاید كوئی تیسرا فریق ہے، جس نے انہیں مار كر خودكشی كا رنگ دیا ہو۔"
+                    </p>
+                    <p>ڈاكٹر راحیل نے ایک نظر مہروز پر ڈالی، جو اب بهی نہ جانے كہاں دیكھ رہا تها۔</p>
+                    <p>"مہروز، فرانزک انڈیكیٹر دهوكہ برداشت نہیں كرتے۔ اگر كوئی اور ہوتا، كوئی تشدد یا زہر ہوتا كچھ نہ
+                        كچھ نظر ضرور آتا۔ "</p>
+                    <p>مہروز نے خلا سے نظریں نكالیں اور راحیل كی طرف دیكهتے ہوئے گردن ہلائی جو نہ تو ہاں كا اشاره تها،
+                        نہ نہ كا۔</p>
+                    <p>"ہممممم... كچھ بهی ہو سكتا ہے۔ "</p>
+                    <p>سلیم اختر نے سب كو خاموش كراتے ہوئے كہا</p>
+                    <p>"اب اس بحث سے كچھ نہیں نكلے گا۔ میں تم سب كے ذمہ كام لگا رہا ہوں۔ میں چاہتا ہوں كہ تمام اركان ان
+                        كیس كا آزاد تجزیہ كریں نئی نظر سے، بغیر كسی پچهلے خیال كے، اس کیس کی الگ تحقیق کرو، اور اگر اس
+                        کا تعلق پچھلے کیس سے ہوا تو وہ خود ہی پتا چل جائے گا،"</p>
+                    <p>پھر اس نے فائل بند کرتے ہوئے اپنی جگہ سے کھڑے ہوتے ہوئے ایک نظر سب پر ڈالی اور کہا,</p>
+                    <p>"شایان اور ماہین، تم دونوں ان تینوں قیدیوں كے اہل خانہ سے جا كر تفصیلی بات كرو۔ كیا انہوں نے كوئی
+                        عجیب بات دیكهی؟ رویہ بدلا؟ ذہنی كیفیت میں تبدیلی؟</p>
+                    <p>بلال، تم تینوں جیلوں كے وزیٹر لاگز، اور سی۔ سی۔ ٹی وی۔ فوٹیج چیک کرو۔</p>
+                    <p>آصف بٹ، تم ان كے عدالتی كیس، پولیس فائلز، اور ابتدائی گرفتاری كے مراحل كا باہمی موازنہ تیار كرو۔
+                        اور کو سکے تو لیپ ائیر کیس کی فائلز بھی دیکھو۔</p>
+                    <p>شبیر، تم ان كی خوراک، پانی، ادویات، اور جیل کے عملے کا رویہ اور میڈیکل ریکارڈز دوبارہ سے چیک کرو۔
+                    </p>
+                    <p>اور مہروز، تم ان جیلوں كے سپرنٹنڈنٹس سے علیحده علیحده ملاقات كرو جو كچھ وه كهل كر نہ بتائیں، وه
+                        تم ان سے نکلواؤ۔"</p>
+                    <p>كمرے میں سناٹا چها گیا تها۔</p>
+                    <p>سلیم كی آواز ایک بار پهر گونجی</p>
+                    <p>"اب ہم صرف شک نہیں كر سكتے ہمیں ثبوت چاہییں۔ اور شاید... یہ خودكشی نہ ہو، اور شاید یہ پچھلا کیس
+                        نہ ہو یہ كوئی اور پیچیده كهیل ہو۔ ابهی تک ہمارے پاس كچھ بهی نہیں ہے، صرف ایک شک یا شاید، یہ كسی
+                        بڑی اور اندهیری كہانی كا پہلا باب ہے۔"</p>
+                    <p>بحث طویل تهی، دلیلوں سے بهری، لیكن نتیجہ ندارد۔</p>
+                    <p>ہر نظریہ دوسرے سے ٹکرا رہا تها۔ ہر رائے ایک نئی الجهن كی طرف لے جا رہی تهی۔</p>
+                    <p style="font-weight: bold;">جاری ہے۔۔۔۔</p>
                 </div>
-                
                 <div id="chapter-3" class="chapter">
-                    <h3>Chapter 3: The Revelation</h3>
-                    <p>The address decoded from the notebook led to an abandoned warehouse on the city's industrial outskirts. Miller and Chen approached with caution, weapons drawn. The building loomed before them, a skeleton of rusted metal and broken windows.</p>
-                    <p>"This place gives me the creeps," Chen whispered, scanning the shadows.</p>
-                    <p>Miller nodded. "Stay alert. If the notebook is right, we're not alone."</p>
-                    <p>Inside, the air was thick with dust and the smell of decay. Flashlight beams cut through the darkness, revealing crates stacked haphazardly. In the center of the main floor stood a single metal desk, its surface covered in files.</p>
-                    <p>Miller picked up the top file, his blood running cold as he read the contents. It wasn't just a criminal conspiracy—it was a cover-up of something far more sinister. And now that he knew, he was a target.</p>
+                    <h3 style="font-family: 'Noto Nastaliq Urdu', serif; color: #000">Chapter 3: نئے ہمسائے</h3>
+                    <p>سركاری رہائش، اور نئے ہمسائے — یہ سب زینب اور عمر كے لیے ایک نیا تجربہ تها۔ انھیں دارلحکومت میں
+                        شفٹ ہوئے ابھی دو تین مہینے ہی گزرے تھے۔ یہ ایک نئی زندگی كا آغاز تها۔ شہر بدلا تها، فضا نئی تهی،
+                        مگر كچه پرانے سوالات، كچه نامكمل باتیں اب بهی ان كے ساتھ تهیں۔ جب سے وہ یہاں آئے ہیں کسی کو کیسی
+                        چیز کی فرصت نہیں تھی۔ وہ سب گھر کی سیٹنگ کرنے میں اس طرح الجھے ہوئے تھے۔ اور پھر دیکھتے ہی
+                        دیکھتے زینب کی چھٹیاں ختم ہو گئی۔ وقت کیسے گزرا پتہ ہی نہیں چلا۔</p>
+                    <p>آج زینب کا کالج میں پہلا دن تھا۔ اس کو اپنی پرانی سہیلی مریم کی بہت یاد آرہی تھی کیوں کہ انھوں نے
+                        فیصلہ کیا تھا کہ میٹرک کے بعد وہ ایک ہی کالج میں داخلہ لیں گی مگر پھر وہ یہاں شفٹ ہو گئے اور
+                        مریم وہیں رہ گئی۔</p>
+                    <p>شام کے وقت سب چھت پر بیٹھے تھے۔ڈاکٹر راحیل بیگم راحیل اور زینب اور عمر چائے کا کپ ہاتھ میں تھامے۔
+                        چھت سے ساری کالونی کی پچھلی طرف والی پہاڑی نظر آتی تھی۔</p>
+                    <p>بیگم راحیل نے بات شروع کی، "آج صائمہ (پرانی ہمسائی) کی کال آئی تھی۔ ہماری گلی میں جو صباحت رہتی
+                        تھی کچھ دنوں پہلے اس کا بیٹا گم ہو گیا ابھی تک نہیں ملا۔ وہ بتا رہی تھی کہ اس کا تو رو کے برا
+                        حال ہے."</p>
+                    <p>راحیل نے چائے پیتے ہوئے پوچھا،"کوئی رپورٹ وغیرہ نہیں لکھوائی؟"</p>
+                    <p>"لکھوائی تھی، پولیس والے ڈھونڈ رہے ہیں۔"</p>
+                    <p>راحیل نے کہا "اگر ایک دن سے زیادہ کا وقت ہو گیا ہے، پھر تو بات خطرے والی ہے، اللہ ہی خیر کرے اور
+                        وہ جلد از جلد سلامتی سے مل جائے۔"</p>
+                    <p>اس بار زینب بولی،"جی بابا، مریم نے بھی بتایا تھا، کہ اس کے بابا بھی اپنی پوری کوشش کر رہے ہیں،
+                        اپنے رابطوں کے ذریعے۔"</p>
+                    <p>"بات واقع پریشانی والی ہے، اللہ خیر کرے گا، بس آپ لوگ بھی دعا کرنا" راحیل نے کپ رکھتے ہوئے کہا۔
+                    </p>
+                    <p>اور پھر خاموشی چھا گئی۔</p>
+                    <p>اب کی بار عمر نے خاموشی توڑی، "بابا آپ ہمیں نئے ہمسایوں کے بارے میں تو بتائیں، آپ نے کہا تھا وہ
+                        آپ کے جاننے والے ہیں۔"</p>
+                    <p>راحیل نے نرمی لہجے میں بتانا شروع کیا," دائیں طرف والا گھر ایک انسپیکٹر کا ہے، انسپیکٹر مہروز۔"
+                    </p>
+                    <p>"بابا، وہی ناں جس کے بارے میں آپ نے بتایا تھا کہ وہ آپ کے دوست ہیں۔" زینب نے بات کاٹتے ہوئے کہا۔
+                    </p>
+                    <p>راحیل مسکرایا، "جی بیٹا۔ اور بائیں طرف والا گھر آصف کا ہے۔ وہ ہمارے ونگ کا کلرک ہے۔ آصف بٹ۔ وہ
+                        اپنی بیوی کے ساتھ رہتا ہے۔ اس کی بیوی ایک سکیچ آرٹسٹ ہیں، اور باقی کا لونی میں بھی زیادہ تر
+                        سرکاری ملازمین ہی۔ جن میں اکثریت وکلاء، انسپیکٹرز ، کلرکس، اور ڈاکٹرز کی ہے۔"</p>
+                    <p style="font-weight: bold;">جاری ہے۔۔۔۔</p>
                 </div>
-                
-                <div id="chapter-4" class="chapter locked">
-                    <h3>Chapter 4: The Investigation Deepens</h3>
-                    <div class="paywall">
-                        <i class="fas fa-lock"></i>
-                        <h3>CLASSIFIED INFORMATION</h3>
-                        <p>This chapter requires Level 4 clearance. Purchase the complete case file to access all evidence.</p>
-                        <button class="cta-button purchase-btn">Obtain Clearance - $9.99</button>
-                    </div>
+                <div id="chapter-4" class="chapter">
+                    <h3 style="font-family: 'Noto Nastaliq Urdu', serif; color: #000">Chapter 4: اغرا شدہ بچے کا قتل
+                    </h3>
+                    <p>گرمیوں كی جهلسا دینے والی دوپہر تهی</p>
+                    <p>سورج آگ برسارہا تها، سڑک پر ریت سی تپش بكهری ہوئی تهی، جب اچانک ایک دس باره سالہ بچہ ننگے پاؤں،
+                        خون میں لت پت، پهٹے کپڑوں میں سڑک پر دوڑتا دكهائی دیا۔ اس كی آنكهوں میں وحشت تهی، سانسیں پهولی
+                        ہوئی، اور ہونٹ پیاس سے سوكهے ہوئے۔ وه ادهر ادهر گهبراہٹ سے دیكهتے ہوئے بےترتیب انداز میں بهاگ
+                        رہا تها، جیسے خود موت اس كے پیچهے ہو۔</p>
+                    <p>اس كے پیچهے ایک لمبا، سانولا، كرخت چہرے والا شخص آہستہ آہستہ دوڑتا نظر آیا — ہاته میں زنجیر كا
+                        ٹكڑا، قمیض پر خون كے چهینٹے، اور نظروں میں خالص درندگی۔</p>
+                    <p>بچہ ایک گلی سے دوسری گلی، اور بالآخر ایک پرہجوم ماركیٹ میں داخل ہوا۔ لوگ اسے حیرت سے تكنے لگے۔
+                        چند نے چلا كر پوچها</p>
+                    <p>"بیٹا، كیا ہوا؟ "</p>
+                    <p>لیكن وه كچھ بول نہ سكا۔ صرف ایک لفظ — "بچاؤ..."" اُس كے لبوں پر آیا، اور وه لڑكهڑانے لگا۔</p>
+                    <p>پیچهے سے وه درنده بهی وہاں پہنچ گیا، اور بچے كے بالوں سے پكڑ كر اسے گهسیٹنے لگا۔</p>
+                    <p>لیكن عوام خاموش نہ رہے۔ ایک شخص نے پائپ سے وار كیا، دوسرا بازو پر لپكا، تیسرا پیچهے سے آ كر
+                        جهپٹا۔ لمحوں میں وه وحشی قابو میں آ گیا۔</p>
+                    <p>...مگر بچہ وه زمین پر گرا، آنكهیں بند، سانس ٹوٹتی ہوئی۔</p>
+                    <p>ایمبولینس اسپتال كے ایمرجنسی گیٹ پر ركی۔ بچے كو اسٹریچر پر ڈال كر اندر لایا گیا۔ چہره زخموں سے
+                        اٹا</p>
+                    <p>ہوا، جسم نڈهال، بےجان سا۔</p>
+                    <p>ڈاكٹر فوراً جهكا</p>
+                    <p>"پلس بہت كمزور ہے... بلڈ پریشر نہ ہونے كے برابر... جسم میں پانی كی شدید كمی ، ڈی ہائیڈریشن اور
+                        ہیٹ شاك كے شدید آثار ہیں ""...</p>
+                    <p>مشینیں جوڑی گئیں۔ نرس نے بچے كا چہره صاف كیا، خون كے دهبے پونچهے۔۔</p>
+                    <p>سانسیں بےترتیب، بهاری اور بہت مدهم۔ دل كی دهڑكن تقریبًا ختم۔</p>
+                    <p>ڈیِفبریلیٹر منگوایا گیا۔</p>
+                    <p>"دو سو پر چارج كرو... ایک... دو... تین... ہٹو سب! ""</p>
+                    <p>جهٹكا دیا گیا، كچه نہ ہوا۔ دوسرا جهٹكا، ناکام۔</p>
+                    <p>تیسرے جهٹكے سے پہلے ہی ای سی جی کی لائنیں مكمل سیدهی ہو چكی تهیں۔</p>
+                    <p>ڈاكٹر چند لمحے چپ رہا، پهر آہستہ سے بولا</p>
+                    <p>"وقت موت: سہ پہر چار بج كر سینتالیس منٹ... وجہ: جسمانی تشدید، بهوک، پیاس، اور شدید ذہنی صدمہ۔ ہم
+                        اُسے بچا نہ سکے ""...</p>
+                    <p>نرس نے خاموشی سے سفید چادر بچے كے چہرے پر ڈال دی۔</p>
+                    <p style="font-weight: bold;">جاری ہے۔۔۔۔</p>
+                </div>
+                <div id="chapter-5" class="chapter">
+                    <h3 style="font-family: 'Noto Nastaliq Urdu', serif; color: #000">Chapter 5: تھانے کا منظر</h3>
+                    <p>تهانے كی فضا بهاری ہو چكی تهی۔</p>
+                    <p>بچہ مر چكا تها، اور وہ کڈنیپر حوالات میں خاموش بیٹها تها۔ چہرے پر نہ ندامت، نہ شرمندگی۔</p>
+                    <p>انسپكٹر رشید انصاری، پچیس سالہ تجربے كا حامل، زنگ آلود كرسی پر نیم گرم چائے كے گھونٹ لیتے ہوئے
+                        فائل دیكھ رہا تها۔</p>
+                    <p>چہرے پر بےنیازی، نہ غصہ، نہ افسوس۔ حوالدار شہباز حاضر ہوا، "سر، وه بچہ... مر گیا۔ ڈاكٹروں كے
+                        مطابق موت كی وجہ زیاده خون بہنا، بهوک، پیاس، اور شدید مار پیٹ ہے۔ بنده حوالات میں بند ہے۔"</p>
+                    <p>رشید نے سر اُٹها كر سرد نگاه ڈالی،</p>
+                    <p>اور ماں باپ كہاں ہیں؟ "" ""</p>
+                    <p>"اسپتال میں... ماں كا بُرا حال ہے۔ "</p>
+                    <p>رشید بڑبڑایا،</p>
+                    <p>"کوئی بڑا كیس نہیں، اور جب بچہ مر ہو گیا تو اب کسی بھی بات کا کیا سوال؟ بچہ مر گیا؟ تو كیا؟ ہر
+                        ہفتے كوئی نہ كوئی مرتا ہے۔ ہم كیا چهت سے كود جائیں؟.......چل آ، اب تكلف پورا كرتے ہوئے اس بندے
+                        سے بهی مل لیتے ہیں۔"</p>
+                    <p>ملزم كو سامنے بٹهایا گیا۔ پھٹے كپڑے، بكهرے بال، آنكهوں میں تكبر۔</p>
+                    <p>رشید نے پوچها</p>
+                    <p>"نام بتا۔ بچہ كون تها؟ كہاں سے ٹهایا؟"</p>
+                    <p>خاموشی۔ طنزیہ مسكراہٹ۔</p>
+                    <p>رشید نے كانسٹیبلز كو اشاره كیا۔</p>
+                    <p>ملزم كو گریبان سے پكڑ كر كرسی سے باندھ دیا گیا۔</p>
+                    <p>وه ہنسا، " سب ڈرامے ہو تم لوگ... اصل طاقت پیسے میں ہے۔ تهوڑی دیر میں كوئی آئے گا، اور میں باہر
+                        ہوں گا۔ ""</p>
+                    <p>رشید كے چہرے پر تناؤ آ گیا۔</p>
+                    <p>رشید نے اپنی نشست چهوڑی اور اُس كے قریب آ گیا</p>
+                    <p>"بدتمیزی كرے گا؟ وردی كو آنكھ دكهائے گا؟ ""</p>
+                    <p>اس نے ایک زوردار تهپڑ مارا۔</p>
+                    <p>"پیسوں كی طاقت میرے ہاتھ كی چوٹ سے زیاده نہیں!"</p>
+                    <p>سناٹے دار تهپڑ سے اس كے ناک سے خون آنے لگا، لیكن وه پهر بهی طنزیہ مسکراہٹ سجائے كہہ رہا تها،</p>
+                    <p>انسپیكٹر صاحب، پیسہ ہاتھ بهی كاٹ دیتا ہے اور بنده بهی۔ ""</p>
+                    <p>انسپكٹر كا خون اس بات پر ابال كها گیا،</p>
+                    <p>"تو مجھ جیسے عقلمند بندے كو بتائے گا كہ كیا كیسے ہوتا ہے، كیسے نہیں؟ ""</p>
+                    <p>پهر دوسرا تهپڑ اس كے منه پر دے مارا۔ پھر بالوں سے پكڑ كر زمین پر پٹخاہ</p>
+                    <p>"اچها تو بتا ہی دیتا ہوں، كیوں ہلكان ہوتے ہو"</p>
+                    <p>،اس نے زمین پر كہنی كا سہارا لیتے ہوئے كہا،</p>
+                    <p>"ابادی سے باہر والی هگیوں سے اٹهایا تها۔ ""</p>
+                    <p>"جهوٹ! ""</p>
+                    <p>دوباره سختی، اس بار ایک چهوٹا ڈنڈا گهمایا گیا جو اس كے گهٹنوں پر پڑا۔ وه چیخ اٹها۔</p>
+                    <p>سچ بتا "! ""</p>
+                    <p>آخركار اس كی بس ہو گئی، خون تهوكتے ہوئے بولا ،</p>
+                    <p>"میری كزن كا بیٹا تها... میرا ہی خون تها... ... لیكن... لیکن ""</p>
+                    <p>رشید نے بات كاٹی ، "شہباز، كهیل میں مزه نہیں آ رہا ہے۔ كل دوباره كهیلیں گے۔ ""</p>
+                    <p>رشید نے اُسے پیچهے دهكیل كر زمین پر پهینكا اور اشاره كیا, "لے جاؤ، اسےحوالات میں پهینك
+                        دو۔۔۔۔۔۔اور جانے سے پہلے ایک كپ چائے اور پلاؤ۔"</p>
+                    <p>اور وه پهر اسی زنگ آلود كرسی پر آ كر بیٹھ گیا اور جهولنے لگا ساتھ ہنستے ہوئے سوچنے لگا،</p>
+                    <p>"اگر مجھ جیسا عقلمند بنده نہ ہوتا، تو یہ ملك كیسے چلتا؟ ""</p>
+                    <p>اتنے میں تهانے كے باہر ایك كالی شیشے والی گاڑی ركی۔</p>
+                    <p>گاڑی سے ایک عجیب ہستی اُتری — نہ مرد، نہ عورت۔ چہره سن گلاسز میں چهپا ہوا۔ جامنی رنگ كی ساڑهی میں
+                        ملبوس۔ اس قدر گرمی میں ہاتهوں میں گلابی دستانے، ہیل والا لال جوتا۔ چال میں اعتماد۔</p>
+                    <p>سپاہیوں كو ایک پرچی دكهائی، اور سیدهی رشید كے دفتر تک جا پہنچی۔</p>
+                    <p>میز پر ایک مخملی تهیلی ركهی — نوٹوں سے بهری ہوئی۔</p>
+                    <p>"یہ معاملہ... ختم كرو۔ اس آدمی دمی كو چهوڑ دو۔ ""</p>
+                    <p>آواز بهی عجیب سی تهی — نہ مردانی، نہ زنانی — اور لال ہونٹوں پر پُراسرار مسكراہٹ۔</p>
+                    <p>رشید نے چونك كر نظر اٹها كر اُسے دیكها،</p>
+                    <p>"او بی بی، تم كون ہو؟ دماغ پہلے ہی بہت گرم ہے، اور چائے بهی نہیں پی، تم ابهی كے لیے جاؤ۔ ""</p>
+                    <p>لیكن وه ایک اور موٹا لفافہ نكال كر بولی،</p>
+                    <p>"یہ تمهارے لیے تاكہ تم ساری عمر بغیر دماغ گرم كروائے چائے پی سكو، یا تمھیں اپنی بیٹی کے جہیز کے
+                        لیے مشقت نہ کرنی پڑے۔"</p>
+                    <p>رشید نے لفافہ كهولا — نوٹوں سے بهرا تها۔</p>
+                    <p>"مجھ جیسا عقلمند آدمی خدا كی نعمت كو ضائع كیسے كر سکتا ہے" یہ سوچ اس كے ذہن سے گزری، اور وه مسكرا
+                        دیا۔</p>
+                    <p>اتنی دیر میں شہباز چائے لے آیا۔ لیکن ڈش میں دو كپ تهے۔</p>
+                    <p>"دوسرا كپ كس لیے؟ ""</p>
+                    <p>اور اس بات پر شہباز نے ایک الجھی سی نظر اس عورت پر ڈالی۔ انسپکٹر نے اپنا كپ تو اٹها لیا اور كہا،
+                    </p>
+                    <p>"اوه، نہیں! یہ بی بی چائے نہیں پیئیں گی، ان كے پاس جتنی دولت ہے، لگتا ہے یہ تو كافی اور پنک ٹی ہی
+                        لیں گی اور وه یہاں ہے نہیں۔۔۔ ""تم ایسا كرو، یہ لے جاؤ۔۔۔ یا خود پی لو۔"</p>
+                    <p>وه بیچارا عجیب و غریب تاثرات لیے كبهی انسپكٹر كو دیكهے، كبهی اس عورت كو، اور پهر واپس چلا گیا۔
+                    </p>
+                    <p>انسپکٹر نے چائے كا گهونٹ بهرا اور كهسیانی ہنسی ہنستے ہوئے بولا,</p>
+                    <p>" بی بی جی، آپ تو میری ماں جیسی ہیں اب ماں كا مان تو ركهنا پڑے گا ناں۔ ""</p>
+                    <p>اور پهر آواز لگائی،</p>
+                    <p>"ارے او شہباز، حوالات كهول... بنده چهوڑ دے ""!</p>
+                    <p>عورت مسکرائی اور اپنی جگہ سے اٹھتے ہوئے دانت پیس كر بولی،</p>
+                    <p>"میں واقعی ایسی گهٹیا چائے نہیں پیتی۔ اگر پیتی ہوتی تو تمهیں اتنا قیمتی تحفہ كبهی نہ دیتی۔ ""</p>
+                    <p>وه باہر نكل گئی۔</p>
+                    <p>اندر رشید نے سگریٹ سلگایا، فائل بند كی، اور مسكرا كر بولا، "پیسہ واقعی بنده كاٹ دیتا ہے۔"</p>
+                    <p>.یہ سی آئی ڈبلیو والے سمجهتے ہیں انصاف باتوں سے ہوتا ہے ،اصل انصاف وه خریدتا ہے جس كے پاس دام
+                        ہوتے ہیں۔""</p>
+                    <p>تهانے كے پچهلے دروازے سے وہی پراسرار ہستی اس درندے كو لے كر نكل گئین چہره دیكها گیا نہ آواز
+                        پہچانی گئی۔</p>
+                    <p style="font-weight: bold;">جاری ہے۔۔۔۔</p>
+                </div>
+                <div id="chapter-6" class="chapter">
+                    <h3 style="font-family: 'Noto Nastaliq Urdu', serif; color: #000">Chapter 6: مہروز سے ملاقات</h3>
+                    <p>اکثر جب موسم خوشگوار ہوتا تو وہ کالونی کے پیچھے والی پہاڑی پر چلے جاتے۔ جو واقعی ہی ایک دلکش اور
+                        ہری بھری جگہ تھی۔ كبهی كبهار بیگم راحیل اور پروین بٹ بهی سبزی كی ٹوكریاں اٹهائے ان كے ساتھ چلی
+                        جاتیں۔</p>
+                    <p>عمر اور زینب نے ضد کی کہ وہ انسپکٹر مہروز سے ملنا چاہتے ہیں، جن کے بارے میں ابو اکثر بات کرتے
+                        تھے۔</p>
+                    <p>ڈاکٹر راحیل نے وعدہ پورا کیا اور بچوں کو ساتھ والے گھر لے گئے، جہاں انسپیکٹر مہروز رہائش پذیر
+                        تھا۔</p>
+                    <p>جیسے ہی گھنٹی بجی، دروازہ فوراً کھول دیا گیا۔ اُن کے سامنے جو شخص کھڑا تھا، وہ عمر میں تقریباً
+                        سینتیس سے انتالیس برس کا تھا۔ گہری بھوری آنکھیں، ماتھے پر ہلکے لمبے بھورے بال بکھرے ہوئے، باریک
+                        مگر نفاست سے تراشی مونچھیں۔ داڑھی نہیں تھی، سخت نقوش مگر خوش شکل اور آنکھوں میں نرمی کی جھلک ۔
+                    </p>
+                    <p>گھر کے مرکزی دروازے سے داخل ہوتے ہی ایک کھلا سا لاؤنج سامنے تھا، اور وہ جاتے ہی صوفوں پر براجمان
+                        ہو گئے۔</p>
+                    <p>وہ کچھ دیر بیٹھ کر باتیں کرتے رہے۔ پھر مہروز اُٹھا اور لاؤنج کے اُس کونے کی طرف بڑھ گیا جہاں ایک
+                        چھوٹا سا اوپن کچن تھا۔ اُس نے چائے بنانا شروع کی اور پلیٹوں میں لوازمات لگانا شروع کیے۔ بچے بہت
+                        دلچسپی سے اُسے دیکھ رہے تھے۔ وہ ساتھ ساتھ اُن سے باتیں کرتا رہا۔</p>
+                    <p>عمر نے تجسس سے پوچھا،</p>
+                    <p>“انکل، آپ اور ابو ایک دوسرے کو کب سے جانتے ہیں؟”</p>
+                    <p>انسپکٹر مہروز مسکرایا،</p>
+                    <p>“اس کا جواب تو تمہارے ابو سے بہتر کوئی نہیں دے سکتا۔”</p>
+                    <p>ڈاکٹر راحیل نے صوفے پر آرام سے ٹیک لگا کر بیٹھا تھا اپنی بنا فریم کی عینک ناک پر سیٹ کرتے ہوئے
+                        بولا،</p>
+                    <p>“بات کچھ یوں ہے کہ یہ میری سی آئی ڈبلیو میں تعیناتی کا پہلا کیس تھا۔ ایک نوجوان لڑکی کی لاش ملی
+                        تھی۔ اگرچہ میں تربیت یافتہ فرانزک ڈاکٹر تھا، مگر پہلی بار کرائم سین پر لاش دیکھ کر میری حالت
+                        خراب ہو گئی۔ میں گھبراہٹ میں کچھ اہم شواہد ضائع کر بیٹھا۔”</p>
+                    <p>زینب چونک کر بولی،</p>
+                    <p>“واقعی، بابا؟”</p>
+                    <p>ان کے بولنے کی آوازوں کے ساتھ برتنوں کی ہلکی ٹن ٹن، اور کبھی کبھار چمچ کے ہلنے کی آوازیں بھی آ
+                        رہی تھیں۔</p>
+                    <p>وہ بڑی مہارت سے اپنا کام کر رہا تھا۔ بڑھے ہوئے بالوں کو پیشانی سے بار بار پیچھے کرنے کے لیے وہ
+                        بایاں ہاتھ آہستہ سے بالوں پر پھیرتا—جیسے ایک عادت ہو۔</p>
+                    <p>انسپکٹر مہروز نے بات آگے بڑھائی،</p>
+                    <p>“ میں نے سختی سے بات کی، اور جواب میں تمہارے ابو نے بھی کوئی کمی نہ چھوڑی۔ ہماری زوردار بحث ہوئی۔
+                        اُس دن لگتا تھا کہ ہم دوبارہ کبھی اکٹھے کام نہیں کریں گے۔”</p>
+                    <p>ڈاکٹر راحیل نے ہلکی مسکراہٹ کے ساتھ اضافہ کیا،</p>
+                    <p>“کبھی ایک گولی لگی تھی انسپیکٹر کو، اور اس بندے کو ویسے بھی اچانک بے ہوش ہو جانے کی بیماری ہے، جو
+                        الٹے وقت پر اپنا کام دکھاتی ہے۔ بس میں قریب تھا... اور بچو، تم تو جانتے ہی ہو کہ فورینزک ڈاکٹر
+                        ہوتے ہوئے بھی میں میڈیکل میں ایسی مہارت دکھاتا ہوں جیسے برسوں سے فیلڈ میں ہوں۔”</p>
+                    <p>بچوں نے فخر سے اپنے باپ کی اس بات پر تائید کی۔</p>
+                    <p>مہروز تینوں کے لیے چائے کے کپ سلیقے سے ٹرے میں رکھتا ہے، ساتھ کیک اور بسکٹس کی پلیٹ۔</p>
+                    <p>اور لا کر ان کے آگے رکھتے ہوئے بولا،</p>
+                    <p>"صحیح وقت، صحیح فیصلہ — اگر یہ بندہ نہ ہوتا تو آج آپ لوگوں کو میں یہ چائے نہ پلا رہا ہوتا۔"</p>
+                    <p>راحیل مسکرا کر، "زیادہ ڈرامہ نہ کرو۔ بس تم خوش قسمت تھے۔"</p>
+                    <p>مہروز سر جھکا کر، مدھم آواز میں: "نہیں جناب</p>
+                    <p>میں محفوظ ہاتھوں میں تھا۔"</p>
+                    <p>راحیل نے اس پر کچھ نہیں کہا، صرف مسکراتے ہوئے چائے کا کپ اٹھایا اور ایک گھونٹ بھرا۔</p>
+                    <p>عمر دلچسپی سے، بسکٹ چائے میں ڈبوتے ہوئے،</p>
+                    <p>"کیا مطلب، انکل؟ آپ بے ہوش ہو جاتے ہیں؟"</p>
+                    <p>مہروز چائے کے کپ کو گھورتے ہوئے،</p>
+                    <p>"مجھے انسومنیا ہے... رات کو نیند نہ انے کی وجہ سے کبھی کبھی دن میں چلتے پھرتے میں نیند کی کمی اور
+                        تھکاوٹ کی وجہ سے ہوش نہیں رہتا ۔ ایسے جیسے بلب فیوز ہو جائے۔"</p>
+                    <p>زینب اور عمر دونوں نے حیرت سے ایک دوسرے کی طرف دیکھا۔ مہروز نے عادتاً بالوں میں ہاتھ پھیرتے ہوئے
+                        ماحول بدلنے کی کوشش کی۔</p>
+                    <p>انسپکٹر مہروز نے مسکرا کر پوچھا،</p>
+                    <p>"تو بچو، آگے کا کیا پلان ہے؟"</p>
+                    <p>عمر فخر سے، "میں ایک کامیاب وائٹ ہیٹ ہیکر بننا چاہتا ہوں۔ ایتھیکل ہیکنگ کے چند کورسز مکمل کیے
+                        ہیں۔ اور کچھ آنلائن کلاسز کے رہا ہوں ابھی۔ مجھے قانونی طریقے سے کام کرنا ہے—سسٹمز ٹیسٹ کرنا،
+                        کمپنیز کی سائبر سیکیورٹی بہتر بنانا۔"</p>
+                    <p>انسپکٹر مہروز نے متاثر ہو کر سر ہلایا۔</p>
+                    <p>راحیل اب بھی اپنی چائے میں مشغول تھا، لیکن بچوں کی باتوں کی طرف بھی دھیان تھا۔</p>
+                    <p>مہروز زینب کی طرف متوجہ ہوا،</p>
+                    <p>زینب پراعتماد لہجے میں</p>
+                    <p>"میں کرمنل سائیڪالوجسٹ بننا چاہتی ہوں، یا بابا کی طرح فرانزک ڈاکٹر۔"</p>
+                    <p>مہروز ہنستے ہوئے بولا "کرمنل سائیڪالوجسٹ نہ بننا بیٹا، پاگل ہو جاؤ گی۔"</p>
+                    <p>عمر فوراً موقع دیکھ کر، "یہ تو ویسے ہی آدھی پاگل ہے!"</p>
+                    <p>زینب نے منہ پھُلا لیا اور سب ہنسنے لگے۔</p>
+                    <p>تین گھنٹے کیسے گزر گئے پتا ہی نہیں چلا۔ واپسی کا وقت آیا، مہروز نے وہی رسمی فقرا بولا،</p>
+                    <p>"بچو یہ آپ کا اپنا گھر ہے، جب دل چاہے آجایا کریں۔"</p>
+                    <p>گھر سے نکلتے ہوئے عمر نے پوچھا :</p>
+                    <p>"بابا، آپ بڑے ہیں یا انکل مہروز؟"</p>
+                    <p>ڈاکٹر راحیل مسکراتے ہوئے، "لگا لو اندازہ۔"</p>
+                    <p>گھر پہنچتے ہی زینب اور عمر نے پوری ملاقات کی روداد اپنی امی کو سنائی۔ بیگم راحیل نے انسپکٹر مہروز
+                        کا ذکر سن کر ہلکی سی مسکراہٹ کے ساتھ کہا:</p>
+                    <p>"اچھا ہے، کوئی تو ہے جو تمہارے ابو کے برابر کھڑا ہو سکتا ہے۔”</p>
+                    <p style="font-weight: bold;">جاری ہے۔۔۔۔</p>
+                </div>
+                <div id="chapter-7" class="chapter">
+                    <h3 style="font-family: 'Noto Nastaliq Urdu', serif; color: #000">Chapter 7: فرانزک لیب میں</h3>
+                    <p>فرانزک لیب کے فلور پر ٹھنڈی سفید روشنی خاموشی سے پھیلی ہوئی تھی۔ سی آئی ڈبلیو کی فرانزک لیب شہر
+                        کے چند بہترین تحقیقاتی مراکز میں شمار ہوتی تھی۔ لیب کا ماحول صاف، خاموش اور اعلیٰ معیار کے آلات
+                        سے مزین تھا۔</p>
+                    <p>دیواروں پر آویزاں تیز دھار آلات، شیشے کی الماریاں۔</p>
+                    <p>کیمیکل ٹیسٹنگ، ڈی این اے اینالائسس، اور فنگر پرنٹ اسکیمنگ کی مکمل سہولیات موجود تھیں۔ لیب کے اندر
+                        ایک طرف فریزنگ یونٹس، خون کے سیمپلز کے لیے مخصوص الماریاں، اور ڈی۔این۔اے ایکسٹریکٹرز رکھے تھے۔
+                        دوسری طرف جدید مائیکروسکوپ، ڈیجیٹل اینالائزرز، اور لائٹنگ ٹیبلز موجود تھے۔</p>
+                    <p>ایک طرف رکھی سٹین لیس سٹیل کی ٹیبل پر جلی ہوئی لاش رکھی تھی۔ جسم پر سلفیورک ایسڈ کے نشان تھے، کئی
+                        جگہوں پر گوشت جھلس کر سیاہ، سخت پرت میں تبدیل ہو چکا تھا، جبکہ کچھ حصوں میں ہڈی تک جھانکتی تھی۔
+                    </p>
+                    <p>ڈاکٹر راحیل نے نیلے سینیٹری گلوز پہن رکھے تھے۔ ان کی نگاہیں ان کے چشمے کے اندر سے تربیت یافتہ،
+                        بےرحم انداز میں لاش کے ہر زاویے کا جائزہ لے رہی تھیں۔</p>
+                    <p>قریب ہی شبیر خان، ایک جونیئر فارنزک اسسٹنٹ،(جسے ابھی آئے ہوئے دو مہینے سے زیادہ نہیں ہوئے)
+                        ریکارڈر اور نوٹ بک سنبھالے کھڑا تھا۔</p>
+                    <p>ڈاکٹر راحیل نے ٹویزر سے بائیں کندھے کے قریب جھلسے ہوئے حصے کو بغور دیکھا۔</p>
+                    <p>"شبیر، یہاں دیکھو... ایسڈ نے زیادہ تر جلد تباہ کر دی ہے، مگر بائیں کندھے کے نیچے یہ گہرے دباؤ کے
+                        نشانات."</p>
+                    <p>شبیر جھک کر دیکھتے ہوئے بولا، "جی سر، یہ تو کسی موٹی رسی کے دباؤ کی نشانیاں لگتی ہیں۔"</p>
+                    <p>ڈاکٹر راحیل نے ہلکا سا سر ہلایا،</p>
+                    <p>"اور جسم پر کچھ جگہوں پر یہ خراشیں دیکھ رہے ہو؟ بازوؤں اور ہاتھوں پر خاص طور پر — ناخنوں کے نشان
+                        ہیں۔"</p>
+                    <p>شبیر نے ریکارڈر آن کیا اور بولا، "سر، تو کیا اس نے مزاحمت کی کوشش کی تھی؟"</p>
+                    <p>ڈاکٹر راحیل نے سر ہلایا،</p>
+                    <p>"ہاں، زندہ تھا جب حملہ ہوا۔ یہ دفاعی زخم ہیں، خاص طور پر ہاتھ کی پشت اور انگلیوں پر۔ عام طور پر
+                        جب کوئی اپنے چہرے یا جسم کو بچانے کی کوشش کرتا ہے تو ایسے زخم بنتے ہیں۔"</p>
+                    <p>ڈاکٹر راحیل نے لاش کے منہ کے قریب جھک کر مزید معائنہ کیا، "دانت محفوظ ہیں۔ ڈینٹل ریکارڈ سے شناخت
+                        ممکن ہو سکتی ہے۔ ایسڈ نے مکمل تباہی نہیں مچائی۔"</p>
+                    <p>شبیر نے پلٹ کر لاش کی کمر کی طرف اشارہ کیا۔</p>
+                    <p>"سر، لاش آج صبح ملی تھی، ایک پرانی فوڈ فیکٹری کے پیچھے، کچرے کے ڈھیر کے پاس۔"</p>
+                    <p>ڈاکٹر راحیل نے لاش کی جلد کا معائنہ کرتے ہوئے کہا،</p>
+                    <p>"لگتا ہے موت تقریباً ایک دن پہلے ہوئی ہے۔ جلد پر پوسٹ مارٹم بلبلے ریگر مارٹیس بتاتی ہے کہ وقت گزر
+                        چکا ہے، کہ تقریباً چوبیس گھنٹے ہو چکے ہیں۔"</p>
+                    <p>اسی دوران جیب میں موجود موبائل فون کی وائبریشن ہوئی۔ ڈاکٹر راحیل نے ایک نظر اسکرین پر ڈالی—’بیگم‘
+                        کی کال تھی۔</p>
+                    <p>"ابھی نہیں…" انہوں نے زیرِ لب کہا اور کال کاٹ دی۔</p>
+                    <p>اور شبیر کی طرف متوجہ ہوئے۔:</p>
+                    <p>"اور یہ بھی یاد رکھو — ایسڈ زندہ انسان پر ڈالا گیا تھا۔ اگر یہ جسم مرنے کے بعد جلایا جاتا، تو جلد
+                        پر یہ دفاعی زخم اور مخصوص ورم نہ ہوتا۔"</p>
+                    <p>اور اتنی ہی دیر میں ایک اور کال آگئی۔</p>
+                    <p>"سر، کوئی ضروری بات ہو سکتی ہے۔ آپ سن لیں، باقی میں دیکھ لیتا ہوں۔"</p>
+                    <p>ڈاکٹر راحیل نے گہری سانس لی، دستانے اتارے اور لیب کے ایک کونے میں جا کر کال ریسیو کی۔</p>
+                    <p>"راحیل... وہ... صباحت کا بیٹا... وہ... مر گیا ہے"</p>
+                    <p>بیگم راحیل کی لرزتی ہوئی آواز فون سے بلند ہوئی۔ راحیل کا چہرہ جیسے ایک دم سفید پڑ گیا۔ بے ساختہ
+                        ان کے منہ سے نکلا، "کیا؟"</p>
+                    <p>شبیر نے فوراً مڑ کر ان کی طرف دیکھا، "سر خیریت؟"</p>
+                    <p>راحیل نے فون بند کیا اور لیب میں بے چینی سے چکر کاٹنے لگے، پھر شبیر کو مختصراً صورتحال بتائی۔
+                        شبیر نے تشویش سے پوچھا،</p>
+                    <p>"قتل ہوا ہے یا کوئی اور معاملہ ہے؟"</p>
+                    <p>"پتا نہیں… گھر جا کر ہی تفصیل معلوم ہوگی۔"</p>
+                    <p>"سر، میں رپورٹ تیار کر دیتا ہوں۔ آپ جا سکتے ہیں۔"</p>
+                    <p>راحیل نے شبیر کے کندھے پر ہاتھ رکھا، اور شکریہ کہتے ہوئے باہر نکل گیا۔</p>
+                    <p style="font-weight: bold;">جاری ہے۔۔۔۔</p>
+                </div>
+                <div id="chapter-8" class="chapter">
+                    <h3 style="font-family: 'Noto Nastaliq Urdu', serif; color: #000">Chapter 8: صباحت کے بیٹے کی موت
+                    </h3>
+                    <p>گھر پہنچتے ہی باغیچے میں سب بیٹھے نظر آئے۔ عمر نے ان کے لیے کرسی کھینچی اور زینب نے جلدی سے تفصیل
+                        بتانا شروع کی۔</p>
+                    <p>"بابا، مریم کی کال آئی تھی۔ کہ اس کے بابا بتا رہے تھے کہ خالہ صباحت کو تھانے سے اطلاع ملی کہ ان
+                        کا بیٹا مل گیا ہے۔ وہ ہسپتال گئیں… لیکن وہاں لاش ملی۔ اور اغواکار… ان کا کزن نکلا۔ اور وہ کہہ
+                        رہی تھی وقت انکل نے آپ سے رابطہ کرنے کی کوشش کی مگر ہوا نہیں۔"</p>
+                    <p>ڈاکٹر راحیل نے موبائل چیک کیا تو واقعی گزشتہ روز ایک مس کال نظر آئی۔ انہوں نے فوراً نمبر ملایا۔
+                        دوسری طرف سے وکیل صاحب، (مریم کے والد)، نے فون اٹھایا۔</p>
+                    <p>آواز آئی،</p>
+                    <p>"السلام علیکم راحیل صاحب۔ کل میں نے کال کی تھی آپ کو۔۔۔ آپ نے اٹھائی نہیں شاید مصروف ہونگے ۔"</p>
+                    <p>"ہاں، تمھاری کال کے وقت میں میٹنگ میں تھا اور اس کے بعد مجھے یاد نہیں رہا۔مجھے اب پتا چلا ہے
+                        صباحت کے بچے کا۔"</p>
+                    <p>"ڈاکٹروں نے بتایا ہے کہ موت کی وجہ بھوک، پیاس اور شدید مار پیٹ ہے۔ میں انسپکٹر رشید سے ملا… وہ
+                        ایسے بات کر رہا تھا جیسے کچھ ہوا ہی نہ ہو۔ پھر حوالدار شہباز نے بتایا کہ اس نے کچھ پیسوں کے عوض
+                        اغواکار کو چھوڑ دیا۔"</p>
+                    <p>راحیل کا خون کھول اٹھا، "کیا؟ وہ بندہ پکڑا گیا تھا؟"</p>
+                    <p>"جی، لیکن رشید جیسے بے ضمیر آدمی نے انصاف بیچ دیا۔ میں اس معاملے میں قدم اٹھانا چاہتا تھا تو پہلے
+                        آپ کو اطلاع دینا ضروری سمجھا ۔ صباحت کی حالت بہت خراب ہے۔ بار بار بیہوش ہو جاتی ہے۔"</p>
+                    <p>"بہت شکریہ آپ کا ،بس آپ فکر نہ کریں… میں خود دیکھ لوں گا اس رشید کو۔"</p>
+                    <p>"کیا ہوا؟" بیگم راحیل نے پوچھا۔</p>
+                    <p>راحیل نے تفصیل بتائی۔</p>
+                    <p>عمر اور زینب یک زبان ہو کر بولے، "بابا یہ تو ظلم ہے!"</p>
+                    <p>اللہ صباحت کو صبر دے…" بیگم نے دل گرفتہ لہجے میں کہا۔</p>
+                    <p>یوں شام سوگوار کیفیت میں ڈوب گئی۔</p>
+                    <p style="font-weight: bold;">جاری ہے۔۔۔۔</p>
+                </div>
+                <div id="chapter-9" class="chapter">
+                    <h3 style="font-family: 'Noto Nastaliq Urdu', serif; color: #000">Chapter 9: رشید سے ملاقات</h3>
+                    <p>ڈاکٹر را حیل نے ڈی ایس پی سلیم اختر کے دفتر میں پہنچ کر ساری تفصیل بتائی۔</p>
+                    <p>"سر ، میں اس رشید سے ایک بار ملنا چاہوں گا۔"</p>
+                    <p>سلیم نے سخت لہجے میں کہا "بلکل! یہ ناقابلِ برداشت ہے۔ اسے یہ بات یاد رکھنی چاہیے کہ انصاف کے
+                        دروازے سی آئی ڈبلیو کے ہوتے ہوئے بند نہیں ہو سکتے۔</p>
+                    <p>تم جا سکتے ہو اور رپورٹ مجھے ہی دو گے خود کوئی قدم مت اٹھانا۔ "</p>
+                    <p>جب راحیل جانے لگا تو سلیم نے کہا،</p>
+                    <p>"کیونکہ تم اس شخص سے پہلی بار ملو گے تو مہروز کو ساتھ لے جانا اس کا پہلے بھی اس سے واسطہ پڑ چکا
+                        ہے،لیکن راحیل، اسے غلط قدم مت اٹھانے دینا۔"</p>
+                    <p>راحیل نے مڑ کر دیکھا، "اوکے سر۔” اور جلدی سے باہر نکل گیا۔</p>
+                    <p>صبح کے دھندلکے میں سڑک پر گرمی کا دباؤ محسوس ہو رہا تھا۔ سورج ابھی پوری طرح نہیں نکلا تھا لیکن
+                        ہوا میں بھاپ سی تیر رہی تھی۔ گاڑی کی کھڑکیاں بند تھیں اور ایئرکنڈیشنر بھی پسینے کو مکمل روکنے
+                        میں ناکام تھا۔ ماحول میں نمی اور تھکن سی تھی۔</p>
+                    <p>مہروز نے گاڑی اسٹارٹ کی۔ ڈاکٹر راحیل کی آنکھیں سڑک پر جمی ہوئی تھیں۔ ماتھے پر ایک ہلکی سی شکن
+                        تھی۔</p>
+                    <p>"وہ آدمی ایسا ہی ہے۔۔۔۔" مہروز نے سڑک پر نظریں جمائے کہا جیسے وہ جان گیا ہو کہ ڈاکٹر کیا سوچ رہا
+                        ہے۔</p>
+                    <p>"تھوڑا ٹیڑھا سا، لیکن اگر سیدھے ہاتھ لیا جائے تو کام کا بھی ہے۔ جو کام اس نے خراب کیا ہے، میں وہی
+                        کام اسی کے ہاتھوں تمہیں صحیح کروا کے دوں گا۔"</p>
+                    <p>راحیل اب بھی خاموش تھا، صرف ایک نظر مہروز پر ڈالی۔</p>
+                    <p>گاڑی ایک چوک پر جا کر رک گئی۔ سامنے سے ٹریفک کا شور بڑھ گیا تھا۔ گاڑیوں کے ہارن، رکشوں کا دھواں،
+                        اور ہوا میں مٹی کی بو تیر رہی تھی۔</p>
+                    <p>اسی وقت ایک نوجوان لڑکا، کالج کی یونیفارم میں، بائیک پر مہروز کی گاڑی کے قریب سے گزرا۔ ہیلمٹ
+                        پہنے، سیٹی بجاتے ہوئے، شرارتی انداز میں گاڑی کے ساتھ دو بار ریس لگانے کی کوشش کی۔</p>
+                    <p>مہروز نے ایک ہلکی سی طنزیہ اور شوخ مسکراہٹ کے ساتھ ریئر ویو مرر میں لڑکے کو دیکھا۔ پھر ہنسی دباتے
+                        ہوئے، ریس پر پیر رکھا۔ گاڑی نے جھٹکا کھایا اور کچھ ہی لمحوں میں 80... پھر 100... پھر 120 کلومیٹر
+                        فی گھنٹہ کی رفتار پکڑ لی۔</p>
+                    <p>"سیٹ بیلٹ باندھ لو، ڈاکٹر۔" مہروز نے شوخی سے کہا۔</p>
+                    <p>راحیل نے بےاختیار ڈیش بورڈ کو پکڑ لیا۔</p>
+                    <p>"مہروز، سپیڈ لیمٹ۔۔۔"</p>
+                    <p>سڑک پر رش تھا۔ ادھر ادھر گاڑیاں، رکشے، ٹھیلے والے، سب ایک طرف دبے جا رہے تھے۔ مہروز مہارت سے گاڑی
+                        کو بائیک کے قریب لایا اور تپتی ہوئی سڑک پر گاڑی اڈا دی۔ گاڑی ہموار لیکن زور دار رفتار میں تیر
+                        رہی تھی۔ کچھ لمحوں کے بعد، جب وہ سکوٹر پیچھے رہ گیا تو مہروز نے گاڑی آہستہ کی، شیشہ نیچے کیا،
+                        اور منہ باہر نکال کر دونوں انگلیاں زبان کے نیچے رکھ کر ایک زوردار سیٹی ماری۔</p>
+                    <p>راحیل نے خاموشی سے مہروز کو گھورا، پھر سر جھٹک کر مسکرا دیا:</p>
+                    <p>"کس قدر آوارہ ہو تم۔ جب تمہیں رات کو نیند نہیں آتی تو کہیں تم غیر قانونی ریسیں تو نہیں لگاتے؟"
+                    </p>
+                    <p>جب آگے سگنل بند ہوا تو وہ سٹیئرنگ پر انگلیاں مارتے ہوئے بولا:</p>
+                    <p>"ویسے یہ آئیڈیا برا تو نہیں۔"</p>
+                    <p>گاڑی پہاڑی علاقے سے نکل کر ایک سنسان علاقے میں داخل ہو گئی۔ اطراف میں جھاڑیاں، کھنڈر نما عمارتیں
+                        اور دھوپ میں چمکتے بجری سے بھرے راستے۔ دوپہر اپنے عروج پر تھی۔</p>
+                    <p>مہروز کے چہرے پر اب سنجیدگی تھی۔ راحیل کھڑکی سے باہر دیکھتا رہا، گرمی کی تھکن اس کے چہرے پر عیاں
+                        تھی۔</p>
+                    <p>"کیا لگتا ہے، ان خودکشیوں کا اس بچے والے کیس سے کوئی تعلق ہو سکتا ہے؟" راحیل نے سوال پھینکا۔</p>
+                    <p>"نہیں۔۔۔ مجھے نہیں لگتا۔۔۔ آج کل کڈنیپنگ تو یوں ہو رہی ہے جیسے روز کا معمول ہو۔ بچے ہوں یا بڑے،
+                        کسی کی زندگی کی کوئی قیمت نہیں رہی۔" مہروز نے سنجیدگی سے جواب دیا۔</p>
+                    <p>دارالحکومت سے دو ڈھائی گھنٹے کی ڈرائیو کے بعد، گاڑی ایک خستہ حال تھانے کے سامنے رکی۔ گیٹ زنگ
+                        آلود، دیواریں ملی، اور باہر کھڑے دو سپاہی گرمی میں پسینے سے شرابور، بور انداز میں کھڑے تھے۔</p>
+                    <p>مہروز اور راحیل اندر داخل ہوئے۔ تھانے کے اندر کا ماحول بوسیدہ تھا۔ ٹوٹے فرنیچر، دھواں بھری فضا،
+                        اور دیواروں پر اکھڑی ہوئی پینٹ کی تہیں۔</p>
+                    <p>دفتر میں رشید اپنی زنگ آلود کرسی پر نیم دراز تھا۔ ایک ہاتھ میں سلگتی سگریٹ، اور دوسرے ہاتھ میں
+                        ایک گیند لے کر دیوار پر مار مار کے کیچ کر رہا تھا۔</p>
+                    <p>وہ سوچ رہا تھا کہ اس کی تو بیٹی ہی نہیں جس کی شادی کے لیے وہ عورت پیسے دے گئی۔۔۔</p>
+                    <p>رشید نے اس بار گیند جب پھینکی تو وہ ہاتھ سے چھوٹ گئی اور لڑھکتی ہوئی دروازے سے باہر چلی گئی۔۔۔
+                    </p>
+                    <p>"دھت تیرے کی۔۔۔" وہ سگریٹ سلگاتے ہوئے بڑبڑایا۔</p>
+                    <p>پھر خود کو سمجھاتے ہوئے سوچا:</p>
+                    <p>"مطلب یہ تو نہیں کہ قدرت تجھے اشارہ دے رہی ہے کہ اب شادی کر لینی چاہیے۔۔۔ کب تک حکومت کی غلامی
+                        کرتا رہے گا۔۔۔"</p>
+                    <p>تبھی ایک آدمی، اس کی گیند ہاتھ میں لیے اندر داخل ہوا۔</p>
+                    <p>عمر تقریباً چوالیس سے چھیالیس سال، پانچ فٹ ساتھ، آٹھ انچ کے لگ بگ قد، سلیقے سے بنے بال، ہلکی سی
+                        تراشی ہوئی داڑھی، سیاہ گہری آنکھوں پر رِم لیس چشمہ۔ سفید قمیض شلوار میں ملبوس، چہرے پر وقار اور
+                        سنجیدگی۔</p>
+                    <p>یہ چہرہ رشید کے لیے نیا تھا۔</p>
+                    <p>جیسے ہی اس کے پیچھے مہروز نمودار ہوا، رشید ہڑبڑا کر اٹھا۔ سگریٹ زمین پر پھینکی اور جوتے سے مسل
+                        دی۔</p>
+                    <p>"سلام جناب!" رشید نے بہت مودبانہ انداز میں کہا۔</p>
+                    <p>مہروز جواب دیے بغیر آگے بڑھ کر کرسی کھینچی، جبکہ راحیل مسلسل رشید کو گھور رہا تھا۔</p>
+                    <p>رشید نے مصافحے کے لیے ہاتھ آگے بڑھایا:</p>
+                    <p>"آپ کی تعریف جناب۔۔۔؟"</p>
+                    <p>"جتنی کرو اتنی کم ہے۔" مہروز نے بیٹھتے ہوئے کہا۔</p>
+                    <p>رشید نے پہلے مہروز کو، پھر راحیل کو دیکھا۔</p>
+                    <p>راحیل کی نظریں اب بھی اس پر جمی تھیں۔</p>
+                    <p>"یہ ڈاکٹر راحیل ہیں۔ فورنزک ایکسپرٹ۔۔۔" مہروز نے راحیل کی طرف دیکھتے ہوئے کہا۔</p>
+                    <p>"بیٹھ جاؤ ڈاکٹر، کہ اس کو گھور گھور کے مار دو گے۔"</p>
+                    <p>"اوہ تو یہ ہے ڈاکٹر راحیل۔۔۔" رشید نے آہستگی سے کہا۔</p>
+                    <p>راحیل خاموشی سے بیٹھ گیا۔ رشید کا مصافے کے لیے بڑھایا ہاتھ ہوا میں معلق رہ گیا۔ وہ شرمندگی سے
+                        ہاتھ سر پر پھیر کر بیٹھ گیا۔</p>
+                    <p>"ٹھیک چل رہا ہے سب؟" مہروز نے پوچھا۔</p>
+                    <p>"جی جی جناب، سب ایک دم پرفیکٹ ہے۔" رشید نے ادب سے جواب دیا۔</p>
+                    <p>"مجھ جیسا عقلمند بندہ سب سنبھال لیتا ہے۔ آپ تو جانتے ہی ہیں۔"</p>
+                    <p>"مجھ سے بہتر کون جان سکتا ہے۔" مہروز نے ہنستے ہوئے کہا۔ "اچھا تو سیدھا مدعے کی بات کرتے ہیں۔"</p>
+                    <p>"جی جی سر، بتائیے۔۔۔ فرمائیے۔۔۔"</p>
+                    <p>"پہلے دو کپ چائے۔۔۔"</p>
+                    <p>"شہباز۔۔۔ " رشید نے ایک آواز دی۔۔۔ ارے او شہباز۔۔۔"</p>
+                    <p>دوسری آواز کے بعد شہباز بھاگتا ہوا آیا۔</p>
+                    <p>چھوٹے قد کا، سانولی رنگت والا، سیدھا سادہ سا حوالدار۔</p>
+                    <p>"دو کپ چائے لاؤ، اور ہاں، اچھے والی!"</p>
+                    <p>شہباز فوراً "جی جناب" کہتا ہوا سر جھکائے غائب ہو گیا۔</p>
+                    <p>مہروز نے بات شروع کی: "اچھا تو بات یہ ہے کہ ایک بچہ کڈنیپ ہوا تھا اور اسے۔۔۔"</p>
+                    <p>رشید نے فوراً بات کاٹتے ہوئے جلدی جلدی کہا:</p>
+                    <p>"جی جی سر۔۔۔ میں سناتا ہوں آپ کو یہ کہانی۔۔۔ وہ بچہ ناں۔۔۔ سر وہ اس کا ماموں تھا جس سے وہ ملا
+                        تھا۔۔۔ اور سر آپ کو کس نے کہا وہ اٹھایا گیا تھا؟ وہ تو ویسے ہی بسے۔۔۔ اپنے ماموں کے ہاں چھٹیاں
+                        گزارنے گیا ہوا تھا۔۔۔ اس کے پیسے چرا کر بھاگ رہا تھا۔۔۔ اور بس۔۔۔"</p>
+                    <p>"اچھا، افواہ غلط اڑی ہوئی ہے پھر تو۔۔۔" مہروز نے اردگرد کا جائزہ لیتے ہوئے کہا۔</p>
+                    <p>"جی جناب بالکل! مجھ جیسا عقلمند بندہ ایسے کسی کڈنیپر کو کیسے جانے دے سکتا ہے!" رشید نے فوراً
+                        تائید کی۔</p>
+                    <p>راحیل خاموش بیٹھا سب دیکھ رہا تھا۔</p>
+                    <p>اتنے میں شہباز چائے لے آیا اور ڈش میز پر رکھ دی۔ جانے ہی لگا تھا کہ مہروز نے اسے ہاتھ کے اشارے سے
+                        روکا۔ وہ کچھ ہوچکچایا مگر پھر ہاتھ باندھ کر وہیں کھڑا ہو گیا۔</p>
+                    <p>مہروز نے چائے کا گھونٹ بھرا، تسلی سے کپ رکھا اور سنجیدگی سے بولا:</p>
+                    <p>"دیکھو رشید۔۔۔ آخری بار پوچھ رہا ہوں۔۔۔ کیونکہ تم جیسا عقلمند بندہ میری طبیعت سے واقف ہے۔۔۔ یہ
+                        ڈاکٹر ہے۔۔۔ اس کی ناک بڑی تیز ہے۔۔۔ اسے نوٹوں کی بو آ رہی ہے۔۔۔ کیا وہ تم سے آ رہی ہے؟"</p>
+                    <p>رشید کی پیشانی پر پسینے کی ایک لکیر بہنے لگی۔ وہ ہڑبڑا کر کرسی پر سیدھا ہو کر بیٹھا، ایک نظر
+                        راحیل اور مہروز پر، اور پھر ایک نظر پاس کھڑے شہباز پر ڈالی۔</p>
+                    <p>راحیل اب بھی خاموش تھا۔ اس کا چہرے پر سکون تھا اور وہ آہستگی سے چائے پی رہا تھا۔</p>
+                    <p>رشید نے منمناتے ہوئے کہا:</p>
+                    <p>"نہیں جناب۔۔۔ میں جھوٹ کیوں بولوں گا۔۔۔ وردی میں بیٹھا ہوں جناب۔۔۔"</p>
+                    <p>مہروز نے چائے کی طرف دیکھتے ہوئے بے نیازی سے شہباز کو کہا:</p>
+                    <p>"ایک کپ چائے اور لے آؤ۔۔۔"</p>
+                    <p>شہباز، جو پہلے ہی الجھا ہوا تھا، سر کھجاتا ہوا باہر بھاگ گیا۔ رشید کی سانسیں تیز ہو گئیں۔ وہ اپنی
+                        نشست پر بےچین ہو گیا۔</p>
+                    <p>شہباز کے جاتے ہی، مہروز نے اپنا چائے کا گرم کپ اٹھایا اور بغیر کسی وارننگ کے رشید کے چہرے پر
+                        انڈیل دیا۔</p>
+                    <p>گرم چائے کے چھینٹے پڑتے ہی رشید چیختا ہوا ہڑبڑا کر کرسی سے نیچے گر گیا۔</p>
+                    <p>کمرے میں لمحہ بھر کے لیے مکمل خاموشی چھا گئی۔</p>
+                    <p>مہروز نے سنجیدگی سے کہا:</p>
+                    <p>"مجھے لگا چائے ٹھنڈی ہو گئی ہو گی۔۔۔ مگر لگتا ہے یہ تو ابھی بھی گرم ہے۔"</p>
+                    <p>رشید نے کراہتے ہوئے خود کو سنبھالا۔ چہرہ لال ہو چکا تھا، مگر اس کی سب سے بڑی آگ اس کے اندر کی
+                        شرمندگی تھی۔</p>
+                    <p>وہ بمشکل کھڑا ہوا، اور آہستہ آہستہ مہروز کے پاس آ گیا۔</p>
+                    <p>"سر۔۔۔ وہ۔۔۔ ایک عورت آئی تھی۔۔۔" رشید نے ہچکچاتے ہوئے، نظریں جھکائے، چہرے کی جلن پر ہاتھ پھیرتے
+                        ہوئے کہا۔</p>
+                    <p>"کہا تھا ناں میں نے، ڈاکٹر۔۔۔ یہ آدمی برا نہیں ہے۔۔۔۔"</p>
+                    <p>مہروز نے اطمینان سے کہا۔</p>
+                    <p>راحیل اب بھی خاموشی سے چائے پی رہا تھا۔</p>
+                    <p>"جناب، وہ بندے کو لے گئی۔۔۔" رشید نے ڈرتے ڈرتے کہا۔</p>
+                    <p>"اس نے مجھے اچھی قیمت دی تھی۔۔۔ اور آپ کو تو پتا ہی ہیں سر۔۔۔۔۔۔۔"</p>
+                    <p>"کیسی عورت؟" مہروز نے سنجیدگی سے پوچھا۔</p>
+                    <p>"سر۔۔۔ وہ بڑی لمبی چوڑی عورت تھی۔۔۔ اس کا چہرے میں نہیں دیکھ پایا کیونکہ ایک تو اندھیرا تھا، اور
+                        اوپر سے اس نے بڑے شیشوں والے سنگلاسز پہنے ہوئے تھے اور یہاں تک ہاتھوں میں بھی دستانے تھے۔۔۔۔
+                        شاید وہ عورت نہیں تھی۔۔۔ خواجہ سرا تھا ۔۔۔ کیونکہ اس کی آواز بھی عجیب تھی۔"</p>
+                    <p>مہروز خاموشی سے اسے گھورتا رہا۔</p>
+                    <p>"بس سر۔۔۔ اتنا ہی۔" رشید نے نظریں جھکائیں۔</p>
+                    <p>اسی وقت شہباز چائے کا نیا کپ لے آیا۔</p>
+                    <p>اس بار وہ کپ مہروز کے ہاتھ میں تھما کر سر جھکا کر ایک طرف ہو گیا۔</p>
+                    <p>مہروز نے چائے پیتے ہوئے ، راحیل کی طرف دیکھا۔ راحیل نے ہلکے مگر اٹل انداز میں کہا:</p>
+                    <p>"آج رات بارہ بجے تک، اس عورت اور اس آدمی کی ایک ایک تفصیل چاہیے۔ ورنہ۔۔۔ تم تو عقلمند ہو رشید
+                        صاحب۔۔۔ سمجھ گئے ہو گے۔"</p>
+                    <p>مہروز نے انگلیوں سے چٹکی بجائی: "جو اس نے کہا، وہی۔"</p>
+                    <p>رشید نے جلدی سے گردن ہلائی:</p>
+                    <p>"جی سر! بارہ بجے سے پہلے ایک ایک زرہ لا کر دوں گا"</p>
+                    <p>مہروز اور راحیل باہر نکل گئے۔ جاتے جاتے مہروز نے پلٹ کر کہا:</p>
+                    <p>"یہ کرسی بدل لو، بہت شور کرتی ہے۔"</p>
+                    <p>رشید اکیلا رہ گیا۔ چہرہ لال، آنکھوں میں شرمندگی اور پسینے کی نمی۔ اس نے کانپتے ہاتھوں سے سگریٹ
+                        جلائی۔ دو لمبے کش مارے اور کھڑکی کی طرف بڑھا۔</p>
+                    <p>کھڑکی کے پاس ایک بورڈ لگا تھا جس پر لکھا تھا:</p>
+                    <p>"یہاں سگریٹ نوشی منع ہے۔ یہ جرم ہے۔"</p>
+                    <p>رشید نے ایک نظر بورڈ کو دیکھا، ہنکارا مارا، اور سلگتی سگریٹ وہیں بورڈ پر بجھا دی۔ جیسے اپنی ہار
+                        اور بغاوت دونوں کا اعلان کر رہا ہو!</p>
+                    <p style="font-weight: bold;">جاری ہے۔۔۔۔</p>
+                </div>
+                <div id="chapter-10" class="chapter">
+                    <h3 style="font-family: 'Noto Nastaliq Urdu', serif; color: #000">Chapter 10: ہوٹل میں گپ شپ</h3>
+                    <p>تھانے کے پچھواڑے میں واقع ایک خستہ حال ہوٹل— باہر کچرے کے ڈھیر، زنگ آلود بورڈ پر مدھم الفاظ:
+                        "مہمان منزل". اندر داخل ہوں تو تنگ و تاریک راہداری، بوسیدہ فرنیچر، اور دیواروں سے چپکے سگریٹ کے
+                        دھوئیں کا بوجھل ماحول مہمان کا استقبال کرتا ہے۔</p>
+                    <p>رات کا کوئی ساڑھے دس یا گیارہ بجے کا وقت تھا۔ کمرے میں نیم اندھیرا چھایا ہوا تھا۔ دیوار پر نصب
+                        ایک پرانا بلب مدھم پیلی روشنی دے رہا تھا، اور چھت پر لگا پرانا پنکھا زور زور سے شور مچا رہا تھا۔
+                    </p>
+                    <p>انسپکٹر مہروز ہوٹل کے پرانے، چمڑے کے پھٹے صوفے پر بیٹھا تھا۔ اُس کے ہاتھ میں چائے کا کپ تھا، جو
+                        کب سے تھام رکھا تھا مگر پی نہیں رہا تھا۔ اُس کی نظریں دیوار پر لٹکی ایک گرد سے اٹی ہوئی تصویر پر
+                        جمی تھیں، مگر ذہن کہیں اور الجھا ہوا تھا۔ کبھی کبھار وہ کپ اٹھا کر ایک گھونٹ لیتا، پھر گہری سانس
+                        لے کر واپس رکھ دیتا۔</p>
+                    <p>ڈاکٹر راحیل بیڈ کی پشت سے ٹیک لگائے بیٹھا تھا۔ اُس کی سفید قمیض کی آستینیں کہنیوں تک موڑی ہوئی
+                        تھیں۔ ایک ہاتھ میں چشمہ تھا جسے وہ نرمی سے انگلیوں پر گھما رہا تھا، اور دوسرے ہاتھ میں موبائل۔
+                        وہ اپنی بیوی سے بات کر رہا تھا— روزمرہ کی عام باتیں، بچوں کا حال، گھر کی کیفیت...</p>
+                    <p>اچانک مہروز کے فون پر کال آنے لگی۔ اسکرین پر "انسپکٹر شایان" کا نام جگمگا رہا تھا۔</p>
+                    <p>مہروز نے کال اٹھائی۔ دوسری طرف سے شایان کی تھکی ہوئی، دھیمی آواز سنائی دی:</p>
+                    <p>"سر، ہم نے دونوں خودکشی کرنے والوں کے خاندان اور قریبی دوستوں سے تفصیلی تفتیش مکمل کر لی ہے۔</p>
+                    <p>پہلے اُس عورت کی بات کرتا ہوں جس نے اپنی دیورانی کو زہر دیا تھا۔ گھر والوں کے مطابق، ان دونوں میں
+                        معمولی گھریلو باتوں پر اکثر جھگڑے ہوتے تھے، بعض اوقات تو کافی شدید قسم کے۔ اس عورت کا شوہر ان
+                        جھگڑوں سے تنگ آکر علیحدگی کا سوچنے لگا تھا۔ لیکن پھر، جیسے اچانک ہی، دونوں میں صلح ہو گئی۔
+                        معافیاں ہوئیں، گلے شکوے ختم۔ سب کچھ نارمل چلنے لگا تھا کہ ایک روز وہ عورت دیورانی کے لیے دودھ لے
+                        کر گئی… اور اگلے دن دیورانی کی لاش ملی۔ اور سب سے عجیب بات یہ کہ اُس عورت نے فخر سے بتایا کہ اُس
+                        نے ہی اُسے مارا ہے… اور خود کو فوراً پولیس کے حوالے کر دیا۔"</p>
+                    <p>"اور وہ مرد؟" مہروز نے سوال کیا۔</p>
+                    <p>"جی، اُس شخص نے ایک دکان دار کو گولی ماری۔ محلے دار بتاتے ہیں کہ دونوں کے درمیان پرانی رنجشیں
+                        تھیں۔ وہ اکثر ادھار لیتا اور واپس نہیں کرتا تھا۔ جب دکاندار تقاضا کرتا، تو اسے زدوکوب کرتا۔ مگر
+                        پھر ایک دن اچانک وہ سارا قرض لوٹا گیا، معافی مانگی… اور اگلے دن اُسے سرِعام گولی مار دی۔ بغیر
+                        کسی مزاحمت کے اُس نے خود کو پولیس کے حوالے کر دیا۔"</p>
+                    <p>مہروز کچھ لمحے خاموش رہا، پھر بولا:</p>
+                    <p>"عجیب نفسیات ہے ان لوگوں کی... تم نے لاشوں کا معائنہ کیا؟"</p>
+                    <p>"جی سر، بلال میرے ساتھ تھا۔ دونوں لاشیں— دکاندار اور دیورانی کی— نارمل تھیں۔ لیکن سر… اُن دو
+                        قیدیوں کی لاشوں میں ایک عجیب بات مشترک ہے۔"</p>
+                    <p>"کیا چیز؟"</p>
+                    <p>"دونوں کے کان کے پیچھے کچھ عجیب و غریب نشان ہے۔ جیسے کسی اور ہی سائن ہو، باریک اتنا, کہ بغور
+                        دیکھنے پر ہی نظر آئیں۔"</p>
+                    <p>"تصویر بھیجو مجھے "</p>
+                    <p>"اوکے سر۔"</p>
+                    <p>کال منقطع ہو گئی۔</p>
+                    <p>مہروز نے ایک نظر راحیل کی طرف ڈالی۔ وہ اب بھی فون پر تھا، اور چشمہ انگلیوں پر گھما رہا تھا۔ مہروز
+                        نے اکتاہٹ سے آہ بھری، بالوں میں ہاتھ پھیرا، اور چائے ختم کی۔ پھر دوبارہ راحیل کو گھورنے لگا جیسے
+                        خاموشی سے کہہ رہا ہو: "بس بھی کرو، ڈاکٹر۔"</p>
+                    <p>راحیل نے اپنی مرضی سے کال ختم کی۔</p>
+                    <p>"بہت جلدی فارغ ہو گئے، ڈاکٹر صاحب؟" مہروز نے طنز کیا۔ "میں تو کب سے سوچ رہا ہوں کہ جناب اب فون
+                        رکھیں گے، مگر آپ تو..."</p>
+                    <p>راحیل نے پرسکون لہجے میں جواب دیا:</p>
+                    <p>"اوہ، کیا ہوا؟ میں کیسے جان سکتا ہو کہ تم کیا سوچ رہے ہو ؟ کچھ کہنا تھا تو کہہ دیتے۔"</p>
+                    <p>"ہاں بھئی، میں بھول گیا کہ بغیر چشمے کے تو ڈاکٹر صاحب بالکل اندھے ہو جاتے ہیں!"</p>
+                    <p>راحیل مسکرایا:</p>
+                    <p>"اب تم نے بحث ہی کرنی ہے، کہ بتاؤ گے کہ کیا بات ہے۔"</p>
+                    <p>مہروز کچھ اور کہنے ہ والا تھا، مگر پھر رُک گیا۔ اُس نے شایان کی ساری گفتگو راحیل کو تفصیل سے
+                        بتائی، پھر موبائل نکال کر وہ تصویر دکھائی جو شایان نے بھیجی تھی۔</p>
+                    <p>راحیل بیڈ سے اٹھ کر اس کے پاس آیا، موبائل تھاما اور تصویر زوم کر کے دیکھنے لگا۔</p>
+                    <p>"کان کے پیچھے واقعی عجیب سا نشا ہے… جیسے کسی نے انتہائی باریک بلیڈ سے کندہ کیا ہو۔ دیکھو، یہاں
+                        سوجن اور ہلکی لالی بھی ہے۔"</p>
+                    <p>"یہ کوئی خاص زبان ہے؟ یا بس سائن ہے؟" مہروز نے پوچھا۔</p>
+                    <p>"پتہ نہیں… ماہین ہی شاید کچھ بتا سکے۔"</p>
+                    <p>اسی لمحے دروازہ کھلا اور رشید اندر داخل ہوا۔ پسینے سے شرابور اور سانس پھولا ہوا۔ مہروز جھنجھلا کر
+                        بولا: "یار، کم از کم دستک ہی دے دیا کرو۔"</p>
+                    <p>رشید نے سانس لیتے ہوئے کہا، "غلطی ہو گئی جناب۔"</p>
+                    <p>ڈاکٹر راحیل نے سنجیدگی سے اس کی طرف دیکھا۔</p>
+                    <p>بتاؤ، کوئی اچھی خبر ہے یا نہیں "</p>
+                    <p>رشید نے گہرا سانس لیا۔</p>
+                    <p>"سر، خبر اچھی تو نہیں ہے... مگر پکی ہے۔"</p>
+                    <p>"اچھا، کھل کر بتاؤ۔"</p>
+                    <p>"سر، اُس نقاب پوش عورت کا اب تک کوئی اتا پتا نہیں چل سکا۔ بس چند لوگوں نے مختلف شہروں میں رات کے
+                        وقت اسے دیکھا ہے ۔ مگر نہ اس کا کوئی مستقل ٹھکانا ہے، نہ شناخت۔اور" رشید تھوڑا جھجکا۔</p>
+                    <p>"اور؟"</p>
+                    <p>اب مہروز کا چہرہ سنجیدگی اختیار کر چکا تھا۔</p>
+                    <p>"سر... وہ اغواکار، جس نے بچہ اٹھایا تھا... اسے دارالحکومت میں دیکھا گیا ہے۔ دو دن قبل اُس نے ایک
+                        آدمی پر سلفیورک ایسڈ پھینک کر مار دیا۔"</p>
+                    <p>مہروز ایک دم اُٹھ کھڑا ہوا۔ اس کی آنکھوں میں غصے کی چنگاریاں تھیں۔ وہ تیزی سے رشید کی طرف بڑھا
+                        اور بنا کچھ کہے، زور دار مکا اُس کے چہرے پر دے مارا۔</p>
+                    <p>"یہ سب تمھارے لالچ اور نااہلی کی وجہ سے ہوا ہے، رشید! کمبخت، تمھارے دو نمبر ضمیر کی وجہ سے ایک
+                        جان چلی گئی ۔</p>
+                    <p>رشید لڑکھڑاتا ہوا دیوار سے جا لگا۔ اس کے ناک سے خون بہنے لگا۔ مہروز دوبارہ اُس کی طرف لپکا، مگر
+                        ڈاکٹر راحیل نے فوراً مداخلت کی۔</p>
+                    <p>وہ تیزی سے پیچھے سے آیا اور مہروز کو مضبوطی سے تھام کر پیچھے کھینچا اور اُسے صوفے پر دھکیلا۔</p>
+                    <p>"بس کرو مہروز ، اس طرح کرنے سے کچھ ہو گا کیا۔"</p>
+                    <p>مہروز نے غصے میں ماتھے پر پڑے بالوں کو پیچھے کیا، جیسے اندر ہی اندر کسی کشمکش سے گزر رہا ہو۔</p>
+                    <p>کمرے پر خاموشی طاری ہو گئی۔</p>
+                    <p>رشید نے اپنے آپ کو سنبھالا اور کھڑا ہوا، کچھ کہنا چاہا مگر لب سلے رہے۔ ڈاکٹر راحیل نے صرف ہاتھ کے
+                        اشارے سے اُسے باہر جانے کو کہا۔</p>
+                    <p>رشید نے آہستہ سے سر ہلایا اور دبے قدموں کمرے سے نکل گیا۔ راحیل چند لمحے اُسے جاتا دیکھتا رہا، پھر
+                        آہستہ سے بستر پر واپس بیٹھ گیا۔</p>
+                    <p>"مجھے لگتا ہے، سلفیورک ایسڈ والا کیس وہی ہے جو کل لیبارٹری آیا تھا۔ میں نے اُس پر ابتدائی رپورٹ
+                        تیار کر لی تھی…"</p>
+                    <p>کچھ لمحے خاموشی میں گزرے۔</p>
+                    <p>"کبھی کبھی… ایک لمحے کی کوتاہی، کئی زندگیوں پر بھاری پڑ جاتی ہے۔"</p>
+                    <p>راحیل نے دھیمے لہجے میں کہا۔</p>
+                    <p>مہروز خاموش رہا۔</p>
+                    <p style="font-weight: bold;">جاری ہے۔۔۔۔</p>
+                </div>
+                <div id="chapter-11" class="chapter locked">
+                    <h3 style="font-family: 'Noto Nastaliq Urdu', serif; color: #000">Chapter 11: زینب اور عمر کا مشاہدہ
+                    </h3>
+                    <p>دن کا وقت تھا۔ ہلکی ہلکی گرم ہوا چل رہی تھی۔ جیسے ہی کالج کی گھنٹی بجی، گیٹ کھلا اور بچیوں کا
+                        ہجوم ایک دم باہر امڈ آیا۔</p>
+                    <p>زینب بھی پسینے سے شرابور، اپنا بھاری بھرکم بیگ سنبھالتی، دھیرے دھیرے گیٹ سے نکلی۔ اس نے تھوڑی دیر
+                        ادھر اُدھر نظر دوڑائی، تو سڑک کے پار اُسے عمر دکھائی دیا، جو اُس کی تلاش میں کھڑا تھا۔</p>
+                    <p>وہ جلدی سے سڑک عبور کر کے اُس کے پاس پہنچی اور بیگ اُس کے حوالے کرتے ہوئے بولی،</p>
+                    <p>"یہ لو، میں تو بالکل تھک گئی ہوں۔"</p>
+                    <p>عمر نے بیگ کو کندھے پر ڈالتے ہوئے، ہنستے ہوئے کہا،</p>
+                    <p>"یہ بیگ ہے یا اینٹوں کا تھیلا؟"</p>
+                    <p>اب وہ دونوں آہستہ آہستہ پیدل گھر کی طرف رواں تھے۔</p>
+                    <p>"اگلے مہینے تمھارا میٹرک کا رزلٹ بھی آنا ہے،" عمر نے کہا۔</p>
+                    <p>"مصیبت!" زینب نے ماتھے کا پسینہ ڈوپٹے سے پونچھتے ہوئے کہا۔</p>
+                    <p>"بس تم دعا کرو نوے فیصد نمبر آ جائیں… پھر تمہیں زبردست ٹریٹ دوں گی۔"</p>
+                    <p>"مجھے ٹریٹ نہیں چاہیے، اپنی پسند کی ایک چیز چاہیے!" عمر نے شوخی سے کہا۔</p>
+                    <p>زینب نے اُسے کھا جانے والی نظروں سے گھورا، پھر اکتائے ہوئے لہجے میں بولی،</p>
+                    <p>"بس، زیادہ مہنگی نہ ہو!"</p>
+                    <p>اسی دوران وہ کالونی کی اس گلی میں مڑ گئے تھے، جہاں ان کا گھر واقع تھا۔ گیٹ کے قریب پہنچتے ہی ایک
+                        اجنبی عورت کی آواز سنائی دی،</p>
+                    <p>"تم یہ مجھ پر چھوڑ دو… اس کو میں سنبھال لوں گی!"</p>
+                    <p>زینب اور عمر چونکے۔ انہوں نے ایک دوسرے کو دیکھا اور قدم روک لیے۔</p>
+                    <p>گیٹ کے پیچھے ایک نیم کا درخت تھا، جس کے نیچے ایک عورت کالی چادر میں لپٹی کھڑی تھی۔ اُس کا چہرہ
+                        مکمل چھپا ہوا تھا، صرف ہیل والا جوتا نظر آ رہا تھا۔ وہ ایک مرد کے ساتھ آہستہ آواز میں بات کر رہی
+                        تھی۔</p>
+                    <p>مرد نے فوراً عورت کو تنبیہ کی،</p>
+                    <p>"آہستہ بولو، کوئی سن نہ لے!"</p>
+                    <p>زینب اور عمر کی تجسس بھری نظریں ایک دوسرے سے ٹکرائیں۔ وہ دھیرے سے گیٹ کی اوٹ میں ہو کر اُن کی
+                        باتیں سننے لگے۔</p>
+                    <p>اب وہ عورت آہستہ بولنے لگی۔</p>
+                    <p>الفاظ واضح نہیں تھے، لیکن کچھ کچّے لفظ جیسے: "تاریخ"، "اگلا مہینا"، "پیسے"—ان کے کانوں تک پہنچے۔
+                    </p>
+                    <p>اچانک اُن کی بات ختم ہوئی اور وہ جیسے مڑنے ہی لگے تھے کہ</p>
+                    <p>"دوڑو!" عمر نے بس سرگوشی کی، اور دونوں فوراً وہاں سے بھاگے۔ راستے میں بھاگتے ہوئے زینب نے پوچھا
+                        "انھوں نے ہمیں دیکھا تو نہیں؟"</p>
+                    <p>عمر جو کہ بستے کے بوجھ کے ساتھ بمشکل بھاگ رہا تھا بولا "کیا فرق پڑتا ہے۔"</p>
+                    <p>گھر پہنچ کر دونوں نے زور سے دروازہ کھولا، اور اندر داخل ہوتے ہی اسے اندر سے بند کر دیا۔ اُن کی
+                        سانسیں بری طرح پھول رہی تھیں۔</p>
+                    <p>تحمینہ بیگم، جو بیٹھک میں کچھ سلائی کر رہی تھیں، دروازے کی آواز سے چونک گئیں۔</p>
+                    <p>"ارے خیر تو ہے؟ ایسے بھاگتے ہوئے کیوں آئے ہو؟"</p>
+                    <p>زینب نے زور سے سانس لیا، گلے سے دوپٹہ ہٹایا اور کہا،</p>
+                    <p>"کچھ نہیں امی… جاسوسی کر رہے تھے۔"</p>
+                    <p>"کیا؟ کون سی جاسوسی؟" تحمینہ بیگم نے ماتھے پر بل ڈالتے ہوئے پوچھا۔</p>
+                    <p>عمر نے ہنستے ہوئے، پھولتی سانسوں کے ساتھ کہا،</p>
+                    <p>"ویسے ہی، تھوڑا سا ڈرامہ تھا۔ ایک عجیب عورت اور ایک آدمی درخت کے نیچے کھسر پھسر کر رہے تھے۔ ہمیں
+                        لگا کوئی فلمی سین ہے۔"</p>
+                    <p>تحمینہ بیگم نے سنجیدگی سے دونوں کو دیکھا، پھر دھیمی آواز میں بولیں،</p>
+                    <p>"کب تم لوگ یہ الٹی سیدھی حرکتیں کرنا بند کرو گے؟ تمہیں معلوم ہے نا کہ چھپ کر کسی کی باتیں سننا
+                        بری بات ہے۔"</p>
+                    <p>پھر وہ اٹھ کر پانی لینے چلی گئیں۔</p>
+                    <p>زینب نے اُن کی طرف دیکھا، پھر صوفے پر گر سی گئی۔ عمر نے بھی بیگ پھینکا اور لمبی سانس لی، جیسے کسی
+                        بوجھ سے نجات ملی ہو۔</p>
+                    <p>تحمینہ بیگم پانی کے دو گلاس لے آئیں۔ ایک زینب کو دیا، دوسرا عمر کو۔ پھر وہ خود بھی پاس بیٹھ گئیں۔
+                    </p>
+                    <p>"ابو کب آئیں گے؟" عمر نے پوچھا۔</p>
+                    <p>"آج ہی… شام تک،" ماں نے جواب دیا۔</p>
+                    <p>"کچھ معاملہ حل ہوا؟" زینب نے گلاس رکھتے ہوئے سوال کیا۔</p>
+                    <p>"نہیں… کڈنیپر تو نہیں ملا، لیکن تمھارے ابو کہہ رہے تھے کہ جلد ڈھونڈ نکالیں گے۔"</p>
+                    <p>"ہاں، بچ کے جائے گا کہاں؟" عمر نے تیقن سے کہا۔</p>
+                    <p>زینب نے تھوڑی دیر سوچنے کے بعد سنجیدگی سے کہا،</p>
+                    <p>"یہ نہ ہو کہ وہ پکڑا جائے… اور پھر جیل میں بھی لٹک جائے!"</p>
+                    <p>"اللہ نہ کرے!" تحمینہ بیگم نے فوراً لاحول پڑھی، پھر زینب سے کہا،</p>
+                    <p>"اچھا چھوڑو ان باتوں کو۔ اُٹھو، وردی بدل لو، میں کھانا لگاتی ہوں۔"</p>
+                    <p>زینب نے ہلکے سے سر ہلایا، بیگ اٹھایا اور سیڑھیاں چڑھنے لگی۔</p>
+                </div>
+                <div id="chapter-12" class="chapter locked">
+                    <h3 style="font-family: 'Noto Nastaliq Urdu', serif; color: #000">Chapter 12: حادثہ اور گھر واپسی
+                    </h3>
+                    <p>صبح کے قریباً نو بج رہے تھے جب انسپکٹر مہروز اور ڈاکٹر راحیل نے واپسی کا سفر شروع کیا۔ راستے میں
+                        روانگی سے پہلے راحیل نے رشید کو سختی سے دوبارہ یاد دہانی کرائی تھی:</p>
+                    <p>"اس عورت کا سراغ مجھے ہر حال میں چاہیے، ہر قیمت پر۔"</p>
+                    <p>اب مہروز گاڑی چلا رہا تھا اور راحیل برابر والی سیٹ پر خاموش بیٹھا کھڑکی سے باہر دیکھ رہا تھا۔ وہ
+                        بظاہر پرسکون تھا، لیکن اندرونی خلفشار اُس کے چہرے پر ہلکے ہلکے سایے ڈال رہا تھا۔</p>
+                    <p>گاڑی اب ہائی وے پر تھی۔ ہوا میں ہلکی سی نمی اور مٹی کی مہک تھی جیسے کہیں قریب ہی بارش ہو چکی ہو۔
+                    </p>
+                    <p>مہروز کی آنکھیں بوجھل ہو چکی تھیں۔ نیند کی مسلسل کمی، ذہنی دباؤ اور جسمانی تھکن مل کر اس پر حاوی
+                        ہو رہے تھے۔ اُس کی گردن آہستہ آہستہ ایک طرف جھکنے لگی۔</p>
+                    <p>گاڑی کی رفتار بدستور تیز تھی، مگر مہروز کے ہاتھوں کی گرفت اب اسٹیئرنگ پر ڈھیلی پڑ چکی تھی۔</p>
+                    <p>اچانک ایک تیز ہارن نے سکوت کو چیر دیا۔</p>
+                    <p>راحیل چونک کر اپنی سوچوں سے نکلا۔ سامنے سے ایک ٹرک پوری رفتار سے آ رہا تھا، دھواں اگلتا، شور
+                        مچاتا ہوا۔ اُس نے فورا سڑک پر نظر ڈالی، اور پھر مہروز کی جھکی ہوئی گردن پر۔</p>
+                    <p>"مہروز!" وہ چیخا — مگر آواز جیسے ہوا میں ہی دب گئی۔ وقت جیسے لمحہ بھر کو رک گیا۔</p>
+                    <p>راحیل نے جھٹ سے سیٹ بیلٹ کھولی، آگے جھک کر مہروز کے بازو کو ایک جھٹکے سے پیچھے کیا اور خود
+                        اسٹیئرنگ سنبھال لیا۔ گاڑی کا توازن بگڑ چکا تھا، فاصلہ کم ہوتا جا رہا تھا، اور ٹرک کا ہارن کسی
+                        قیامت کی پیش گوئی کر رہا تھا۔</p>
+                    <p>راحیل نے پوری قوت سے بریک دبائی اور بائیں طرف اسٹیئرنگ موڑ دیا۔</p>
+                    <p>گاڑی جھٹکے سے سڑک کنارے کی طرف مڑی۔ خشک مٹی کا بادل اٹھا، ٹائروں کے چیخنے کی آواز آئی، اور گاڑی،
+                        مٹی اڈاتی، آخرکار رک گئی — بلکل کنارے پر، جہاں زمین کچھ کچی تھی۔</p>
+                    <p>چند لمحوں کے لیے مکمل خاموشی چھا گئی۔</p>
+                    <p>راحیل نے سر پیچھے سیٹ پر ٹکایا، لمبی سانس کھینچی، جیسے موت کے منھ سے واپس آیا ہو۔ پھر دروازہ
+                        کھولا اور تیزی سے مہروز کی طرف بڑھا۔</p>
+                    <p>اُس کا دروازہ کھول کر بیلٹ کھولی اور اُسے آہستگی سے سہارا دے کر باہر نکالا۔ مہروز نیم بےہوش تھا۔
+                        راحیل نے اُسے اپنی سیٹ پر بٹھایا، اُس کا سر سائیڈ پر سہارا دے کر رکھا، اور دروازہ بند کیا۔</p>
+                    <p>پھر وہ دوبارہ ڈرائیونگ سیٹ پر آ کر بیٹھ گیا، اور ایک تھکا ہوا سا گہرا سانس لیتے ہوئے بڑبڑایا:</p>
+                    <p>"یہ تمھاری بیماری کسی دن میری جان لے لے گی... تم تو خیر اکیلے ہو، میرے تو بیوی بچے ہیں ناں۔"</p>
+                    <p>دوپہر تقریباً ڈھائی بجے کے قریب وہ شہر میں داخل ہوئے۔ مہروز کا چہرہ اب بھی غنودگی اور نیم بےہوشی
+                        کی حالت میں تھا۔</p>
+                    <p>جیسے ہی گاڑی چوک کے گرد چکر لگا کر کالونی کی سڑک پر مڑی، مہروز کی پلکیں ہلنے لگیں۔ آہستہ آہستہ
+                        آنکھیں کھلیں۔ اور وہ کس قدر سستی سے سیدھا ہو کر بیٹھا، آنکھیں مسلیں، اور اردگرد کا جائزہ لینے
+                        لگا جیسے خواب اور حقیقت کے بیچ اُلجھا ہو۔</p>
+                    <p>اس نے سائیڈ مرر میں خود کو دیکھا، پھر راحیل کی طرف نظریں گھمائیں۔</p>
+                    <p>راحیل نے ایک نظر اس پر ڈالی اور مطمئن تاثر دیا۔</p>
+                    <p>مہروز نے ہاتھ بالوں میں پھیرا، گردن پیچھے ٹکائی، اور خود کو سنبھالنے کی کوشش کرتا رہا۔</p>
+                    <p>اب وہ لوگ کالونی میں داخل ہو چکے تھے۔ راحیل نے اپنے گھر کے سامنے گاڑی روکی۔</p>
+                    <p>دونوں دروازہ کھول کر نیچے اترے۔ مہروز کے قدموں میں لرزش تھی، چال میں لڑکھڑاہٹ تھی۔ راحیل نے اُسے
+                        کندھے سے سہارا دیا۔</p>
+                    <p>وہ گیٹ کی طرف بڑھے۔</p>
+                    <p>دروازہ عمر نے کھولا۔</p>
+                    <p>"ابّو؟" اُس کے چہرے پر خوشی اور حیرانی کا امتزاج تھا، مگر جیسے ہی اُس نے مہروز کی حالت دیکھی،
+                        سنجیدگی اُس کے چہرے پر چھا گئی۔</p>
+                    <p>"انکل!"</p>
+                    <p>عمر کے پیچھے زینب بھی آ گئی۔ وہ ابھی ابھی کالج سے واپس آئی تھی۔ اور کھانا کھا کر فارغ ہوئی
+                        تھی۔چہرے پر تازہ تھکن اور تجسس کی جھلک۔</p>
+                    <p>"کیا ہوا مہروز انکل کو؟" اُس نے پریشانی سے پوچھا۔</p>
+                    <p>"بس نیند کی کمی ہے... طبیعت کچھ خراب ہو گئی تھی۔" راحیل نے مختصر مگر مطمئن لہجے میں جواب دیا۔</p>
+                    <p>"امی!" عمر نے اندر آواز لگائی۔</p>
+                    <p>تہمینہ کچن سے نکل کر فوراً لاونج میں آئی۔ جب اُس نے مہروز کی حالت دیکھی، اُس کے ماتھے پر تشویش کی
+                        لکیریں اُبھر آئیں۔</p>
+                    <p>وہ فوراً پانی لینے چلی گئی۔</p>
+                    <p>راحیل اور عمر نے مل کر مہروز کو صوفے پر بٹھایا۔ وہ تھکن سے نڈھال ہو چکا تھا، جیسے اب جسم میں ہلنے
+                        کی سکت نہ رہی ہو۔</p>
+                    <p>تہمینہ پانی کا گلاس لے آئی۔ عمر نے مہروز کو تھمایا۔ اُس نے چند گھونٹ پیے، اور پھر صوفے پر ہی لیٹ
+                        گیا۔</p>
+                    <p>راحیل نے سب کو اشارے سے بتایا کہ اُسے آرام کرنے دو۔</p>
+                    <p>سب خاموشی سے پیچھے ہٹ گئے۔ اور کمرے میں چلے گئے۔</p>
+                    <p>راحیل نے جوتے اتارے اور بیڈ پر آ کر بیٹھ گیا۔ تہمینہ نے ایک اور گلاس پانی لا کر دیا جو اُس نے
+                        خاموشی سے پی لیا۔ زینب اور عمر بھی آ کر پاس بیٹھ گئے۔</p>
+                    <p>راحیل تھکا ضرور تھا، لیکن حادثے سے بچ جانے کا سکون بھی اس کی آنکھوں میں تھا۔</p>
+                    <p>شام کی ہلکی خنکی بازار کی بےتاب فضا میں گم ہو چکی تھی۔</p>
+                </div>
+                <div id="chapter-13" class="chapter locked">
+                    <h3 style="font-family: 'Noto Nastaliq Urdu', serif; color: #000">Chapter 13: شکار اور شکاری</h3>
+                    <p>ہر طرف شور، ہجوم، گاڑیوں کی آوازیں، ریڑھیوں کی چیخ و پکار، اور بچوں کے قہقہے گویا ایک طوفان بپا
+                        کیے ہوئے تھے۔ اسی شور میں اچانک ایک شخص لوگوں کا ہجوم چیرتا ہوا منظر عام پر آیا۔</p>
+                    <p>سانولی رنگت، درمیانہ قد، گرد سے اٹے کپڑے، پھولتی سانسیں۔</p>
+                    <p>پیچھے انسپکٹر شایان ندیم، مضبوط قدموں کے ساتھ اُسے تاکے ہوئے، گہری سنجیدگی کے ساتھ پیچھا کر رہا
+                        تھا۔</p>
+                    <p>شکار اور شکاری کا منظر۔</p>
+                    <p>وہ شخص ریڑھیوں کے بیچ سے پھسلتا، راہگیروں سے ٹکراتا، شور مچاتا، ایک عورت سے ٹکرایا مگر رُکے بغیر
+                        دوڑتا رہا۔</p>
+                    <p>انسپکٹر اس کے پیچھے سائے کی طرح لگا تھا۔</p>
+                    <p>اب وہ ایک تنگ، نیم اندھیری گلی میں داخل ہو چکا تھا۔</p>
+                    <p>دیواروں سے نمی ٹپک رہی تھی، گٹر کی تیز بو فضا میں بھری ہوئی، چھتوں پر لٹکتی کپڑوں کی رسیوں کے بیچ
+                        وہ سانپ کی طرح سرک رہا تھا۔</p>
+                    <p>ایک پرانا، زنگ آلود فریج گلی کے کنارے رکھا تھا۔</p>
+                    <p>اس نے اس پر چھلانگ لگائی لیکن پاؤں پھسلا — اور ایک زور دار دھماکے سے زمین پر گرا۔مگر وہ زخمی
+                        گھٹنے کے ساتھ بھی لڑکڑاتا ہوا اُٹھا۔ ایک نظر پیچھے دیکھا انسپکٹر ابھی دور تھا،</p>
+                    <p>"رک جا ورنہ مرے گا" انسپیکٹر کی آواز گرجی۔</p>
+                    <p>لیکن وہ اگلی گلی کی طرف بھاگا۔</p>
+                    <p>ادھر شایان نے ایک شارٹ کٹ لیا، محلے کے پیچیدہ راستوں سے گزرتے ہوئے ایک موڑ کاٹ کر سیدھا اُس کے
+                        سامنے آن کھڑا ہوا۔</p>
+                    <p>وہ شخص ٹھٹھک کر رُکا — پلٹ کر بھاگنے کی کوشش کی، لیکن انسپکٹر شایان نے آؤ دیکھا نہ تاؤ، اُس کا
+                        بازو دبوچا اور اُسے زور سے زمین پر پٹخ دیا۔</p>
+                    <p>"بس بہت ہو گیا، تھکا دیا تم نے مجھے اس گرمی میں!"</p>
+                    <p>شایان دانت پیستے ہوئے بولا، پسینہ ماتھے سے ٹپک رہا تھا۔</p>
+                    <p>وہ آدمی زمین پر گرا پڑا تھا، بائیں رخسار پر خراش، گھٹنا زخمی، کپڑے پھٹے ہوئے۔ مگر حیرت انگیز طور
+                        پر اُس کی آنکھوں میں خوف نہیں تھا — بلکہ ایک عجیب سا اطمینان چھپا ہوا تھا، جیسے بھاگ بھاگ کہ وہ
+                        بھی تھک گیا ہو۔</p>
+                </div>
+                <div id="chapter-14" class="chapter locked">
+                    <h3 style="font-family: 'Noto Nastaliq Urdu', serif; color: #000">Chapter 14: تفتیشی کمرے میں</h3>
+                    <p>کمرہ تفتیش — مکمل خاموش، مدھم روشنی میں ڈوبا ہوا۔ دیوار پر لگے کیمرے کی سرخ روشنی مسلسل جھلملا
+                        رہی تھی۔ کرسی پر ہتھکڑی میں بندھے ہاتھوں کے ساتھ وہی شخص بیٹھا تھا ۔گرد آلود لباس، بکھرے بال،
+                        زخمی گھٹنا، اور پر سکون چہرہ۔</p>
+                    <p>انسپکٹر شایان اُس کے سامنے کھڑا تھا، بازو سینے پر باندھے، نظریں اس کے چہرے پر جمی ہوئی۔</p>
+                    <p>ساتھ بلال قریشی موجود تھا، ہاتھ میں رجسٹر، اور آفس کے ملازمین کی ٹولی۔</p>
+                    <p>شایان نے اپنا ہاتھ آگے بڑھایا،</p>
+                    <p>"میں انسپکٹر شایان ہوں، اور یہ میری ٹیم ہے۔ تمہیں معلوم ہے کہ تمہیں کیوں پکڑا گیا ہے؟"</p>
+                    <p>وہ شخص خاموش رہا، صرف آنکھوں سے انہیں گھورتا رہا۔</p>
+                    <p>شایان نے آہستہ سے اس کے سامنے والی کرسی میں مورچہ کر بیٹھا، اور بولنے لگا،</p>
+                    <p>"تمہارا نام کیا ہے؟ تم نے وہ آدمی کیوں مارا؟"</p>
+                    <p>وہ شخص نے آنکھیں موڑ لیں، اور خاموشی سے بیٹھا رہا۔</p>
+                    <p>"تمہیں معلوم ہے نا کہ تمہارے خلاف کیا ثبوت ہے؟" شایان نے دبے لہجے میں پوچھا۔</p>
+                    <p>اس شخص نے اچانک آنکھیں کھولیں، اور ایک منفی جواب دیا،</p>
+                    <p>"کوئی ثبوت نہیں ہے۔ تمہیں صرف شبہ ہے۔"</p>
+                    <p>شایان مسکرایا، اور اپنی جیب سے ایک موبائل نکالا، اس میں سے ایک ویڈیو چلائی، جس میں وہ شخص دکھائی
+                        دے رہا تھا کہ وہ کس طرح ایک آدمی پر سلفیورک ایسڈ پھینک رہا ہے۔</p>
+                    <p>"اب بھی لگتا ہے کہ کوئی ثبوت نہیں ہے؟" شایان نے ویڈیو بند کرتے ہوئے پوچھا۔</p>
+                    <p>وہ شخص کا چہرہ پھیکا پڑ گیا، اور وہ اپنی آنکھیں جھپکا بیٹھا رہا۔</p>
+                    <p>"اب بات کرو، ورنہ تمہیں ایسی سزا ملے گی جس کا تم نے سونا بھی نہیں ہوگا۔" شایان نے سخت لہجے میں
+                        کہا۔</p>
+                    <p>اس شخص نے کچھ دیر سوچا، پھر بولا،</p>
+                    <p>"میرا نام فیصل ہے۔ اور وہ آدمی میرا دشمن تھا۔ اس نے میری بیوی کو اغوا کر لیا تھا۔ میں نے اس سے
+                        بدلہ لیا ہے۔"</p>
+                    <p>شایان نے حیرت سے اسے دیکھا، پھر بلال کو اشارہ کیا۔ بلال نے اپنے پاس سے ایک فائل نکالی، اور اس میں
+                        سے کچھی تصاویر نکال کر اس کے سامنے رکھ دیں۔</p>
+                    <p>"یہ تمہاری بیوی ہے؟" شایان نے پوچھا۔</p>
+                    <p>فیصل نے تصویر دیکھی، اور اس کے چہرے کا رنگ بدل گیا۔</p>
+                    <p>"یہ... یہ تو... میری بیوی نہیں ہے۔" اس نے ہچکچاتے ہوئے کہا۔</p>
+                    <p>"پھر یہ کون ہے؟" شایان نے دباؤ ڈالتے ہوئے پوچھا۔</p>
+                    <p>"میں... میں نہیں جانتا۔" فیصل نے سر جھکا لیا۔</p>
+                    <p>شایان نے اٹھ کر کمرے میں چکر لگانا شروع کر دیا، اور پھر روک کر بولا،</p>
+                    <p>"تمہیں معلوم ہے کہ تمہارے ساتھ کون تھا؟ جس نے تمہیں یہ کام کرنے کو کہا؟"</p>
+                    <p>فیصل نے اپنی آنکھوں میں ڈر کے ساتھ سچائی کی جھلک دیکھی، اور کہا،</p>
+                    <p>"ایک عورت... ایک عورت تھی۔"</p>
+                    <p>"کون سی عورت؟" شایان نے فوراً سوال کیا۔</p>
+                    <p>"میں نہیں جانتا... اس کا چہرہ نہیں دیکھا۔ وہ ہمیشہ نقاب میں رہتی تھی۔ مگر اس کی آواز بہت خوفناک
+                        تھی۔"</p>
+                    <p>شایان نے بلال کو دیکھا، جو نے سر ہلایا۔</p>
+                    <p>"تمہیں اس عورت نے کیا دیا تھا؟" شایان نے دوبارہ پوچھا۔</p>
+                    <p>"پیسے... بہت سارے پیسے... اور وعدہ کیا تھا کہ وہ میری بیوی کو واپس لا دے گی۔" فیصل نے کہا۔</p>
+                    <p>"لیکن تمہاری بیوی تو ابھی تک غائب ہے۔" شایان نے کہا۔</p>
+                    <p>"ہاں... میں ڈھونڈ رہا ہوں... لیکن وہ عورت اب تک میری بیوی کا پتہ نہیں بتائی۔" فیصل نے دھیمی آواز
+                        میں کہا۔</p>
+                    <p>شایان نے اپنی جیب سے ایک پین ڈرائیو نکالا، اور اس میں سے ایک چھوٹی سی چیز نکالی، جو فیصل کی
+                        آنکھوں میں چمک اٹھی۔</p>
+                    <p>"یہ تمہاری بیوی کی چھڑی ہے۔ ہم نے اسے اس جگہ سے حاصل کیا ہے جہاں تم نے وہ آدمی مارا تھا۔" شایان
+                        نے کہا۔</p>
+                    <p>فیصل کی آنکھوں میں آنسو آ گئے، اور وہ رو پڑا،</p>
+                    <p>"وہ عورت نے میری بیوی کو مار ڈالا ہے... مجھے معلوم ہے... مجھے معلوم ہے..."</p>
+                    <p>شایان نے بلال کو اشارہ کیا، اور بلال نے رجسٹر میں کچھ لکھنا شروع کر دیا۔</p>
+                    <p>"فیصل، تم پر قتل کا الزام ہے، اور تمہیں جیل بھیج دیا جائے گا۔ لیکن اگر تم ہماری مدد کرو گے، تو ہم
+                        تمہیں سزا میں کمی دلوانے کی کوشش کریں گے۔" شایان نے نرمی سے کہا۔</p>
+                    <p>فیصل نے آنکھوں پونچھتے ہوئے سر ہلایا، اور کہا،</p>
+                    <p>"میں تمہاری مدد کرتا ہوں... لیکن وہ عانتے خطرناک ہے۔"</p>
+                    <p>"ہم خطرہ اٹھانے کے لیے تیار ہیں۔" شایان نے کہا۔</p>
+                    <p>فیصل نے اپنی آنکھوں میں ایک نیا جذوہ محسوس کیا، اور پھر اس نے اپنی کہانی شروع کی...</p>
+                </div>
+                <div class="paywall">
+                    <i class="fas fa-lock"></i>
+                    <h3>CLASSIFIED INFORMATION</h3>
+                    <p>This chapter requires Level 4 clearance. Purchase the complete case file to access all
+                        evidence.</p>
+                    <button class="cta-button purchase-btn">Obtain Clearance - $9.99</button>
                 </div>
             </div>
-            
+            </div>
+
             <div class="reading-progress">
                 <div class="progress-bar">
                     <div class="progress"></div>
@@ -1099,7 +1999,7 @@
                 <span class="progress-text">0% read</span>
             </div>
         </section>
-        
+
         <!-- About the Book -->
         <section id="book" class="about-section">
             <h2 class="section-title">CASE FILE DETAILS</h2>
@@ -1107,14 +2007,20 @@
                 <div class="book-details">
                     <h3>Synopsis</h3>
                     <p style="font-family: 'Noto Nastaliq Urdu', serif; direction: rtl; ">
-دارالحکومت میں ایک کے بعد ایک قیدیوں کی پُراسرار خودکشیوں نے سی آئی ڈبلیو کو ہلا کر رکھ دیا۔ فرانزک ماہر ڈاکٹر راحیل، انسپکٹر مہروز اور کرمنل سائیكالوجسٹ ماہین جب اس سلسلے کی تہہ میں جاتے ہیں تو انہیں کچھ علامات اور معمولات مشکوک لگتے ہیں — خاص طور پر کان کے پیچھے کا نشان، اور خودسپردگی سے پہلے قیدیوں کا پرسکون ہوجانا۔
-تحقیقات کے دوران ایک ایسا نام سامنے آتا ہے جو قانون اور جرم، مرد و عورت کے تصور، اور انسانی ضمیر کے درمیان جھولتا ہے۔ جب ہر حقیقت اپنی اصلیت کھونے لگے، تو حق اور جھوٹ کے درمیان لکیر کون کھینچے گا؟
-</p>
-                    
+                        دارالحکومت میں ایک کے بعد ایک قیدیوں کی پُراسرار خودکشیوں نے سی آئی ڈبلیو کو ہلا کر رکھ دیا۔
+                        فرانزک ماہر ڈاکٹر راحیل، انسپکٹر مہروز اور کرمنل سائیكالوجسٹ ماہین جب اس سلسلے کی تہہ میں جاتے
+                        ہیں تو انہیں کچھ علامات اور معمولات مشکوک لگتے ہیں — خاص طور پر کان کے پیچھے کا نشان، اور
+                        خودسپردگی سے پہلے قیدیوں کا پرسکون ہوجانا۔
+                        تحقیقات کے دوران ایک ایسا نام سامنے آتا ہے جو قانون اور جرم، مرد و عورت کے تصور، اور انسانی ضمیر
+                        کے درمیان جھولتا ہے۔ جب ہر حقیقت اپنی اصلیت کھونے لگے، تو حق اور جھوٹ کے درمیان لکیر کون کھینچے
+                        گا؟
+                    </p>
+
                     <h3>Evidence Details</h3>
                     <ul>
                         <li><strong>Pages:</strong> 320</li>
-                        <li><strong>Classification:</strong> Psychological Thriller / Crime Mystery / Forensic Drama</li>
+                        <li><strong>Classification:</strong> Psychological Thriller / Crime Mystery / Forensic Drama
+                        </li>
                         <li><strong>Language:</strong> Urdu</li>
                         <li><strong>Case Opened:</strong> July 2025</li>
                     </ul>
@@ -1123,18 +2029,20 @@
                     <h3>Witness Testimony</h3>
                     <div class="review">
                         <div class="stars">★★★★★</div>
-                        <p>"A masterful thriller that keeps you guessing until the final page. The atmosphere is so thick you can feel the rain on your neck."</p>
+                        <p>"A masterful thriller that keeps you guessing until the final page. The atmosphere is so
+                            thick you can feel the rain on your neck."</p>
                         <p class="reviewer">- The Mystery Chronicle</p>
                     </div>
                     <div class="review">
                         <div class="stars">★★★★☆</div>
-                        <p>"Detective Miller is a compelling protagonist, and the conspiracy plot is both intricate and believable. A must-read for crime fiction fans."</p>
+                        <p>"Detective Miller is a compelling protagonist, and the conspiracy plot is both intricate and
+                            believable. A must-read for crime fiction fans."</p>
                         <p class="reviewer">- Crime Fiction Weekly</p>
                     </div>
                 </div>
             </div>
         </section>
-        
+
         <!-- Author Bio -->
         <section id="author" class="author-section">
             <h2 class="section-title" style="font-family: 'Noto Nastaliq Urdu', serif;">شخصی پروفائل</h2>
@@ -1145,8 +2053,13 @@
                 </div>
                 <div class="author-bio">
                     <h3 style="font-family: 'Noto Nastaliq Urdu', serif;">سرثشب</h3>
-                    <p>Former investigative journalist turned novelist, Ramal Naqvi has spent years uncovering secrets that others would prefer remain hidden. With a background in criminal justice and a network of sources in law enforcement, their writing brings an authenticity rarely seen in crime fiction.</p>
-                    <p>"The truth isn't always pretty, but it's always worth telling. My stories are fiction, but they're inspired by the real shadows that lurk just beneath the surface of our everyday lives."</p>
+                    <p>Former investigative journalist turned novelist, Ramal Naqvi has spent years uncovering secrets
+                        that others would prefer remain hidden. With a background in criminal justice and a network of
+                        sources in law enforcement, their writing brings an authenticity rarely seen in crime fiction.
+                    </p>
+                    <p>"The truth isn't always pretty, but it's always worth telling. My stories are fiction, but
+                        they're inspired by the real shadows that lurk just beneath the surface of our everyday lives."
+                    </p>
                     <div class="author-social">
                         <a href="#"><i class="fab fa-twitter"></i></a>
                         <a href="#"><i class="fab fa-instagram"></i></a>
@@ -1156,17 +2069,19 @@
             </div>
         </section>
     </main>
-    
+
     <!-- Purchase Modal -->
     <div id="purchase-modal" class="modal">
         <div class="modal-content">
             <span class="close-modal">×</span>
-            <h2 style="font-family: 'Special Elite', monospace; color: var(--accent-blue); margin-bottom: 20px;">OBTAIN CLEARANCE</h2>
+            <h2 style="font-family: 'Special Elite', monospace; color: var(--accent-blue); margin-bottom: 20px;">OBTAIN
+                CLEARANCE</h2>
             <div class="purchase-details">
                 <div class="book-purchase">
                     <img src="https://i.ibb.co/pBwWhkgN/cover.jpg" alt="Book Cover">
                     <div>
-                        <h3 style="font-family: 'Special Elite', monospace; color: var(--paper-bg);">Complete Case File</h3>
+                        <h3 style="font-family: 'Special Elite', monospace; color: var(--paper-bg);">Complete Case File
+                        </h3>
                         <p>Full Investigation Report</p>
                         <p class="price">$9.99</p>
                     </div>
@@ -1195,7 +2110,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Footer -->
     <footer>
         <div class="footer-content">
@@ -1213,176 +2128,178 @@
             </div>
         </div>
         <div class="copyright" style="font-family: 'Noto Nastaliq Urdu', serif;">
-            <p>© 2025 سرثشب. All rights reserved. This information is classified and intended for authorized personnel only.</p>
+            <p>© 2025 سرثشب. All rights reserved. This information is classified and intended for authorized personnel
+                only.</p>
         </div>
     </footer>
-    
-    <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        // Spotlight follows cursor
-        const spotlight = document.querySelector('.spotlight');
-        document.addEventListener('mousemove', (e) => {
-            spotlight.style.left = `${e.clientX}px`;
-            spotlight.style.top = `${e.clientY}px`;
-        });
-        
-        // --- TYPEWRITER ANIMATION FIX ---
-        const typewriterElement = document.querySelector('.anim-typewriter');
-        if (typewriterElement) {
-            const text = typewriterElement.textContent;
-            const textLength = text.length;
 
-            // Set the animation directly on the element's style property
-            // This ensures the correct number of steps is used, fixing the "cut-off" text issue.
-            typewriterElement.style.animation = `
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Spotlight follows cursor
+            const spotlight = document.querySelector('.spotlight');
+            document.addEventListener('mousemove', (e) => {
+                spotlight.style.left = `${e.clientX}px`;
+                spotlight.style.top = `${e.clientY}px`;
+            });
+
+            // --- TYPEWRITER ANIMATION FIX ---
+            const typewriterElement = document.querySelector('.anim-typewriter');
+            if (typewriterElement) {
+                const text = typewriterElement.textContent;
+                const textLength = text.length;
+
+                // Set the animation directly on the element's style property
+                // This ensures the correct number of steps is used, fixing the "cut-off" text issue.
+                typewriterElement.style.animation = `
                 typewriter 2.5s steps(${textLength}) 1s 1 normal both,
                 blinkTextCursor 500ms steps(${textLength}) infinite normal
             `;
-        }
-        
-        // Chapter Navigation
-        const tabBtns = document.querySelectorAll('.tab-btn');
-        const chapters = document.querySelectorAll('.chapter');
-        
-        tabBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                const chapterId = this.getAttribute('data-chapter');
-                
-                if (this.classList.contains('locked')) {
-                    document.getElementById('purchase-modal').style.display = 'flex';
-                    return;
-                }
-                
-                tabBtns.forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                
-                chapters.forEach(chapter => {
-                    chapter.classList.remove('active');
-                    if (chapter.id === `chapter-${chapterId}`) {
-                        chapter.classList.add('active');
-                    }
-                });
-                
-                updateProgress(chapterId);
-            });
-        });
-        
-        // Reading Progress
-        function updateProgress(chapterId) {
-            const totalChapters = 10;
-            const progress = (chapterId / totalChapters) * 100;
-            
-            document.querySelector('.progress').style.width = `${progress}%`;
-            document.querySelector('.progress-text').textContent = `${Math.round(progress)}% read`;
-        }
-        
-        // Purchase Modal
-        const purchaseModal = document.getElementById('purchase-modal');
-        const closeModal = document.querySelector('.close-modal');
-        const purchaseBtns = document.querySelectorAll('.purchase-btn');
-        
-        purchaseBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                purchaseModal.style.display = 'flex';
-            });
-        });
-        
-        closeModal.addEventListener('click', function() {
-            purchaseModal.style.display = 'none';
-        });
-        
-        window.addEventListener('click', function(e) {
-            if (e.target === purchaseModal) {
-                purchaseModal.style.display = 'none';
             }
-        });
-        
-        // Purchase Form
-        const purchaseForm = document.getElementById('purchase-form');
-        
-        purchaseForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const successMsg = document.createElement('div');
-            successMsg.className = 'success-message';
-            successMsg.innerHTML = `
+
+            // Chapter Navigation
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const chapters = document.querySelectorAll('.chapter');
+
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const chapterId = this.getAttribute('data-chapter');
+
+                    if (this.classList.contains('locked')) {
+                        document.getElementById('purchase-modal').style.display = 'flex';
+                        return;
+                    }
+
+                    tabBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+
+                    chapters.forEach(chapter => {
+                        chapter.classList.remove('active');
+                        if (chapter.id === `chapter-${chapterId}`) {
+                            chapter.classList.add('active');
+                        }
+                    });
+
+                    updateProgress(chapterId);
+                });
+            });
+
+            // Reading Progress
+            function updateProgress(chapterId) {
+                const totalChapters = 10;
+                const progress = (chapterId / totalChapters) * 100;
+
+                document.querySelector('.progress').style.width = `${progress}%`;
+                document.querySelector('.progress-text').textContent = `${Math.round(progress)}% read`;
+            }
+
+            // Purchase Modal
+            const purchaseModal = document.getElementById('purchase-modal');
+            const closeModal = document.querySelector('.close-modal');
+            const purchaseBtns = document.querySelectorAll('.purchase-btn');
+
+            purchaseBtns.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    purchaseModal.style.display = 'flex';
+                });
+            });
+
+            closeModal.addEventListener('click', function () {
+                purchaseModal.style.display = 'none';
+            });
+
+            window.addEventListener('click', function (e) {
+                if (e.target === purchaseModal) {
+                    purchaseModal.style.display = 'none';
+                }
+            });
+
+            // Purchase Form
+            const purchaseForm = document.getElementById('purchase-form');
+
+            purchaseForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const successMsg = document.createElement('div');
+                successMsg.className = 'success-message';
+                successMsg.innerHTML = `
                 <i class="fas fa-check-circle" style="font-size: 3rem; color: var(--accent-blue); margin-bottom: 20px;"></i>
                 <h3 style="font-family: 'Special Elite', monospace; color: var(--paper-bg); margin-bottom: 15px;">CLEARANCE GRANTED</h3>
                 <p>Thank you. The complete case file will be sent to your email.</p>
                 <button class="cta-button" id="close-success" style="margin-top: 20px;">Access File</button>
             `;
-            
-            const modalContent = document.querySelector('.modal-content');
-            modalContent.innerHTML = '';
-            modalContent.appendChild(successMsg);
-            
-            document.getElementById('close-success').addEventListener('click', function() {
-                purchaseModal.style.display = 'none';
-                unlockFullBook();
+
+                const modalContent = document.querySelector('.modal-content');
+                modalContent.innerHTML = '';
+                modalContent.appendChild(successMsg);
+
+                document.getElementById('close-success').addEventListener('click', function () {
+                    purchaseModal.style.display = 'none';
+                    unlockFullBook();
+                });
             });
-        });
-        
-        function unlockFullBook() {
-            document.querySelectorAll('.chapter.locked').forEach(chapter => {
-                chapter.classList.remove('locked');
-                chapter.querySelector('.paywall').style.display = 'none';
-            });
-            
-            document.querySelectorAll('.tab-btn.locked').forEach(btn => {
-                btn.classList.remove('locked');
-                btn.innerHTML = btn.innerHTML.replace('<i class="fas fa-lock"></i> ', '');
-            });
-            
-            const notification = document.createElement('div');
-            notification.style.cssText = `
+
+            function unlockFullBook() {
+                document.querySelectorAll('.chapter.locked').forEach(chapter => {
+                    chapter.classList.remove('locked');
+                    chapter.querySelector('.paywall').style.display = 'none';
+                });
+
+                document.querySelectorAll('.tab-btn.locked').forEach(btn => {
+                    btn.classList.remove('locked');
+                    btn.innerHTML = btn.innerHTML.replace('<i class="fas fa-lock"></i> ', '');
+                });
+
+                const notification = document.createElement('div');
+                notification.style.cssText = `
                 position: fixed; bottom: 20px; right: 20px; background: var(--accent-blue);
                 color: white; padding: 15px 25px; font-family: 'Special Elite', monospace;
                 box-shadow: 0 0 20px rgba(26, 95, 180, 0.5); z-index: 3000;
                 animation: slideIn 0.5s ease;
             `;
-            notification.innerHTML = `<i class="fas fa-unlock" style="margin-right: 10px;"></i> Full case file unlocked.`;
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.style.opacity = '0';
-                setTimeout(() => notification.remove(), 500);
-            }, 5000);
-        }
-        
-        // Smooth Scrolling for Navigation Links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    window.scrollTo({
-                        top: target.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
+                notification.innerHTML = `<i class="fas fa-unlock" style="margin-right: 10px;"></i> Full case file unlocked.`;
+                document.body.appendChild(notification);
+
+                setTimeout(() => {
+                    notification.style.opacity = '0';
+                    setTimeout(() => notification.remove(), 500);
+                }, 5000);
+            }
+
+            // Smooth Scrolling for Navigation Links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        window.scrollTo({
+                            top: target.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            updateProgress(1);
+
+            // Add animation to sections on scroll
+            const sections = document.querySelectorAll('section');
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            sections.forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(20px)';
+                section.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+                observer.observe(section);
             });
         });
-        
-        updateProgress(1);
-        
-        // Add animation to sections on scroll
-        const sections = document.querySelectorAll('section');
-        const observer = new IntersectionObserver(entries => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, { threshold: 0.1 });
-        
-        sections.forEach(section => {
-            section.style.opacity = '0';
-            section.style.transform = 'translateY(20px)';
-            section.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
-            observer.observe(section);
-        });
-    });
     </script>
 </body>
+
 </html>
