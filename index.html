@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دفاعی چہرہ - Ramal Naqvi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&display=swap" rel="stylesheet">
+</head>
+<body>
+  <style>
+    :root {
+        --primary-bg: #1a1a1a;
+        --accent-blue: #1a5fb4;
+        --accent-blue-light: #3584e4;
+        --accent-blue-dark: #0b3a68;
+        --text-color: #f4f4f4;
+        --paper-bg: #d8e3f0;
+        --secondary-bg: rgba(0,0,0,0.7);
+        --border-color: rgba(255,255,255,0.2);
+    }
+    
+    body {
+        background-color: var(--primary-bg);
+        color: var(--text-color);
+        font-family: 'Roboto', sans-serif;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        cursor: default;
+    }
+    
+    /* --- Atmospheric Effects --- */
+    #noise-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAMAAAAp4XiDAAAAUVBMVEWFhYWDg4N3d3dtbW17e3t1dXWBgYGHh4d5eXlzc3OLi4ubm5uVlZWPj4+NjY19fX2JiYl/f39sbGxvb29paWl1dXba2trZ2dnW1tbY2Njh4eHf39/T09MAAAAYd/qrAAAAEXRSTlMAw8iS/Pgf/v543g3ycnJ29uxsYkYyAAAA1klEQVRIx+3MyQEAIAwDMC1s7W8xCFd3/Qc5VgyAskk7cmI5aRAEw+AYVLLqGzwO1cVAf4sWM5YgeERZ91/fLEakeN9xGg2uF7V2a2sWYoA5Y4MFCM/Ggdpf7RAlY/h6y3187A1xYxwhj3ZBSy8VCkSiIUiKq/grM6HIOXo4h5CRx3P10eQ8n1weQ8T9w/3yB5g6S2z921BRLQEiSg72tT/Bmtj2sIeTj1w5SChvL23sO0x5yVRv2a/Qx5yMaeYOeB3sA4h1AptL4AAAAASUVORK5CYII=');
+        opacity: 0.05;
+        z-index: -1;
+        pointer-events: none;
+    }
+    
+    .spotlight {
+        position: fixed;
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0) 60%);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 999;
+        transform: translate(-50%, -50%);
+        transition: transform 0.1s ease-out;
+    }
+    
+    /* --- Layout and Structure --- */
+    .top-secret-header {
+        background-color: #000;
+        color: var(--accent-blue);
+        font-family: 'Special Elite', monospace;
+        text-align: center;
+        padding: 5px;
+        letter-spacing: 2px;
+        border-bottom: 2px solid var(--accent-blue);
+    }
+    
+    .case-file-container {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 20px;
+        background: rgba(0,0,0,0.2);
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .main-nav {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: 40px;
+    }
+    
+    .nav-item {
+        font-family: 'Special Elite', monospace;
+        color: var(--text-color);
+        text-decoration: none;
+        padding: 15px 20px;
+        margin: 5px;
+        position: relative;
+        transition: color 0.3s ease;
+    }
+    
+    .nav-item:hover {
+        color: var(--accent-blue);
+    }
+    
+    .nav-item::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 2px;
+        background-color: var(--accent-blue);
+        transition: width 0.3s ease;
+    }
+    
+    .nav-item:hover::after {
+        width: 100%;
+    }
+    
+    /* --- Hero Section --- */
+    #hero {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+        padding: 40px 20px;
+    }
+    
+    .book-cover-container {
+        position: relative;
+        perspective: 1000px;
+        flex-shrink: 0;
+    }
+    
+    .book-cover {
+        width: 400px;
+        border: 5px solid #000;
+        box-shadow: 10px 10px 30px rgba(0,0,0,0.7);
+        transition: transform 0.5s ease;
+        max-width: 100%;
+        height: auto;
+    }
+    
+    .book-cover-container:hover .book-cover {
+        transform: rotateY(-15deg);
+    }
+    
+    .redacted-stripe {
+        position: absolute;
+        top: 50%;
+        left: -10%;
+        width: 120%;
+        background-color: #000;
+        color: var(--accent-blue);
+        font-family: 'Special Elite', monospace;
+        font-size: 2rem;
+        text-align: center;
+        padding: 10px;
+        transform: rotate(-10deg) translateY(-50%);
+        border: 2px solid var(--accent-blue);
+        user-select: none;
+    }
+    
+    .intro-text {
+        flex: 1;
+    }
+    
+    .evidence-tag {
+        color: var(--paper-bg);
+        font-family: 'Special Elite', monospace;
+        margin-bottom: 20px;
+        border-bottom: 1px dashed var(--accent-blue);
+        display: inline-block;
+        padding-bottom: 5px;
+    }
+    
+    .book-title {
+        font-family: 'Noto Nastaliq Urdu', serif;
+        font-size: 3rem;
+        color: #fff;
+        margin: 0;
+        line-height: 1.4
+    }
+    
+    .author-name {
+        font-size: 1.5rem;
+        font-weight: 300;
+        margin-top: 5px;
+        margin-bottom: 30px;
+        font-family: 'Noto Nastaliq Urdu', serif;
+    }
+    
+    .cta-button {
+        display: inline-block;
+        background-color: var(--accent-blue);
+        color: #fff;
+        font-family: 'Special Elite', monospace;
+        padding: 15px 30px;
+        text-decoration: none;
+        font-size: 1.2rem;
+        border: 2px solid var(--accent-blue);
+        transition: all 0.3s ease;
+        box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+    }
+    
+    .cta-button:hover {
+        background-color: transparent;
+        color: var(--accent-blue);
+    }
+    
+    /* --- Typewriter Animation --- */
+    .line-1 {
+        /* Structural styles for the typewriter element */
+        margin: 0 auto;
+        border-right: 2px solid rgba(255,255,255,.75);
+        font-size: 1.5rem;
+        white-space: nowrap;
+        overflow: hidden;
+        max-width: 100%;
+        font-family: 'Noto Nastaliq Urdu', serif;
+        line-height: 2.5;
+    }
+    
+    .anim-typewriter {
+        /* The animation will be applied via JavaScript to ensure correct step calculation */
+        width: fit-content; /* Ensures container fits the text width */
+    }
+    
+    @keyframes typewriter {
+        from { width: 0; }
+        to { width: 100%; }
+    }
+    
+    @keyframes blinkTextCursor {
+        from { border-right-color: rgba(255,255,255,.75); }
+        to { border-right-color: transparent; }
+    }
+    
+    /* --- Reading Section --- */
+    .reading-section {
+        padding: 40px 0;
+        border-top: 1px solid var(--border-color);
+        margin-top: 40px;
+    }
+    
+    .section-title {
+        font-family: 'Special Elite', monospace;
+        color: var(--accent-blue);
+        text-align: center;
+        margin-bottom: 30px;
+        position: relative;
+        font-size: 2rem;
+    }
+    
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 2px;
+        background: var(--accent-blue);
+    }
+    
+    .chapter-navigation {
+        margin-bottom: 30px;
+    }
+    
+    .chapter-tabs {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .tab-btn {
+        padding: 10px 20px;
+        background: var(--secondary-bg);
+        border: 1px solid var(--accent-blue);
+        border-radius: 0;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: 'Special Elite', monospace;
+        color: var(--text-color);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .tab-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: rgba(26, 95, 180, 0.2);
+        transition: left 0.3s ease;
+        z-index: -1;
+    }
+    
+    .tab-btn:hover::before {
+        left: 0;
+    }
+    
+    .tab-btn.active {
+        background: var(--accent-blue);
+        color: #fff;
+    }
+    
+    .tab-btn.locked {
+        background: rgba(0, 0, 0, 0.5);
+        color: #666;
+        cursor: not-allowed;
+        border-color: #444;
+    }
+    
+    .chapter-content {
+        background: var(--secondary-bg);
+        border: 1px solid var(--border-color);
+        padding: 30px;
+        margin-bottom: 30px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .chapter-content::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background: linear-gradient(90deg, var(--accent-blue), transparent);
+    }
+    
+    .chapter {
+        display: none;
+        animation: fadeIn 0.5s ease;
+    }
+    
+    .chapter.active {
+        display: block;
+    }
+    
+    .chapter h3 {
+        font-family: 'Special Elite', monospace;
+        color: var(--paper-bg);
+        margin-bottom: 20px;
+        font-size: 1.8rem;
+        border-bottom: 1px dashed var(--accent-blue);
+        padding-bottom: 10px;
+    }
+    
+    .chapter p {
+        margin-bottom: 20px;
+        font-size: 1.1rem;
+        line-height: 1.8;
+        text-align: justify;
+    }
+    
+    .paywall {
+        text-align: center;
+        padding: 60px 20px;
+        background: rgba(0, 0, 0, 0.5);
+        border: 1px dashed var(--accent-blue);
+        position: relative;
+    }
+    
+    .paywall::before {
+        content: 'CLASSIFIED';
+        position: absolute;
+        top: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--primary-bg);
+        color: var(--accent-blue);
+        font-family: 'Special Elite', monospace;
+        padding: 0 15px;
+        font-size: 1.2rem;
+    }
+    
+    .paywall i {
+        font-size: 4rem;
+        color: var(--accent-blue);
+        margin-bottom: 20px;
+    }
+    
+    .reading-progress {
+        margin-top: 20px;
+        position: relative;
+    }
+    
+    .progress-bar {
+        height: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 0;
+        overflow: hidden;
+        margin-bottom: 10px;
+        border: 1px solid var(--border-color);
+    }
+    
+    .progress {
+        height: 100%;
+        background: var(--accent-blue);
+        width: 0%;
+        transition: width 0.3s ease;
+    }
+    
+    .progress-text {
+        text-align: right;
+        font-size: 0.9rem;
+        color: #999;
+        font-family: 'Special Elite', monospace;
+    }
+    
+    /* --- About Section --- */
+    .about-section, .author-section {
+        padding: 40px 0;
+        border-top: 1px solid var(--border-color);
+        margin-top: 40px;
+    }
+    
+    .book-info {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+    }
+    
+    .book-details h3, .book-reviews h3 {
+        font-family: 'Special Elite', monospace;
+        color: var(--accent-blue);
+        margin-bottom: 20px;
+    }
+    
+    .book-details ul {
+        list-style: none;
+        margin-top: 20px;
+    }
+    
+    .book-details li {
+        margin-bottom: 10px;
+        padding-left: 20px;
+        position: relative;
+    }
+    
+    .book-details li::before {
+        content: '•';
+        color: var(--accent-blue);
+        position: absolute;
+        left: 0;
+    }
+    
+    .review {
+        background: var(--secondary-bg);
+        padding: 20px;
+        border: 1px solid var(--border-color);
+        margin-bottom: 20px;
+        position: relative;
+    }
+    
+    .review::before {
+        content: '"';
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        font-size: 3rem;
+        color: rgba(26, 95, 180, 0.3);
+        font-family: 'Special Elite', monospace;
+    }
+    
+    .stars {
+        color: #f39c12;
+        margin-bottom: 10px;
+    }
+    
+    .reviewer {
+        font-style: italic;
+        color: #999;
+        text-align: right;
+        font-family: 'Special Elite', monospace;
+    }
+    
+    .author-content {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+    }
+    
+    .author-image {
+        position: relative;
+        flex-shrink: 0;
+    }
+    
+    .author-image img {
+        max-width: 300px;
+        border: 3px solid #000;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        filter: grayscale(50%);
+        width: 100%;
+        height: auto;
+    }
+    
+    .author-image::after {
+        content: 'SUBJECT';
+        position: absolute;
+        bottom: -10px;
+        right: -10px;
+        background: var(--accent-blue);
+        color: #fff;
+        font-family: 'Special Elite', monospace;
+        padding: 5px 10px;
+        font-size: 0.9rem;
+    }
+    
+    .author-bio h3 {
+        font-family: 'Special Elite', monospace;
+        color: var(--paper-bg);
+        margin-bottom: 15px;
+    }
+    
+    .author-social {
+        margin-top: 20px;
+    }
+    
+    .author-social a {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        background: rgba(26, 95, 180, 0.2);
+        color: var(--text-color);
+        border: 1px solid var(--accent-blue);
+        margin-right: 10px;
+        transition: all 0.3s ease;
+    }
+    
+    .author-social a:hover {
+        background: var(--accent-blue);
+        transform: translateY(-3px);
+    }
+    
+    /* --- Purchase Modal --- */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 2000;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+    
+    .modal-content {
+        background: var(--primary-bg);
+        padding: 40px;
+        border: 2px solid var(--accent-blue);
+        max-width: 500px;
+        width: 100%;
+        position: relative;
+        animation: modalSlideIn 0.5s ease;
+        box-shadow: 0 0 30px rgba(26, 95, 180, 0.3);
+        overflow-y: auto;
+        max-height: 90vh;
+    }
+    
+    .close-modal {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        font-size: 2rem;
+        cursor: pointer;
+        color: #999;
+        transition: color 0.3s ease;
+    }
+    
+    .close-modal:hover {
+        color: var(--accent-blue);
+    }
+    
+    .book-purchase {
+        display: flex;
+        align-items: center;
+        margin-bottom: 30px;
+        gap: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px dashed var(--border-color);
+    }
+    
+    .book-purchase img {
+        max-width: 80px;
+        border: 2px solid #000;
+        width: 100%;
+        height: auto;
+    }
+    
+    .price {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--accent-blue);
+        font-family: 'Special Elite', monospace;
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        font-family: 'Special Elite', monospace;
+        color: var(--paper-bg);
+    }
+    
+    .form-group input {
+        width: 100%;
+        padding: 12px;
+        background: rgba(0, 0, 0, 0.5);
+        border: 1px solid var(--border-color);
+        color: var(--text-color);
+        font-family: 'Roboto', sans-serif;
+        border-radius: 0;
+        box-sizing: border-box;
+    }
+    
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+    
+    /* --- Footer --- */
+    footer {
+        background: #000;
+        color: var(--text-color);
+        padding: 40px 0 20px;
+        border-top: 2px solid var(--accent-blue);
+        margin-top: 60px;
+    }
+    
+    .footer-content {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        margin-bottom: 30px;
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 0 20px;
+    }
+    
+    .footer-logo {
+        font-family: 'Special Elite', monospace;
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        color: var(--accent-blue);
+    }
+    
+    .footer-links a {
+        color: var(--text-color);
+        text-decoration: none;
+        margin-right: 20px;
+        transition: color 0.3s ease;
+        font-family: 'Special Elite', monospace;
+    }
+    
+    .footer-links a:hover {
+        color: var(--accent-blue);
+    }
+    
+    .social-share {
+        display: flex;
+        align-items: center;
+    }
+    
+    .social-share span {
+        margin-right: 15px;
+        font-family: 'Special Elite', monospace;
+    }
+    
+    .social-share a {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        background: rgba(26, 95, 180, 0.2);
+        color: var(--text-color);
+        border: 1px solid var(--accent-blue);
+        margin-left: 10px;
+        transition: all 0.3s ease;
+    }
+    
+    .social-share a:hover {
+        background: var(--accent-blue);
+        transform: translateY(-3px);
+    }
+    
+    .copyright {
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid var(--border-color);
+        color: #999;
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 20px;
+        font-family: 'Special Elite', monospace;
+        font-size: 0.9rem;
+    }
+    
+    /* --- Animations --- */
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    @keyframes modalSlideIn {
+        from {
+            transform: translateY(-50px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+    
+    /* --- Responsive Design --- */
+    @media (max-width: 1024px) {
+        .case-file-container {
+            padding: 15px;
+        }
+        
+        #hero {
+            gap: 30px;
+            padding: 30px 15px;
+        }
+        
+        .book-cover {
+            width: 350px;
+        }
+        
+        .book-title {
+            font-size: 2.5rem;
+        }
+        
+        .line-1 {
+            font-size: 1.3rem;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .case-file-container {
+            margin: 20px auto;
+            padding: 15px;
+        }
+        
+        .main-nav {
+            margin-bottom: 30px;
+        }
+        
+        .nav-item {
+            padding: 12px 15px;
+            font-size: 0.9rem;
+            margin: 3px;
+        }
+        
+        #hero {
+            flex-direction: column;
+            text-align: center;
+            gap: 30px;
+            padding: 30px 15px;
+        }
+        
+        .book-cover-container {
+            margin: 0 auto;
+        }
+        
+        .book-cover {
+            width: 280px;
+        }
+        
+        .redacted-stripe {
+            font-size: 1.5rem;
+        }
+        
+        .intro-text {
+            width: 100%;
+        }
+        
+        .book-title {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+        }
+        
+        .author-name {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+        
+        .cta-button {
+            padding: 12px 25px;
+            font-size: 1.1rem;
+        }
+        
+        .line-1 {
+            font-size: 1.1rem;
+            margin: 0 auto 15px; /* Centered with margin */
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+        }
+        
+        .reading-section {
+            padding: 30px 0;
+        }
+        
+        .chapter-navigation {
+            margin-bottom: 25px;
+        }
+        
+        .chapter-tabs {
+            gap: 8px;
+        }
+        
+        .tab-btn {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+        }
+        
+        .chapter-content {
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .chapter h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .chapter p {
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+        
+        .paywall {
+            padding: 40px 15px;
+        }
+        
+        .paywall i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .book-info, .author-content {
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+        
+        .author-content {
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        .author-image {
+            margin: 0 auto;
+        }
+        
+        .author-image img {
+            max-width: 250px;
+        }
+        
+        .modal-content {
+            padding: 30px 20px;
+            max-height: 95vh;
+        }
+        
+        .book-purchase {
+            flex-direction: column;
+            text-align: center;
+            gap: 15px;
+        }
+        
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+        
+        footer {
+            padding: 30px 0 15px;
+            margin-top: 40px;
+        }
+        
+        .footer-content {
+            flex-direction: column;
+            text-align: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 10px 0;
+        }
+        
+        .footer-links a {
+            margin: 0 10px;
+        }
+        
+        .social-share {
+            justify-content: center;
+        }
+        
+        .copyright {
+            padding: 15px;
+            font-size: 0.8rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .case-file-container {
+            padding: 10px;
+            margin: 10px auto;
+        }
+        
+        .top-secret-header {
+            font-size: 0.9rem;
+            padding: 3px;
+        }
+        
+        .main-nav {
+            margin-bottom: 20px;
+        }
+        
+        .nav-item {
+            padding: 10px 12px;
+            font-size: 0.8rem;
+            margin: 2px;
+        }
+        
+        #hero {
+            gap: 20px;
+            padding: 20px 10px;
+        }
+        
+        .book-cover {
+            width: 220px;
+        }
+        
+        .redacted-stripe {
+            font-size: 1.2rem;
+        }
+        
+        .book-title {
+            font-size: 1.8rem;
+        }
+        
+        .author-name {
+            font-size: 1.1rem;
+        }
+        
+        .cta-button {
+            padding: 10px 20px;
+            font-size: 1rem;
+        }
+        
+        .line-1 {
+            font-size: 1rem;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+        }
+        
+        .chapter-content {
+            padding: 15px;
+        }
+        
+        .chapter h3 {
+            font-size: 1.3rem;
+        }
+        
+        .chapter p {
+            font-size: 0.95rem;
+        }
+        
+        .modal-content {
+            padding: 20px 15px;
+        }
+        
+        .author-image img {
+            max-width: 200px;
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+        }
+        
+        .social-share a {
+            width: 35px;
+            height: 35px;
+            line-height: 35px;
+        }
+    }
+  </style>
+    
+    <div class="spotlight"></div>
+    <div id="noise-overlay"></div>
+    <header class="top-secret-header">
+        <span>TOP SECRET // FOR YOUR EYES ONLY</span>
+    </header>
+    <main class="case-file-container">
+        <nav class="main-nav">
+            <a href="#book" class="nav-item">The Novel</a>
+            <a href="#read" class="nav-item">Read Case File</a>
+            <a href="#author" class="nav-item">The Author</a>
+            <a href="#contact" class="nav-item">Contact</a>
+        </nav>
+        
+        <section id="hero">
+            <div class="book-cover-container">
+                <!-- Novel cover image -->
+                <img src="https://i.ibb.co/pBwWhkgN/cover.jpg" alt="Novel Cover" class="book-cover">
+                 <div class="redacted-stripe">CLASSIFIED</div>
+            </div>
+            <div class="intro-text">
+                <h1 class="line-1 anim-typewriter">اندھیروں سے ایک نئی آواز اُبھر رہی ہے۔</h1>
+                <p class="evidence-tag" style="font-family: 'Noto Nastaliq Urdu', serif;">EVIDENCE #001: لیپ ائیر فائلز کا آغاز</p>
+                <h2 class="book-title">دفاعی چہرہ</h2>
+                <p class="author-name">by سرثشب</p>
+                <a href="#read" class="cta-button"style="font-family: 'Noto Nastaliq Urdu', serif;">سچ کو بے نقاب کرو۔</a>
+            </div>
+        </section>
+        
+        <!-- Reading Section -->
+        <section id="read" class="reading-section">
+            <h2 class="section-title">CASE FILE EVIDENCE</h2>
+            <p style="text-align: center; margin-bottom: 50px; font-family: 'Noto Nastaliq Urdu', serif; direction: rtl;">تحقیقات کے پہلے تین ابواب تک رسائی حاصل کریں۔ مزید شواہد کے لیے اجازت درکار ہے۔</p>
+            
+            <div class="chapter-navigation">
+                <div class="chapter-tabs">
+                    <button class="tab-btn active" data-chapter="1">Chapter 1</button>
+                    <button class="tab-btn" data-chapter="2">Chapter 2</button>
+                    <button class="tab-btn" data-chapter="3">Chapter 3</button>
+                    <button class="tab-btn locked" data-chapter="4">
+                        <i class="fas fa-lock"></i> Chapter 4
+                    </button>
+                </div>
+            </div>
+            
+            <div class="chapter-content">
+                <div id="chapter-1" class="chapter active">
+                    <h3>Chapter 1: The Initial Crime Scene</h3>
+                    <p>The rain fell in sheets, distorting the city lights into watery smears on the pavement. Detective Miller stood under the awning of a closed bookstore, watching the forensic team work under the harsh glare of portable floodlights. The victim lay in the alley, a stark white sheet covering what remained of a life cut short.</p>
+                    <p>"What have we got?" Miller asked, approaching the lead investigator.</p>
+                    <p>"Male, approximately 40 years old. No ID, but he had this on him." The investigator held up an evidence bag containing a small, leather-bound notebook. "Looks like some kind of code or cipher. Our tech team is working on it."</p>
+                    <p>Miller took the bag, turning it over in his hands. The notebook was worn, its pages yellowed with age. Something about it felt familiar, though he couldn't place why. Little did he know, this notebook would lead him down a rabbit hole of conspiracy that reached the highest levels of power.</p>
+                </div>
+                
+                <div id="chapter-2" class="chapter">
+                    <h3>Chapter 2: The First Clue</h3>
+                    <p>Back at the precinct, Miller spread the notebook's contents across his desk. Page after page filled with symbols, numbers, and what appeared to be random words. It made no sense, but his gut told him it was important.</p>
+                    <p>"Need some help with that?" asked Detective Chen, leaning against the doorframe with two cups of coffee.</p>
+                    <p>Miller nodded gratefully, accepting one of the cups. "It's a cipher of some kind. I've seen something like this before, years ago during the Blackwood case."</p>
+                    <p>"The Blackwood case? I thought that was closed. Suicides, all of them."</p>
+                    <p>"That's what they wanted us to think," Miller said, tapping a sequence of symbols. "But look at this. It's the same pattern."</p>
+                    <p>As they worked through the night, the pieces began to fall into place. The cipher wasn't just a code—it was a map. And it led somewhere they never expected.</p>
+                </div>
+                
+                <div id="chapter-3" class="chapter">
+                    <h3>Chapter 3: The Revelation</h3>
+                    <p>The address decoded from the notebook led to an abandoned warehouse on the city's industrial outskirts. Miller and Chen approached with caution, weapons drawn. The building loomed before them, a skeleton of rusted metal and broken windows.</p>
+                    <p>"This place gives me the creeps," Chen whispered, scanning the shadows.</p>
+                    <p>Miller nodded. "Stay alert. If the notebook is right, we're not alone."</p>
+                    <p>Inside, the air was thick with dust and the smell of decay. Flashlight beams cut through the darkness, revealing crates stacked haphazardly. In the center of the main floor stood a single metal desk, its surface covered in files.</p>
+                    <p>Miller picked up the top file, his blood running cold as he read the contents. It wasn't just a criminal conspiracy—it was a cover-up of something far more sinister. And now that he knew, he was a target.</p>
+                </div>
+                
+                <div id="chapter-4" class="chapter locked">
+                    <h3>Chapter 4: The Investigation Deepens</h3>
+                    <div class="paywall">
+                        <i class="fas fa-lock"></i>
+                        <h3>CLASSIFIED INFORMATION</h3>
+                        <p>This chapter requires Level 4 clearance. Purchase the complete case file to access all evidence.</p>
+                        <button class="cta-button purchase-btn">Obtain Clearance - $9.99</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="reading-progress">
+                <div class="progress-bar">
+                    <div class="progress"></div>
+                </div>
+                <span class="progress-text">0% read</span>
+            </div>
+        </section>
+        
+        <!-- About the Book -->
+        <section id="book" class="about-section">
+            <h2 class="section-title">CASE FILE DETAILS</h2>
+            <div class="book-info">
+                <div class="book-details">
+                    <h3>Synopsis</h3>
+                    <p style="font-family: 'Noto Nastaliq Urdu', serif; direction: rtl; ">
+دارالحکومت میں ایک کے بعد ایک قیدیوں کی پُراسرار خودکشیوں نے سی آئی ڈبلیو کو ہلا کر رکھ دیا۔ فرانزک ماہر ڈاکٹر راحیل، انسپکٹر مہروز اور کرمنل سائیكالوجسٹ ماہین جب اس سلسلے کی تہہ میں جاتے ہیں تو انہیں کچھ علامات اور معمولات مشکوک لگتے ہیں — خاص طور پر کان کے پیچھے کا نشان، اور خودسپردگی سے پہلے قیدیوں کا پرسکون ہوجانا۔
+تحقیقات کے دوران ایک ایسا نام سامنے آتا ہے جو قانون اور جرم، مرد و عورت کے تصور، اور انسانی ضمیر کے درمیان جھولتا ہے۔ جب ہر حقیقت اپنی اصلیت کھونے لگے، تو حق اور جھوٹ کے درمیان لکیر کون کھینچے گا؟
+</p>
+                    
+                    <h3>Evidence Details</h3>
+                    <ul>
+                        <li><strong>Pages:</strong> 320</li>
+                        <li><strong>Classification:</strong> Psychological Thriller / Crime Mystery / Forensic Drama</li>
+                        <li><strong>Language:</strong> Urdu</li>
+                        <li><strong>Case Opened:</strong> July 2025</li>
+                    </ul>
+                </div>
+                <div class="book-reviews">
+                    <h3>Witness Testimony</h3>
+                    <div class="review">
+                        <div class="stars">★★★★★</div>
+                        <p>"A masterful thriller that keeps you guessing until the final page. The atmosphere is so thick you can feel the rain on your neck."</p>
+                        <p class="reviewer">- The Mystery Chronicle</p>
+                    </div>
+                    <div class="review">
+                        <div class="stars">★★★★☆</div>
+                        <p>"Detective Miller is a compelling protagonist, and the conspiracy plot is both intricate and believable. A must-read for crime fiction fans."</p>
+                        <p class="reviewer">- Crime Fiction Weekly</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Author Bio -->
+        <section id="author" class="author-section">
+            <h2 class="section-title" style="font-family: 'Noto Nastaliq Urdu', serif;">شخصی پروفائل</h2>
+            <div class="author-content">
+                <div class="author-image">
+                    <!-- Author image -->
+                    <img src="https://i.ibb.co/vC2q2rML/images-steamusercontent.jpg" alt="Author Photo">
+                </div>
+                <div class="author-bio">
+                    <h3 style="font-family: 'Noto Nastaliq Urdu', serif;">سرثشب</h3>
+                    <p>Former investigative journalist turned novelist, Ramal Naqvi has spent years uncovering secrets that others would prefer remain hidden. With a background in criminal justice and a network of sources in law enforcement, their writing brings an authenticity rarely seen in crime fiction.</p>
+                    <p>"The truth isn't always pretty, but it's always worth telling. My stories are fiction, but they're inspired by the real shadows that lurk just beneath the surface of our everyday lives."</p>
+                    <div class="author-social">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Purchase Modal -->
+    <div id="purchase-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">×</span>
+            <h2 style="font-family: 'Special Elite', monospace; color: var(--accent-blue); margin-bottom: 20px;">OBTAIN CLEARANCE</h2>
+            <div class="purchase-details">
+                <div class="book-purchase">
+                    <img src="https://i.ibb.co/pBwWhkgN/cover.jpg" alt="Book Cover">
+                    <div>
+                        <h3 style="font-family: 'Special Elite', monospace; color: var(--paper-bg);">Complete Case File</h3>
+                        <p>Full Investigation Report</p>
+                        <p class="price">$9.99</p>
+                    </div>
+                </div>
+                <form id="purchase-form">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="card">Card Number</label>
+                        <input type="text" id="card" placeholder="1234 5678 9012 3456" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="expiry">Expiry Date</label>
+                            <input type="text" id="expiry" placeholder="MM/YY" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="cvv">CVV</label>
+                            <input type="text" id="cvv" placeholder="123" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="cta-button">Complete Transaction</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo" style="font-family: 'Noto Nastaliq Urdu', serif;">سرثشب</div>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Contact</a>
+            </div>
+            <div class="social-share">
+                <span>Share Evidence:</span>
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+        <div class="copyright" style="font-family: 'Noto Nastaliq Urdu', serif;">
+            <p>© 2025 سرثشب. All rights reserved. This information is classified and intended for authorized personnel only.</p>
+        </div>
+    </footer>
+    
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Spotlight follows cursor
+        const spotlight = document.querySelector('.spotlight');
+        document.addEventListener('mousemove', (e) => {
+            spotlight.style.left = `${e.clientX}px`;
+            spotlight.style.top = `${e.clientY}px`;
+        });
+        
+        // --- TYPEWRITER ANIMATION FIX ---
+        const typewriterElement = document.querySelector('.anim-typewriter');
+        if (typewriterElement) {
+            const text = typewriterElement.textContent;
+            const textLength = text.length;
+
+            // Set the animation directly on the element's style property
+            // This ensures the correct number of steps is used, fixing the "cut-off" text issue.
+            typewriterElement.style.animation = `
+                typewriter 2.5s steps(${textLength}) 1s 1 normal both,
+                blinkTextCursor 500ms steps(${textLength}) infinite normal
+            `;
+        }
+        
+        // Chapter Navigation
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const chapters = document.querySelectorAll('.chapter');
+        
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const chapterId = this.getAttribute('data-chapter');
+                
+                if (this.classList.contains('locked')) {
+                    document.getElementById('purchase-modal').style.display = 'flex';
+                    return;
+                }
+                
+                tabBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                chapters.forEach(chapter => {
+                    chapter.classList.remove('active');
+                    if (chapter.id === `chapter-${chapterId}`) {
+                        chapter.classList.add('active');
+                    }
+                });
+                
+                updateProgress(chapterId);
+            });
+        });
+        
+        // Reading Progress
+        function updateProgress(chapterId) {
+            const totalChapters = 10;
+            const progress = (chapterId / totalChapters) * 100;
+            
+            document.querySelector('.progress').style.width = `${progress}%`;
+            document.querySelector('.progress-text').textContent = `${Math.round(progress)}% read`;
+        }
+        
+        // Purchase Modal
+        const purchaseModal = document.getElementById('purchase-modal');
+        const closeModal = document.querySelector('.close-modal');
+        const purchaseBtns = document.querySelectorAll('.purchase-btn');
+        
+        purchaseBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                purchaseModal.style.display = 'flex';
+            });
+        });
+        
+        closeModal.addEventListener('click', function() {
+            purchaseModal.style.display = 'none';
+        });
+        
+        window.addEventListener('click', function(e) {
+            if (e.target === purchaseModal) {
+                purchaseModal.style.display = 'none';
+            }
+        });
+        
+        // Purchase Form
+        const purchaseForm = document.getElementById('purchase-form');
+        
+        purchaseForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const successMsg = document.createElement('div');
+            successMsg.className = 'success-message';
+            successMsg.innerHTML = `
+                <i class="fas fa-check-circle" style="font-size: 3rem; color: var(--accent-blue); margin-bottom: 20px;"></i>
+                <h3 style="font-family: 'Special Elite', monospace; color: var(--paper-bg); margin-bottom: 15px;">CLEARANCE GRANTED</h3>
+                <p>Thank you. The complete case file will be sent to your email.</p>
+                <button class="cta-button" id="close-success" style="margin-top: 20px;">Access File</button>
+            `;
+            
+            const modalContent = document.querySelector('.modal-content');
+            modalContent.innerHTML = '';
+            modalContent.appendChild(successMsg);
+            
+            document.getElementById('close-success').addEventListener('click', function() {
+                purchaseModal.style.display = 'none';
+                unlockFullBook();
+            });
+        });
+        
+        function unlockFullBook() {
+            document.querySelectorAll('.chapter.locked').forEach(chapter => {
+                chapter.classList.remove('locked');
+                chapter.querySelector('.paywall').style.display = 'none';
+            });
+            
+            document.querySelectorAll('.tab-btn.locked').forEach(btn => {
+                btn.classList.remove('locked');
+                btn.innerHTML = btn.innerHTML.replace('<i class="fas fa-lock"></i> ', '');
+            });
+            
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed; bottom: 20px; right: 20px; background: var(--accent-blue);
+                color: white; padding: 15px 25px; font-family: 'Special Elite', monospace;
+                box-shadow: 0 0 20px rgba(26, 95, 180, 0.5); z-index: 3000;
+                animation: slideIn 0.5s ease;
+            `;
+            notification.innerHTML = `<i class="fas fa-unlock" style="margin-right: 10px;"></i> Full case file unlocked.`;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 500);
+            }, 5000);
+        }
+        
+        // Smooth Scrolling for Navigation Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        updateProgress(1);
+        
+        // Add animation to sections on scroll
+        const sections = document.querySelectorAll('section');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        sections.forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+            observer.observe(section);
+        });
+    });
+    </script>
+</body>
+</html>
